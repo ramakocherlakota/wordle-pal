@@ -3,6 +3,7 @@ import sys
 import json
 
 guess_scores = []
+debug=False
 dbname="wordle.sqlite"
 dbfolder="../db"
 
