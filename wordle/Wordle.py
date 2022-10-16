@@ -14,7 +14,7 @@ class Wordle :
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
             raise Exception("Inconsistent data")
-        return self.expected_uncertainty_for_guess(remaining_answers, guess)[0]
+        return self.expected_uncertainty_for_guess(remaining_answers, guess)
 
     
     def rate_all_guesses(self) :
@@ -176,21 +176,27 @@ class Wordle :
         answer_count = len(remaining_answers)
         answers_clause = ",".join(list(map(lambda x : f"'{x}'", remaining_answers)))
         guess_clause = ""
-        if for_guess:
-            guess_clause = f" and guess='{for_guess}'"
         subsql = f"select guess, score, count(*) as c from scores where answer in ({answers_clause}) {guess_clause} group by 1, 2"
         hard_mode_clause = ""
         if self.hard_mode:
             hard_mode_clause = f"and guess in ({answers_clause}) "
         sql = f"select guess, sum(c * log2n) / sum(c) from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2"
         uncertainty_by_guess = []
+#        rank = 1
         for [guess, uncertainty] in self.query(sql, "expected_uncertainty_by_guess"):
-            uncertainty_by_guess.append({
+            g = {
                 "guess": guess,
                 "expected_uncertainty_after_guess": uncertainty,
                 "compatible": guess in remaining_answers,
+#                "rank": rank,
                 "uncertainty_before_guess" : math.log(answer_count, 2)
-            })
+            }
+            if guess == for_guess:
+                return g
+            uncertainty_by_guess.append(g)
+
+            # TODO need something special here to handle ties
+#            rank = rank + 1
         return uncertainty_by_guess
 
     def expected_uncertainty_for_guess(self, remaining_answers, guess) :

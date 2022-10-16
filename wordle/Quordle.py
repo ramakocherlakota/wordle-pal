@@ -25,7 +25,10 @@ class Quordle:
         for n in range(len(still_unsolved)):
             wordle = self.wordles[still_unsolved[n]]
             remaining_answers = remaining_answers_list[n]
-            wordle_expected_uncertainties.append(self.list_to_dict_keyed_on(wordle.expected_uncertainty_by_guess(remaining_answers, found_guess), 'guess'))
+            exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers, found_guess)
+            if not type(exp_unc_by_guess) is list:
+                exp_unc_by_guess = [exp_unc_by_guess]
+            wordle_expected_uncertainties.append(self.list_to_dict_keyed_on(exp_unc_by_guess, 'guess'))
         expected_uncertainties = list(self.merge_by_guess(wordle_expected_uncertainties).values())
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))

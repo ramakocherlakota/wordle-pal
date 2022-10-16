@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: wordle/quordle helper app
+Parameters:
+  LambdaTimeoutSeconds:
+    Type: String
+    Default: 300
+  LambdaMemorySizeMb:
+    Type: String
+  LambdaUrlAuthType:
+    Type: String
+    Default: NONE
+  LambdaFunctionName:
+    Type: String
+    Default: wordle
+  LambdaUrlCorsOrigin:
+    Type: String
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+  SecurityGroupIds:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+  EfsAccessPointArn:
+    Type: String
+  EfsMountPoint:
+    Type: String
+Globals:
+  Function:
+    Timeout:
+      Ref: LambdaTimeoutSeconds
+Resources:
+  WordleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://wordle-quordle-code/ecc2e3cd7b920a05c95bdd15b4a71917
+      FunctionName:
+        Ref: LambdaFunctionName
+      Handler: lambda.handler
+      MemorySize:
+        Ref: LambdaMemorySizeMb
+      Runtime: python3.9
+      Environment:
+        Variables:
+          CORS_ORIGIN:
+            Ref: LambdaUrlCorsOrigin
+          SQLITE_DBNAME: wordle.sqlite
+          SQLITE_FOLDER:
+            Ref: EfsMountPoint
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowMethods:
+          - POST
+          AllowOrigins:
+          - Ref: LambdaUrlCorsOrigin
+      VpcConfig:
+        SecurityGroupIds:
+          Ref: SecurityGroupIds
+        SubnetIds:
+          Ref: SubnetIds
+      FileSystemConfigs:
+      - Arn:
+          Ref: EfsAccessPointArn
+        LocalMountPath:
+          Ref: EfsMountPoint
+      Policies:
+      - AWSLambdaExecute
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - elasticfilesystem:ClientMount
+          - elasticfilesystem:DescribeMountTargets
+          Resource: '*'
+    Metadata:
+      SamResourceId: WordleFunction
