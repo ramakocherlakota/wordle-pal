@@ -6,7 +6,7 @@ Parameters:
 
   LambdaTimeoutSeconds:
     Type: String
-    Default: 300
+    Default: 900
 
   LambdaMemorySizeMb:
     Type: String
@@ -42,7 +42,7 @@ Resources:
   WordleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../wordle
+      CodeUri: ../wordle-svc
       FunctionName: !Ref LambdaFunctionName
       Handler: lambda.handler
       MemorySize: !Ref LambdaMemorySizeMb

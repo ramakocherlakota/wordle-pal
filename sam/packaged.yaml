@@ -4,7 +4,7 @@ Description: wordle/quordle helper app
 Parameters:
   LambdaTimeoutSeconds:
     Type: String
-    Default: 300
+    Default: 900
   LambdaMemorySizeMb:
     Type: String
   LambdaUrlAuthType:
@@ -31,7 +31,7 @@ Resources:
   WordleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://wordle-quordle-code/ecc2e3cd7b920a05c95bdd15b4a71917
+      CodeUri: s3://wordle-quordle-code/f62bff25545106541804a1e63749fa1c
       FunctionName:
         Ref: LambdaFunctionName
       Handler: lambda.handler

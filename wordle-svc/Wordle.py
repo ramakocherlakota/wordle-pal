@@ -141,6 +141,15 @@ class Wordle :
             cursor.execute(sql)
             return cursor.fetchall()
 
+    def unpack(self, list_of_lists) :
+        return list(map(lambda y : y[0], list_of_lists))        
+
+    def list_all_guesses(self) :
+        return self.unpack(self.query("select guess from guesses order by 1"))
+
+    def list_all_answers(self) :
+        return self.unpack(self.query("select answer from answers order by 1"))
+
     def score_guess(self, target, guess):
         rows = self.query(f"select score from scores where guess = '{guess}' and answer = '{target}'", "score_guess")
         for row in rows:
