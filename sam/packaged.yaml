@@ -31,7 +31,7 @@ Resources:
   WordleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://wordle-quordle-code/f62bff25545106541804a1e63749fa1c
+      CodeUri: s3://wordle-quordle-code/c6c0db0cb2dc4b2679d850c69018d6ff
       FunctionName:
         Ref: LambdaFunctionName
       Handler: lambda.handler

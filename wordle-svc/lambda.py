@@ -78,6 +78,10 @@ def handler(event, context) :
     
                 if data['operation'] == "list_answers":
                     return ok(wordle.list_all_answers())
+
+                if data['operation'] == "list_scores":
+                    return ok(wordle.list_all_scores())
+                
     except Exception as e:
         return error(e.args)
 

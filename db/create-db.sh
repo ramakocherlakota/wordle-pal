@@ -27,6 +27,8 @@ sqlite3 $dbname "create table answers(answer text not null primary key); insert 
 
 sqlite3 $dbname "create table guesses(guess text not null primary key); insert into guesses select distinct guess from scores"
 
+sqlite3 $dbname "create table responses(score text not null primary key); insert into responses select distinct score from scores"
+
 sqlite3 $dbname "create table log2_lookup(n int not null primary key, log2n float not null)"
 
 perl -e 'for $i (1..20000) {print $i,"|",log($i),"\n";}' | \

@@ -150,6 +150,9 @@ class Wordle :
     def list_all_answers(self) :
         return self.unpack(self.query("select answer from answers order by 1"))
 
+    def list_all_scores(self) :
+        return self.unpack(self.query("select distinct score from scores order by 1"))
+
     def score_guess(self, target, guess):
         rows = self.query(f"select score from scores where guess = '{guess}' and answer = '{target}'", "score_guess")
         for row in rows:
