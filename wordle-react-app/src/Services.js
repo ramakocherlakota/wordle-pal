@@ -1,5 +1,3 @@
-// https://ghe.coxautoinc.com/DDC-InternalSystems/cc-internal-landing-ui/tree/feature/access-ui
-
 const url = "https://awa7vnoqi2k3qsg5frh6yrpjvu0wwakl.lambda-url.us-east-1.on.aws/"
 
 export function callService(operation, data, setLoading) {
