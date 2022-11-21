@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const url = "/";
 
 export function callService(operation, setLoading, postData, handler) {
