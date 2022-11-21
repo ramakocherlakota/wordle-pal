@@ -214,4 +214,5 @@ class Wordle :
     def expected_uncertainty_for_guess(self, remaining_answers, guess) :
         return self.expected_uncertainty_by_guess(remaining_answers, for_guess = guess)
 
-
+    def random_answer(self):
+        return self.query("select answer from answers order by random() limit 1")[0][0]
