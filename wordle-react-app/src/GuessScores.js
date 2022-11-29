@@ -41,10 +41,12 @@ export default function GuessScores({guessScores,  setGuessScores}) {
     };
 
     const deleter = function(index) {
-        const newGuessScores = guessScores.filter((guessScore, idx) => {
-            return idx !== index;
-        });
-        setGuessScores(newGuessScores);
+        return function() {
+            const newGuessScores = guessScores.filter((guessScore, idx) => {
+                return idx !== index;
+            });
+            setGuessScores(newGuessScores);
+        }
     };
 
     const adder = function() {
@@ -52,10 +54,14 @@ export default function GuessScores({guessScores,  setGuessScores}) {
         setGuessScores(newGuessScores);
     };
 
+    console.log("guessScores=")
+    console.log(guessScores)
+
     return (
         <Container>
             {guessScores.forEach((guessScore, index) => 
-                <GuessScorePair score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)}  />)}
+                <GuessScorePair score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} />
+            )}
             <GuessScorePairAdder adder={adder} />
         </Container>
     );

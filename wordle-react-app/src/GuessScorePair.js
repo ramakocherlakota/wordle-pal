@@ -17,10 +17,12 @@ export default function GuessScorePair({score, guess, setScore, setGuess, delete
         setGuess(a);
     }
 
+    console.log("score=" + score)
+    console.log("guess=" + guess)
     return (
         <Row>
             <Col>
-                <Select options={answerOptions} onChange={setGuessHandler} />
+                <Select options={answerOptions} onChange={setGuessHandler} /> 
             </Col>
             <Col>
                 <Select options={scoreOptions} onChange={setScoreHandler} />
