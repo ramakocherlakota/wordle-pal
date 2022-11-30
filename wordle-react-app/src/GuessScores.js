@@ -54,13 +54,10 @@ export default function GuessScores({guessScores,  setGuessScores}) {
         setGuessScores(newGuessScores);
     };
 
-    console.log("guessScores=")
-    console.log(guessScores)
-
     return (
         <Container>
-            {guessScores.forEach((guessScore, index) => 
-                <GuessScorePair score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} />
+            {guessScores.map((guessScore, index) => 
+                <GuessScorePair key={index} score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} />
             )}
             <GuessScorePairAdder adder={adder} />
         </Container>
