@@ -1,28 +1,35 @@
 import React, {useState} from 'react';
 import Tab from 'react-bootstrap/Tab';
+import Button from 'react-bootstrap/Button';
 import Tabs from 'react-bootstrap/Tabs';
 import Guess from './Guess';
+import Results from './Results';
 import Remainder from './Remainder';
 import Solve from './Solve';
-import Spinner from "react-bootstrap/Spinner";
 
 function App() {
-    const [ loading, setLoading ] = useState(false);
+    const [ showQueryButton, setShowQueryButton ] = useState(false);
+    const [ showResults, setShowResults ] = useState(false);
+    const [ request, setRequest ] = useState(undefined);
+
+    const hideResults = () => setShowResults(false);
+    const unhideResults = () => setShowResults(true);
 
     return (
         <div>
-            {loading && <Spinner animation="border"/>}
             <Tabs className="mb-3" justify>
                 <Tab eventKey="remainder" title="Remaining" >
-                    <Remainder setLoading={setLoading} />
+                    <Remainder setRequest={setRequest} setShowQueryButton={setShowQueryButton} hideResults={hideResults}  />
+                </Tab>
+                <Tab eventKey="guess" title="Best Guess">
+                    <Guess  />
                 </Tab>
                 <Tab eventKey="solve" title="Solve">
-                    <Solve title="Solve" setLoading={setLoading} />
-                </Tab>
-                <Tab eventKey="guess" title="Guess">
-                    <Guess title="Guess" setLoading={setLoading} />
+                    <Solve  />
                 </Tab>
             </Tabs>
+            {showQueryButton && <Button onClick={unhideResults} className="query-button">Query</Button>}
+            {showResults && <Results request={request}  />}
         </div>
     );
 }

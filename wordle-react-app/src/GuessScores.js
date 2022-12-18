@@ -55,11 +55,13 @@ export default function GuessScores({guessScores,  setGuessScores}) {
     };
 
     return (
-        <Container>
-            {guessScores.map((guessScore, index) => 
-                <GuessScorePair key={index} score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} />
-            )}
+        <>
+            <Container>
+                {guessScores.map((guessScore, index) => 
+                    <GuessScorePair key={index} score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} />
+                )}
+            </Container>
             <GuessScorePairAdder adder={adder} />
-        </Container>
+        </>
     );
 }

@@ -16,17 +16,6 @@ export default function GuessScorePair({score, guess, setScore, setGuess, delete
         setGuess(a.value);
     }
 
-    const thirdColumn = () => {
-        if (guess && score) {
-            return (<>
-                        {guess} = {score} <Button onClick={deleter} size="sm">X</Button>
-                    </>);
-        }
-        else {
-            return "";
-        }
-    }
-
     return (
         <Row>
             <Col>
@@ -36,7 +25,10 @@ export default function GuessScorePair({score, guess, setScore, setGuess, delete
                 <Select options={scoreOptions} onChange={setScoreHandler} />
             </Col>
             <Col>
-                {thirdColumn()}
+                {guess && score && <>{guess} = {score}</>}
+            </Col>
+            <Col>
+                <Button onClick={deleter} size="sm">X</Button>
             </Col>
         </Row>);
 }
