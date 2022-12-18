@@ -59,7 +59,8 @@ def handler(event, context) :
                                 guess_scores = data.get('guess_scores', []))
     
                 if data['operation'] == "remaining_answers":
-                    return ok(wordle.remaining_answers())
+                    remaining = wordle.remaining_answers()
+                    return ok(list(map(lambda x: {"word" : x}, remaining)))
     
                 if data['operation'] == "guess":
                     return ok(wordle.guess())

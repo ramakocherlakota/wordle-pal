@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import Spinner from "react-bootstrap/Spinner";
 
-export default function Results({ request }) {
+export default function Results({ headers, request }) {
     const [ loading, setLoading ] = useState(false);
     const [ output, setOutput ] = useState([]);
 
@@ -11,7 +11,6 @@ export default function Results({ request }) {
     
     useEffect(() => {
         async function callService() {
-            console.log("calling service");
             try {
                 setOutput([])
                 setLoading(true);
@@ -38,5 +37,21 @@ export default function Results({ request }) {
         }
     }, [request]);
 
-    return <div>{JSON.stringify(output)}</div>;
+    const headerRow = headers.map((x) => <th align='left'>{x}</th>)
+    function dataRow(row) {
+        return headers.map((x) => <td align='left'>{row[x]}</td>)
+    }
+    function dataRows(rows) {
+        return rows.map((row) => <tr>{dataRow(row)}</tr>);
+    }
+
+    return (
+        <center>
+            {loading && <Spinner/>}
+            <table border={1}>
+                <tr>{headerRow}</tr>
+                {dataRows(output)}
+            </table>
+        </center>
+    );
 }

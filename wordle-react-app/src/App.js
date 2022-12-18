@@ -11,6 +11,7 @@ function App() {
     const [ showQueryButton, setShowQueryButton ] = useState(false);
     const [ showResults, setShowResults ] = useState(false);
     const [ request, setRequest ] = useState(undefined);
+    const [ headers, setHeaders ] = useState(undefined);
 
     const hideResults = () => setShowResults(false);
     const unhideResults = () => setShowResults(true);
@@ -19,7 +20,7 @@ function App() {
         <div>
             <Tabs className="mb-3" justify>
                 <Tab eventKey="remainder" title="Remaining" >
-                    <Remainder setRequest={setRequest} setShowQueryButton={setShowQueryButton} hideResults={hideResults}  />
+                    <Remainder setRequest={setRequest} setHeaders={setHeaders} setShowQueryButton={setShowQueryButton} hideResults={hideResults}  />
                 </Tab>
                 <Tab eventKey="guess" title="Best Guess">
                     <Guess  />
@@ -29,7 +30,7 @@ function App() {
                 </Tab>
             </Tabs>
             {showQueryButton && <Button onClick={unhideResults} className="query-button">Query</Button>}
-            {showResults && <Results request={request}  />}
+            {showResults && <Results request={request} headers={headers} />}
         </div>
     );
 }

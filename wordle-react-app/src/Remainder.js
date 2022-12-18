@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GuessScores from './GuessScores';
 
-export default function Remainder({setRequest, setShowQueryButton, hideResults}) {
+export default function Remainder({setRequest, setHeaders, setShowQueryButton, hideResults}) {
     const [ guessScores, setGuessScores ] = useState([{guess:"", score:""}])
 
     function getRequest(gs) {
@@ -14,6 +14,7 @@ export default function Remainder({setRequest, setShowQueryButton, hideResults})
 
     useEffect(() => {
         hideResults();
+        setHeaders(["word"]);
         const completeGuessScores = guessScores.filter((guessScore) => {
             return guessScore['score'] !== '' && guessScore['guess'] !== '';
         });
