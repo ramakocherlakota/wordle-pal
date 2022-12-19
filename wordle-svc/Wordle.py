@@ -76,21 +76,15 @@ class Wordle :
             raise Exception("Inconsistent data")
         answer_count = len(remaining_answers)
         if answer_count <= 2:
-            return {
-                'guess': remaining_answers[0],
+            return list.map(lambda a: {
+                'guess': a,
                 'expected_uncertainty_after_guess': 0,
                 'compatible' : True,
                 'uncertainty_before_guess' : math.log(answer_count, 2)
-            }
+            }, remaining_answers)
         else:
             next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
-            best_uncertainty = next_guesses[0]['expected_uncertainty_after_guess']
-            # prefer a guess in remaining_answers if there is one with the same uncertainty
-            for g in next_guesses:
-                if g['expected_uncertainty_after_guess'] > best_uncertainty:
-                    return [next_guesses[0]]
-                if g['guess'] in remaining_answers:
-                    return [g]
+            return next_guesses[0:n]
 
     def solve(self, target, start_with=[]) :
         guesses = []
@@ -199,14 +193,14 @@ class Wordle :
         hard_mode_clause = ""
         if self.hard_mode:
             hard_mode_clause = f"and guess in ({answers_clause}) "
-        sql = f"select guess, sum(c * log2n) / sum(c) as h from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2"
+        sql = f"select guess, sum(c * log2n) / sum(c) as h, guess in ({answers_clause}) as compatible from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2, 3 desc"
         uncertainty_by_guess = []
 #        rank = 1
-        for [guess, uncertainty] in self.query(sql, "expected_uncertainty_by_guess"):
+        for [guess, uncertainty, compatible] in self.query(sql, "expected_uncertainty_by_guess"):
             g = {
                 "guess": guess,
                 "expected_uncertainty_after_guess": uncertainty,
-                "compatible": guess in remaining_answers,
+                "compatible": compatible,
 #                "rank": rank,
                 "uncertainty_before_guess" : math.log(answer_count, 2)
             }
