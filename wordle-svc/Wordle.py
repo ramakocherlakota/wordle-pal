@@ -61,7 +61,14 @@ class Wordle :
             "compatible" : compatible
         }
 
-    def guess(self) :
+    def guess(self):
+        guesses = self.guesses(1);
+        if guesses and len(guesses) > 0:
+            return guesses[0]
+        else:
+            return None
+
+    def guesses(self, n) :
         if self.is_solved():
             return None
         remaining_answers = self.remaining_answers()
@@ -81,9 +88,9 @@ class Wordle :
             # prefer a guess in remaining_answers if there is one with the same uncertainty
             for g in next_guesses:
                 if g['expected_uncertainty_after_guess'] > best_uncertainty:
-                    return next_guesses[0]
+                    return [next_guesses[0]]
                 if g['guess'] in remaining_answers:
-                    return g
+                    return [g]
 
     def solve(self, target, start_with=[]) :
         guesses = []
@@ -192,7 +199,7 @@ class Wordle :
         hard_mode_clause = ""
         if self.hard_mode:
             hard_mode_clause = f"and guess in ({answers_clause}) "
-        sql = f"select guess, sum(c * log2n) / sum(c) from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2"
+        sql = f"select guess, sum(c * log2n) / sum(c) as h from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2"
         uncertainty_by_guess = []
 #        rank = 1
         for [guess, uncertainty] in self.query(sql, "expected_uncertainty_by_guess"):
