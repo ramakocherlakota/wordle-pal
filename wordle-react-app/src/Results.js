@@ -45,8 +45,6 @@ export default function Results({ headers, headerLabels, request }) {
         return headers.map((x) => <Col>{row[x]}</Col>)
     }
     function dataRows(rows) {
-        console.log("rows=")
-        console.log(rows)
         return rows.map((row) => <Row>{dataRow(row)}</Row>);
     }
 

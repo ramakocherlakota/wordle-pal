@@ -3,7 +3,7 @@ import GuessScores from './GuessScores';
 import Button from 'react-bootstrap/Button';
 import Results from './Results';
 
-export default function QueryGuessScores({ guessScores, setGuessScores, operation, headers, headerLabels }) {
+export default function QueryGuessScores({ guessScores, setGuessScores, operation, headers, headerLabels, count, children }) {
     const [ showQueryButton, setShowQueryButton ] = useState(false);
     const [ showResults, setShowResults ] = useState(false);
     const [ request, setRequest ] = useState(undefined);
@@ -13,7 +13,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
             const guess_scores = gs.map((obj) => [obj.guess, obj.score]);
             return {
                 operation: operation,
-                count: 5,
+                count: count,
                 guess_scores: guess_scores
             }
         }
@@ -28,7 +28,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
         } else {
             setShowQueryButton(false);
         }
-    }, [guessScores, operation]);
+    }, [guessScores, count, operation]);
 
     function callQuery() {
         setShowResults(true);
@@ -38,6 +38,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
     return (
         <>
             <GuessScores guessScores={guessScores} setGuessScores={setGuessScores}  />
+            {children}
             {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}
             {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
         </>);
