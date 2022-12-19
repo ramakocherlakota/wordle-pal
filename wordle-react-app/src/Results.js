@@ -6,12 +6,13 @@ export default function Results({ headers, request }) {
     const [ loading, setLoading ] = useState(false);
     const [ output, setOutput ] = useState([]);
 
-//    const url = "https://awa7vnoqi2k3qsg5frh6yrpjvu0wwakl.lambda-url.us-east-1.on.aws/";
+
     const url = "/";
     
     useEffect(() => {
         async function callService() {
             try {
+                console.log("callilng service");
                 setOutput([])
                 setLoading(true);
                 const response = await fetch(url, {

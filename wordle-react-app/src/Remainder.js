@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import GuessScores from './GuessScores';
+import Button from 'react-bootstrap/Button';
+import Results from './Results';
 
-export default function Remainder({setRequest, setHeaders, setShowQueryButton, hideResults}) {
+export default function Remainder() {
+    const [ showQueryButton, setShowQueryButton ] = useState(false);
+    const [ showResults, setShowResults ] = useState(false);
+    const [ request, setRequest ] = useState(undefined);
+    const [ headers, setHeaders ] = useState(undefined);
+
+    const hideResults = () => setShowResults(false);
+    const unhideResults = () => setShowResults(true);
     const [ guessScores, setGuessScores ] = useState([{guess:"", score:""}])
 
     function getRequest(gs) {
@@ -29,5 +38,7 @@ export default function Remainder({setRequest, setHeaders, setShowQueryButton, h
     return (
         <>
             <GuessScores guessScores={guessScores} setGuessScores={setGuessScores}  />
+            {showQueryButton && <Button onClick={unhideResults} className="query-button">Query</Button>}
+            {showResults && <Results request={request} headers={headers} />}
         </>);
 }
