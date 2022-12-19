@@ -9,8 +9,6 @@ export default function Remainder() {
     const [ request, setRequest ] = useState(undefined);
     const [ headers, setHeaders ] = useState(undefined);
 
-    const hideResults = () => setShowResults(false);
-    const unhideResults = () => setShowResults(true);
     const [ guessScores, setGuessScores ] = useState([{guess:"", score:""}])
 
     function getRequest(gs) {
@@ -22,7 +20,7 @@ export default function Remainder() {
     }
 
     useEffect(() => {
-        hideResults();
+        setShowResults(false);
         setHeaders(["word"]);
         const completeGuessScores = guessScores.filter((guessScore) => {
             return guessScore['score'] !== '' && guessScore['guess'] !== '';
@@ -35,10 +33,15 @@ export default function Remainder() {
         }
     }, [guessScores]);
 
+    function callQuery() {
+        setShowResults(true);
+        setShowQueryButton(false);
+    }
+
     return (
         <>
             <GuessScores guessScores={guessScores} setGuessScores={setGuessScores}  />
-            {showQueryButton && <Button onClick={unhideResults} className="query-button">Query</Button>}
+            {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}
             {showResults && <Results request={request} headers={headers} />}
         </>);
 }
