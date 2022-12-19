@@ -63,8 +63,8 @@ def handler(event, context) :
                     return ok(list(map(lambda x: {"word" : x}, remaining)))
     
                 if data['operation'] == "guess":
-                    return ok(wordle.guess())
-    
+                    return ok(wordle.guesses(data.get("count", 1)))
+
                 if data['operation'] == "rate_guess":
                     return ok(wordle.guess(data.get("guess", None)))
     

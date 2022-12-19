@@ -13,6 +13,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
             const guess_scores = gs.map((obj) => [obj.guess, obj.score]);
             return {
                 operation: operation,
+                count: 5,
                 guess_scores: guess_scores
             }
         }

@@ -7,7 +7,7 @@ export default function Guess({guessScores, setGuessScores}) {
         guess : "Guess",
         uncertainty_before_guess : "Prior Uncertainty",
         expected_uncertainty_after_guess : "Expected Uncertainty",
-        compatible: "Hard Mode"
+        compatible: "Hard Mode Compatible"
     }
     return <QueryGuessScores operation="guess" headers={ headers } headerLabels={headerLabels} guessScores={guessScores} setGuessScores={setGuessScores}  />;
 }
