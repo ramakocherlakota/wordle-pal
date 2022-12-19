@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Spinner from "react-bootstrap/Spinner";
 
-export default function Results({ headers, request }) {
+export default function Results({ headers, headerLabels, request }) {
     const [ loading, setLoading ] = useState(false);
     const [ output, setOutput ] = useState([]);
-
 
     const url = "/";
     
@@ -38,21 +40,23 @@ export default function Results({ headers, request }) {
         }
     }, [request]);
 
-    const headerRow = headers.map((x) => <th align='left'>{x}</th>)
+    const headerRow = headers.map((x) => <Col>{headerLabels[x]}</Col>)
     function dataRow(row) {
-        return headers.map((x) => <td align='left'>{row[x]}</td>)
+        return headers.map((x) => <Col>{row[x]}</Col>)
     }
     function dataRows(rows) {
-        return rows.map((row) => <tr>{dataRow(row)}</tr>);
+        console.log("rows=")
+        console.log(rows)
+        return rows.map((row) => <Row>{dataRow(row)}</Row>);
     }
 
     return (
-        <center>
-            {loading && <Spinner/>}
-            <table border={1}>
-                <tr>{headerRow}</tr>
+        <>
+            {loading && <Spinner animation='border' />}
+            <Container>
+                <Row>{headerRow}</Row>
                 {dataRows(output)}
-            </table>
-        </center>
+            </Container>
+        </>
     );
 }

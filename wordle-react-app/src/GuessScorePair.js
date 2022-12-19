@@ -19,10 +19,10 @@ export default function GuessScorePair({score, guess, setScore, setGuess, delete
     return (
         <Row>
             <Col>
-                <Select options={answerOptions} onChange={setGuessHandler} /> 
+                <Select options={answerOptions} onChange={setGuessHandler} value={answerOptions.filter(option=>option.label === guess)} /> 
             </Col>
             <Col>
-                <Select options={scoreOptions} onChange={setScoreHandler} />
+                <Select options={scoreOptions} onChange={setScoreHandler}  value={scoreOptions.filter(option=>option.label === score)} />
             </Col>
             <Col>
                 {guess && score && <>{guess} = {score}</>}
