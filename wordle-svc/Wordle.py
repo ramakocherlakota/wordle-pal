@@ -76,12 +76,12 @@ class Wordle :
             raise Exception("Inconsistent data")
         answer_count = len(remaining_answers)
         if answer_count <= 2:
-            return list.map(lambda a: {
+            return list(map(lambda a: {
                 'guess': a,
                 'expected_uncertainty_after_guess': 0,
                 'compatible' : True,
                 'uncertainty_before_guess' : math.log(answer_count, 2)
-            }, remaining_answers)
+            }, remaining_answers))
         else:
             next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
             return next_guesses[0:n]
