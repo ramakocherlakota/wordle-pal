@@ -4,13 +4,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Results from './Results';
+import StartWith from './StartWith';
 import Select from 'react-select';
 
 import {answerOptions} from './Data';
 
 export default function Solve() {
     const [ target, setTarget ] = useState("");
-    const [ startWith, setStartWith ] = useState([]);
+    const [ startWith, setStartWith ] = useState(["raise"]);
     const [ showQueryButton, setShowQueryButton ] = useState(false);
     const [ showResults, setShowResults ] = useState(false);
     const [ request, setRequest ] = useState(undefined);
@@ -20,9 +21,9 @@ export default function Solve() {
         "turn": "Turn",
         "guess": "Guess",
         "score": "Score",
-        "uncertainty_before_guess": "Prior uncertainty",
-        "expected_uncertainty_after_guess": "Expected post uncertainty",
-        "compatible": "Compatible"
+        "uncertainty_before_guess": "H-Prior",
+        "expected_uncertainty_after_guess": "Expected H-post",
+        "compatible": "Compatible?"
     };
 
     useEffect(() => {
@@ -38,7 +39,7 @@ export default function Solve() {
         } else {
             setShowQueryButton(false);
         }
-    }, [target]);
+    }, [target, startWith]);
 
     function callQuery() {
         setShowResults(true);
@@ -53,9 +54,15 @@ export default function Solve() {
         <>
             <Container>
                 <Row>
-                    <Col>Target word</Col>
+                    <Col>Target Word:</Col>
                     <Col>
                         <Select options={answerOptions} onChange={setTargetHandler} value={answerOptions.filter(option=>option.label === target)} /> 
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>Start With:</Col>
+                    <Col>
+                        <StartWith startWith={startWith} setStartWith={setStartWith} />
                     </Col>
                 </Row>
             </Container>
