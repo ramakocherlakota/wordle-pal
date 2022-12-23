@@ -66,6 +66,14 @@ class Quordle:
             guesses.append(next_guess)
         return guesses
 
+    def remaining_answers(self): 
+        remaining_answers = []
+        for n in range(len(self.wordles)):
+            wordle = self.wordles[n]
+            if not wordle.is_solved():
+                remaining_answers.append(wordle.remaining_answers())
+        return remaining_answers
+
     def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
                  sqlite_folder=None,
                  sqlite_dbname=None, 

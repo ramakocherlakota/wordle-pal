@@ -37,9 +37,9 @@ export default function StartWith({startWith, setStartWith}) {
     return (
         <Container>
           {startWith.map((sw, index) => 
-                <Row>
+                <Row key={index}>
                   <Col>
-                    <Select key={index} options={answerOptions} onChange={setStartWithAt(index)} value={answerOptions.filter(option => option.label === sw)} />
+                    <Select  options={answerOptions} onChange={setStartWithAt(index)} value={answerOptions.filter(option => option.label === sw)} />
                   </Col>
                   <Col>
                     <Button onClick={deleteRow(index)} size="sm">X</Button>

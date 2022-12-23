@@ -79,7 +79,7 @@ class Wordle :
             return list(map(lambda a: {
                 'guess': a,
                 'expected_uncertainty_after_guess': 0,
-                'compatible' : True,
+                'compatible' : 1,
                 'uncertainty_before_guess' : math.log(answer_count, 2)
             }, remaining_answers))
         else:
