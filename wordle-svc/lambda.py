@@ -48,6 +48,9 @@ def handler(event, context) :
                 if data['operation'] == "qguess":
                     return ok(quordle.guess())
     
+                if data['operation'] == "qremaining_answers":
+                    return ok(quordle.remaining_answers())
+
                 if data['operation'] == "qsolve":
                     return ok(quordle.solve(data['targets'], data.get("start_with", [])))
     
