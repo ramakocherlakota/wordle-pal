@@ -53,12 +53,6 @@ Resources:
           SQLITE_DBNAME: "wordle.sqlite"
           SQLITE_FOLDER: !Ref EfsMountPoint
 
-      FunctionUrlConfig:
-        AuthType: NONE
-        Cors:
-          AllowMethods: ["POST"]
-          AllowOrigins: [!Ref LambdaUrlCorsOrigin]
-
       VpcConfig:
         SecurityGroupIds: !Ref SecurityGroupIds
         SubnetIds: !Ref SubnetIds
@@ -77,5 +71,10 @@ Resources:
                 - elasticfilesystem:DescribeMountTargets
               Resource: "*"
 
-  
-    
+      Events:
+        Wordle:
+          Type: Api
+          Properties:
+            Path: /service
+            Method: post
+            
