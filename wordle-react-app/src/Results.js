@@ -10,7 +10,7 @@ export default function Results({ headers, headerLabels, request }) {
   const [ output, setOutput ] = useState([]);
   const [ requestTime, setRequestTime ] = useState(0);
 
-  const url = "/";
+  const url = "/service";
   
   useEffect(() => {
     async function callService() {
