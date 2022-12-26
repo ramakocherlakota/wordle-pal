@@ -29,7 +29,7 @@ export default function Results({ headers, headerLabels, request }) {
           const json = await response.json();
           setOutput(json);
         } else {
-          console.log(`Response failed with status code {resoonse.status}`);
+          console.log(`Response failed with status code ${response.status}`);
         }
       } catch (err) {
         console.log(err.message);
