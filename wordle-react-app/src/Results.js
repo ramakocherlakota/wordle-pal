@@ -44,8 +44,17 @@ export default function Results({ headers, headerLabels, request }) {
   }, [request, url]);
 
   const headerRow = headers.map((x) => <Col>{headerLabels[x]}</Col>)
+
+  function formatEntry(x) {
+    if (typeof x === 'number' && x !== 0) {
+      return x.toFixed(4);
+    } else {
+      return x;
+    }
+  }
+
   function dataRow(row) {
-    return headers.map((x) => <Col>{row[x]}</Col>)
+    return headers.map((x) => <Col>{formatEntry(row[x])}</Col>)
   }
   function dataRows(rows) {
     return rows.map((row, idx) => <Row key={idx}>{dataRow(row)}</Row>);
