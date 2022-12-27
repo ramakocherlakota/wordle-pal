@@ -47,11 +47,6 @@ Resources:
             Ref: EfsMountPoint
       FunctionUrlConfig:
         AuthType: NONE
-        Cors:
-          AllowMethods:
-          - POST
-          AllowOrigins:
-          - Ref: LambdaUrlCorsOrigin
       VpcConfig:
         SecurityGroupIds:
           Ref: SecurityGroupIds
