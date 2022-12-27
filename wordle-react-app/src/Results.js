@@ -10,7 +10,7 @@ export default function Results({ headers, headerLabels, request }) {
   const [ output, setOutput ] = useState([]);
   const [ requestTime, setRequestTime ] = useState(0);
 
-  const url = "/service";
+  const url = process.env.REACT_APP_API_URI;
   
   useEffect(() => {
     async function callService() {
@@ -22,7 +22,6 @@ export default function Results({ headers, headerLabels, request }) {
         setLoading(true);
         const response = await fetch(url, {
           method: 'POST',
-          headers : {'Content-type': 'application/json'},
           body: JSON.stringify(request)
         })
         if (response.ok) {
@@ -42,7 +41,7 @@ export default function Results({ headers, headerLabels, request }) {
     if (request) {
       callService();
     }
-  }, [request]);
+  }, [request, url]);
 
   const headerRow = headers.map((x) => <Col>{headerLabels[x]}</Col>)
   function dataRow(row) {
