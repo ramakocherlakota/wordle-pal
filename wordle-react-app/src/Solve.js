@@ -65,7 +65,8 @@ export default function Solve() {
             <StartWith startWith={startWith} setStartWith={setStartWith} />
           </div>
         </div>
-        {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}            
+        <hr/>
+        {showQueryButton && <Button onClick={callQuery} >Go!</Button>}
         {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
       </>
     )

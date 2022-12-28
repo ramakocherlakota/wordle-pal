@@ -8,15 +8,11 @@ import Spinner from "react-bootstrap/Spinner";
 export default function Results({ headers, headerLabels, request }) {
   const [ loading, setLoading ] = useState(false);
   const [ output, setOutput ] = useState([]);
-  const [ requestTime, setRequestTime ] = useState(0);
 
   const url = process.env.REACT_APP_API_URI;
   
   useEffect(() => {
     async function callService() {
-      setRequestTime(0);
-      const timer = setInterval(() => setRequestTime((r) => r + 1),
-                                1000);
       try {
         setOutput([])
         setLoading(true);
@@ -33,7 +29,6 @@ export default function Results({ headers, headerLabels, request }) {
       } catch (err) {
         console.log(err.message);
       } finally {
-        clearInterval(timer);
         setLoading(false);
       }
     }
@@ -63,7 +58,6 @@ export default function Results({ headers, headerLabels, request }) {
   return (
     <>
       {loading && <Spinner animation='border' />}
-      <div>{requestTime} sec</div>
       <Container>
         <Row key={-1}>{headerRow}</Row>
         {dataRows(output)}

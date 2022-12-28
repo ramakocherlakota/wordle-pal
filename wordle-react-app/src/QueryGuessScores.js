@@ -39,8 +39,10 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
     return (
         <>
             <GuessScores guessScores={guessScores} setGuessScores={setGuessScores}  />
+          <hr/>
             {children}
-            {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}
+          <hr/>
+            {showQueryButton && <Button onClick={callQuery}>Go</Button>}
             {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
         </>);
 }
