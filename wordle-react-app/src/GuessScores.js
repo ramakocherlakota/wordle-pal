@@ -1,9 +1,8 @@
 import React from 'react';
 import GuessScorePair from './GuessScorePair';
-import './guess-scores.scss';
 
 export default function GuessScores({guessScores,  setGuessScores}) {
-  /* okay these methods aren't creating deep copies, I don't think it matters */
+
   const getGuess = function(guessScore) {
     return guessScore['guess'];
   };
@@ -63,10 +62,10 @@ export default function GuessScores({guessScores,  setGuessScores}) {
   };
 
   return (
-    <div className="guess-scores-list">
+    <>
       {guessScores.map((guessScore, index) => 
         <GuessScorePair key={index} score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={adder(index)} />
       )}
-    </div>
+    </>
   );
 }

@@ -8,11 +8,11 @@ export default function HardModeRow({ hardMode, setHardMode }) {
 
   return (
     <>
-      <div className='extra-parameter-row'>
-        <div className='extra-parameter-col'>
+      <div className='row'>
+        <div className='col'>
           Hard Mode?
         </div>
-        <div className='extra-parameter-col'>
+        <div className='col'>
           <input type="checkbox" checked={hardMode} onChange={toggle} />
         </div>
       </div>

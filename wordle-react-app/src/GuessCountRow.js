@@ -11,11 +11,11 @@ export default function GuessCountRow({ count, setCount }) {
 
   return (
     <>
-      <div className='extra-parameter-row'>
-        <div className='extra-parameter-col'>
+      <div className='row'>
+        <div className='col'>
           Guess count?
         </div>
-        <div className='extra-parameter-col'>
+        <div className='col'>
           <input value={count} onChange={validateAndSet} />
         </div>
       </div>

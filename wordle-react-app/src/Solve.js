@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Results from './Results';
 import StartWith from './StartWith';
 import Select from 'react-select';
@@ -51,23 +48,25 @@ export default function Solve() {
     }
 
     return (
-        <>
-            <Container>
-                <Row>
-                    <Col>Target Word:</Col>
-                    <Col>
-                        <Select options={answerOptions} onChange={setTargetHandler} value={answerOptions.filter(option=>option.label === target)} /> 
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>Start With:</Col>
-                    <Col>
-                        <StartWith startWith={startWith} setStartWith={setStartWith} />
-                    </Col>
-                </Row>
-            </Container>
-            {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}            
-            {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
-        </>
+      <>
+        <div className="row" >
+          <div className="col">
+            Target Word
+          </div>
+          <div className="col">
+            <Select options={answerOptions} onChange={setTargetHandler} value={answerOptions.filter(option=>option.label === target)} /> 
+          </div>
+        </div>
+        <div className="row" >
+          <div className="col">
+            Start With
+          </div>
+          <div className="col">
+            <StartWith startWith={startWith} setStartWith={setStartWith} />
+          </div>
+        </div>
+        {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}            
+        {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
+      </>
     )
 }

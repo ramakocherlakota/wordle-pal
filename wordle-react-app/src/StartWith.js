@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import { ReactComponent as TrashIcon } from './trash.svg';
+import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -35,22 +37,26 @@ export default function StartWith({startWith, setStartWith}) {
     }
 
     return (
-        <Container>
+        <>
           {startWith.map((sw, index) => 
-                <Row key={index}>
-                  <Col>
-                    <Select  options={answerOptions} onChange={setStartWithAt(index)} value={answerOptions.filter(option => option.label === sw)} />
-                  </Col>
-                  <Col>
-                    <Button onClick={deleteRow(index)} size="sm">X</Button>
-                    </Col>
-                </Row>
+            <div className="row" key={index}>
+              <div className="col">
+                <Select  options={answerOptions} onChange={setStartWithAt(index)} value={answerOptions.filter(option => option.label === sw)} />
+              </div>
+              <div className='col'>
+                <div className='row'>
+                  <div className='col'>
+                    {startWith.length > 0 &&
+                     <Button onClick={deleteRow(index)} size="sm"><TrashIcon/></Button>
+                    }
+                  </div>
+                  {index === startWith.length - 1 &&
+                   <div className='col'><Button onClick={addRow} size="sm"><PlusIcon/></Button></div>
+                  }
+                </div>
+              </div>
+            </div>
           )}
-          <Row>
-            <Col>
-              <Button onClick={addRow}>Add</Button>
-            </Col>
-          </Row>
-        </Container>
+        </>
     );
 }

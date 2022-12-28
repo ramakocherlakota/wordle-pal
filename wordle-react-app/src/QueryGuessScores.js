@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import GuessScores from './GuessScores';
 import Button from 'react-bootstrap/Button';
 import Results from './Results';
-import './query-guess-scores.scss';
 
 export default function QueryGuessScores({ guessScores, setGuessScores, operation, headers, headerLabels, count, hardMode, children }) {
     const [ showQueryButton, setShowQueryButton ] = useState(false);
@@ -40,9 +39,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
     return (
         <>
             <GuessScores guessScores={guessScores} setGuessScores={setGuessScores}  />
-          <div className='extra-parameters'>
             {children}
-          </div>
             {showQueryButton && <Button onClick={callQuery} className="query-button">Query</Button>}
             {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
         </>);
