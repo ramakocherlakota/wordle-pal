@@ -8,18 +8,19 @@ import Solve from './Solve';
 function App() {
 
     const [ guessScores, setGuessScores ] = useState([{guess:"", score:""}])
+    const [ hardMode, setHardMode ] = useState(false)
 
     return (
         <div>
             <Tabs className="mb-3" justify>
                 <Tab eventKey="remainder" title="Remaining" >
-                    <Remainder guessScores={guessScores} setGuessScores={setGuessScores} />
+                    <Remainder guessScores={guessScores} setGuessScores={setGuessScores} hardMode={hardMode} setHardMode={setHardMode} />
                 </Tab>
-                <Tab eventKey="guess" title="Best Guess">
-                    <Guess guessScores={guessScores} setGuessScores={setGuessScores}  />
+                <Tab eventKey="guess" title="Best Guesses">
+                    <Guess guessScores={guessScores} setGuessScores={setGuessScores} hardMode={hardMode} setHardMode={setHardMode} />
                 </Tab>
                 <Tab eventKey="solve" title="Solve">
-                    <Solve  />
+                    <Solve hardMode={hardMode} setHardMode={setHardMode} />
                 </Tab>
             </Tabs>
         </div>

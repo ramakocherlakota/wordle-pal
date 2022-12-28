@@ -3,7 +3,7 @@ import GuessScores from './GuessScores';
 import Button from 'react-bootstrap/Button';
 import Results from './Results';
 
-export default function QueryGuessScores({ guessScores, setGuessScores, operation, headers, headerLabels, count, children }) {
+export default function QueryGuessScores({ guessScores, setGuessScores, operation, headers, headerLabels, count, hardMode, children }) {
     const [ showQueryButton, setShowQueryButton ] = useState(false);
     const [ showResults, setShowResults ] = useState(false);
     const [ request, setRequest ] = useState(undefined);
@@ -14,6 +14,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
             return {
                 operation: operation,
                 count: count,
+                hard_mode: hardMode,
                 guess_scores: guess_scores
             }
         }
@@ -28,7 +29,7 @@ export default function QueryGuessScores({ guessScores, setGuessScores, operatio
         } else {
             setShowQueryButton(false);
         }
-    }, [guessScores, count, operation]);
+    }, [guessScores, count, operation, hardMode]);
 
     function callQuery() {
         setShowResults(true);
