@@ -34,7 +34,7 @@ function App() {
           <Guess guessScores={guessScores} setGuessScores={setGuessScores} hardMode={hardMode} setHardMode={setHardMode} />
         </Tab>
         <Tab eventKey="solve" title="Solve">
-          <Solve hardMode={hardMode} setHardMode={setHardMode} />
+          <Solve hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount} />
         </Tab>
       </Tabs>
     </div>
