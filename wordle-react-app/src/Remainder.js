@@ -6,8 +6,6 @@ export default function Remainder({ guessScores, setGuessScores, hardMode, setHa
     const headerLabels = {"word" : ""};
 
     return (
-      <QueryGuessScores guessScores={guessScores} setGuessScores={setGuessScores} operation="remaining_answers" headers={["word"]} headerLabels={ headerLabels } hardMode={hardMode} >
-        <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-      </QueryGuessScores>
+      <QueryGuessScores guessScores={guessScores} setGuessScores={setGuessScores} operation="remaining_answers" headers={["word"]} headerLabels={ headerLabels }  />
     );
 }

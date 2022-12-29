@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Results from './Results';
 import StartWith from './StartWith';
 import Select from 'react-select';
+import HardModeRow from './HardModeRow';
 
 import {answerOptions} from './Data';
 
-export default function Solve() {
+export default function Solve({hardMode, setHardMode}) {
     const [ target, setTarget ] = useState("");
     const [ startWith, setStartWith ] = useState(["raise"]);
     const [ showQueryButton, setShowQueryButton ] = useState(false);
@@ -29,6 +30,7 @@ export default function Solve() {
             setRequest({
                 operation: "solve",
                 target,
+                hard_mode: hardMode,
                 start_with: startWith
             });
             
@@ -65,6 +67,7 @@ export default function Solve() {
             <StartWith startWith={startWith} setStartWith={setStartWith} />
           </div>
         </div>
+        <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
         <hr/>
         {showQueryButton && <Button onClick={callQuery} >Go!</Button>}
         {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
