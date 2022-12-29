@@ -1,5 +1,7 @@
 import React from 'react';
 import GuessScorePair from './GuessScorePair';
+import Button from 'react-bootstrap/Button';
+import { ReactComponent as PlusIcon } from './plus-circle.svg';
 
 export default function GuessScores({guessScores,  setGuessScores}) {
 
@@ -38,24 +40,24 @@ export default function GuessScores({guessScores,  setGuessScores}) {
   };
 
   const deleter = function(index) {
-    if (guessScores.length > 1) {
-      return function() {
-        const newGuessScores = guessScores.filter((guessScore, idx) => {
-          return idx !== index;
-        });
-        setGuessScores(newGuessScores);
-      }
-    } else {
-      return null;
+    return function() {
+      const newGuessScores = guessScores.filter((guessScore, idx) => {
+        return idx !== index;
+      });
+      setGuessScores(newGuessScores);
     }
   };
 
+  const addAt = function(index) {
+    return function() {
+      const newGuessScores = guessScores.concat({guess:"", score:""});
+      setGuessScores(newGuessScores);
+    }
+  }
+
   const adder = function(index) {
     if (index === guessScores.length - 1) {
-      return function() {
-        const newGuessScores = guessScores.concat({guess:"", score:""});
-        setGuessScores(newGuessScores);
-      }
+      return addAt(index);
     } else {
       return null;
     }
@@ -66,6 +68,12 @@ export default function GuessScores({guessScores,  setGuessScores}) {
       {guessScores.map((guessScore, index) => 
         <GuessScorePair key={index} score={getScore(guessScore)} guess={getGuess(guessScore)} setScore={setScore(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={adder(index)} />
       )}
+      {guessScores.length === 0 && (
+       <div className='row'>
+           <div className='col' align='center'><Button onClick={addAt(0)} ><PlusIcon/></Button></div>    
+       </div>
+      )   
+      }
     </>
   );
 }

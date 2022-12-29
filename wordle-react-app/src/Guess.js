@@ -16,7 +16,12 @@ export default function Guess({guessScores, setGuessScores, hardMode, setHardMod
         <>
             <QueryGuessScores operation="guess" headers={ headers } headerLabels={headerLabels} guessScores={guessScores} setGuessScores={setGuessScores} count={count} hardMode={hardMode} >
               <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-              <NumberInput maxValue={2315} minValue={1} value={count} setValue={setCount} label="Guess Count" />
+              <div className='row'>
+                <div className='col' align='right'>Guess Count</div>
+                <div className='col' align='left'>
+                  <NumberInput maxValue={2315} minValue={1} value={count} setValue={setCount} />
+                </div>
+              </div>
             </QueryGuessScores>
         </>
     );

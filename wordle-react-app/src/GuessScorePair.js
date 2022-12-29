@@ -26,13 +26,13 @@ export default function GuessScorePair({score, guess, setScore, setGuess, delete
       </div>
       <div className='col'>
         <div className='row'>
-           <div className='col'>
+           <div className='col' align='left'>
           {deleter &&
            <Button onClick={deleter} size="sm"><TrashIcon/></Button>
           }
            </div>
           {adder &&
-           <div className='col'><Button onClick={adder} size="sm"><PlusIcon/></Button></div>
+           <div className='col' align='left'><Button onClick={adder} size="sm"><PlusIcon/></Button></div>
           }
         </div>
       </div>

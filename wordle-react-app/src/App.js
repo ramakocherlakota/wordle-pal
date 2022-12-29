@@ -14,7 +14,18 @@ function App() {
 
   return (
     <div>
-      <NumberInput label="Target Word Count" value={targetCount} setValue={setTargetCount} minValue={1} />
+      <div className='row'>
+        <div className='col' align='right'>
+          Target Word Count
+        </div>
+        <div className='col' align='center'>
+          <NumberInput value={targetCount} setValue={setTargetCount} minValue={1} />
+        </div>
+        <div align='left' className='col'>
+          {targetCount === 1 && "Classic Wordle"}
+          {targetCount === 4 && "Quordle"}
+        </div>
+      </div>
       <Tabs className="mb-3" justify>
         <Tab eventKey="remainder" title="Remaining" >
           <Remainder guessScores={guessScores} setGuessScores={setGuessScores} hardMode={hardMode} setHardMode={setHardMode} />
