@@ -5,6 +5,7 @@ import StartWith from './StartWith';
 import Select from 'react-select';
 import HardModeRow from './HardModeRow';
 import {listOfEmptyStrings, extendListWithEmptyStrings} from './Util';
+import './solve.scss';
 
 import {answerOptions} from './Data';
 
@@ -101,7 +102,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
           {targetSelects()}
         </div>
       </div>
-      <div className="row" >
+      <div className="row start-with" >
         <div className="col">
           Start With
         </div>
@@ -112,7 +113,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
       <hr/>
       {showQueryButton && <Button onClick={callQuery} >Go!</Button>}
-      {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}
+      {showResults && <><Results request={request} headerLabels={headerLabels} headers={headers} /></>}
     </>
   )
 }
