@@ -6,14 +6,22 @@ export default function HardModeRow({ hardMode, setHardMode }) {
     setHardMode(newval);
   }
 
+  const labelstyle = {
+    textAlign: 'right'
+  }
+
+  const checkboxStyle = {
+    transform: "scale(1.5)"
+  }
+
   return (
     <>
       <div className='row'>
-        <div className='col'>
+        <div className='col' style={labelstyle} >
           Hard Mode?
         </div>
         <div className='col'>
-          <input type="checkbox" checked={hardMode} onChange={toggle} />
+          <input type="checkbox" style={checkboxStyle} checked={hardMode} onChange={toggle} />
         </div>
       </div>
     </>

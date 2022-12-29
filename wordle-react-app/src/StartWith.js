@@ -2,9 +2,6 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Select from 'react-select';
 
 import {answerOptions} from './Data';

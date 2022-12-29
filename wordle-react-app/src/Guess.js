@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import QueryGuessScores from './QueryGuessScores';
 import HardModeRow from './HardModeRow';
-import GuessCountRow from './GuessCountRow';
+import NumberInput from './NumberInput';
 
 export default function Guess({guessScores, setGuessScores, hardMode, setHardMode}) {
     const [count, setCount] = useState(5);
@@ -16,7 +16,7 @@ export default function Guess({guessScores, setGuessScores, hardMode, setHardMod
         <>
             <QueryGuessScores operation="guess" headers={ headers } headerLabels={headerLabels} guessScores={guessScores} setGuessScores={setGuessScores} count={count} hardMode={hardMode} >
               <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-              <GuessCountRow count={count} setCount={setCount} />
+              <NumberInput maxValue={2315} minValue={1} value={count} setValue={setCount} label="Guess Count" />
             </QueryGuessScores>
         </>
     );
