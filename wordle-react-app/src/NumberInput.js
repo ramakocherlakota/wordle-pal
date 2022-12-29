@@ -27,7 +27,7 @@ export default function NumberInput({ value, setValue, minValue, maxValue }) {
   return (
     <>
       <Button className='up-down-button' onClick={incf(-1)} size="sm"><MinusIcon/></Button>
-      <input class='value' value={value} onChange={validateAndSet} />
+      <input className='value' value={value} onChange={validateAndSet} />
       <Button className='up-down-button' onClick={incf(1)} size="sm"><PlusIcon/></Button>
     </>
   );
