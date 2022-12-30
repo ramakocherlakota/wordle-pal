@@ -13,7 +13,7 @@ export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLi
 
   const setGuess = function(index) {
     return function(guess) {
-      setGuess((gs) => replaceInList(gs, guess, index));
+      setGuesses((gs) => replaceInList(gs, guess, index));
     }
   }
 
