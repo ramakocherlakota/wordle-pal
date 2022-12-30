@@ -4,7 +4,7 @@ import Results from './Results';
 import StartWith from './StartWith';
 import Select from 'react-select';
 import HardModeRow from './HardModeRow';
-import {listOfEmptyStrings, extendListWithEmptyStrings} from './Util';
+import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 import './solve.scss';
 
 import {answerOptions} from './Data';
@@ -26,24 +26,20 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     "compatible": "Compatible?"
   };
 
-  function allTargetsChosen() {
-    for (let i=0; i<targetCount; i++) {
-      if (targets[i].length === 0) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   useEffect(() => {
-    if (targetCount > targets.length) {
-      setTargets(extendListWithEmptyStrings(targets, targetCount - targets.length));
-    } else {
-      setTargets(targets.slice(0, targetCount));
-    }
+    setTargets((t) => listWithAdjustedLength(t, targetCount));
   }, [targetCount]);
 
   useEffect(() => {
+    function allTargetsChosen() {
+      for (let i=0; i<targets.length; i++) {
+        if (targets[i].length === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
     setShowResults(false);
     if (allTargetsChosen()) {
       setRequest({
@@ -65,13 +61,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   }
 
   function setTarget(i, newval) {
-    setTargets(targets.map((t, idx) => {
-      if (idx === i) {
-        return newval;
-      } else {
-        return t;
-      }
-    }));
+    setTargets((ts) => replaceInList(ts, i, newval));
   }
 
   function setTargetHandler(i) {
@@ -84,8 +74,8 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     return targets.map((target, idx) => {
       return (
         <div className='row'>
-          <div className='col'>
-            <Select options={answerOptions} onChange={setTargetHandler(idx)} value={answerOptions.filter(option=> option.value === target)} /> 
+          <div className='col' >
+            <Select key={idx} options={answerOptions} onChange={setTargetHandler(idx)} value={answerOptions.filter(option=> option.value === target)} /> 
           </div>
         </div>
       );

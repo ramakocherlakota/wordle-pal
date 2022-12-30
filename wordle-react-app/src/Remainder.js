@@ -1,11 +1,15 @@
 import React from 'react';
 import QueryGuessScores from './QueryGuessScores';
-import HardModeRow from './HardModeRow';
 
-export default function Remainder({ guessScores, setGuessScores, hardMode, setHardMode }) {
-    const headerLabels = {"word" : ""};
+export default function Remainder({ guesses, setGuesses, scoreLists, setScoreLists, hardMode, setHardMode, targetCount }) {
 
-    return (
-      <QueryGuessScores guessScores={guessScores} setGuessScores={setGuessScores} operation="remaining_answers" headers={["word"]} headerLabels={ headerLabels }  />
-    );
+  let headerLabels = {}
+  for (let i=1; i<=targetCount; i++) {
+    headerLabels[`word_${i}`] = `word_${i}`;
+  }
+  const headers = Object.keys(headerLabels);
+
+  return (
+    <QueryGuessScores guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} operation="qremaining_answers" headers={headers} headerLabels={ headerLabels } targetCount={targetCount} />
+  );
 }
