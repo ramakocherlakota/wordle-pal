@@ -1,8 +1,6 @@
 import Quordle
 import sys, json
 
-# python qguess.py --count=3 --guesses=trice,salon --score='----w,b----;-w--w,-w--w'
-
 scores_list = []
 hard_mode = False
 debug = False

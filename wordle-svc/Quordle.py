@@ -74,11 +74,11 @@ class Quordle:
         return guesses
 
     def remaining_answers(self): 
-        remaining_answers = {}
+        remaining_answers = []
         for n in range(len(self.wordles)):
             wordle = self.wordles[n]
             if not wordle.is_solved():
-                remaining_answers[f"word_{n+1}"] = wordle.remaining_answers()
+                remaining_answers.append(wordle.remaining_answers());
         return remaining_answers
 
     def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,

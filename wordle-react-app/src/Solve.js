@@ -101,7 +101,6 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
         </div>
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-      <hr/>
       {showQueryButton && <Button onClick={callQuery} >Go!</Button>}
       {showResults && <><Results request={request} headerLabels={headerLabels} headers={headers} /></>}
     </>

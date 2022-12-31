@@ -1,4 +1,5 @@
 import React from 'react';
+import './hard-mode-row.scss';
 
 export default function HardModeRow({ hardMode, setHardMode }) {
   function toggle(e) {
@@ -16,7 +17,7 @@ export default function HardModeRow({ hardMode, setHardMode }) {
 
   return (
     <>
-      <div className='row'>
+      <div className='row hard-mode-row'>
         <div className='col' style={labelstyle} >
           Hard Mode?
         </div>

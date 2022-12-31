@@ -1,7 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 import Spinner from "react-bootstrap/Spinner";
 
@@ -38,7 +35,7 @@ export default function Results({ headers, headerLabels, request }) {
     }
   }, [request, url]);
 
-  const headerRow = headers.map((x) => <Col>{headerLabels[x]}</Col>)
+  const headerRow = (headers && headers.map((x) => <div className='col'>{headerLabels[x]}</div>));
 
   function formatEntry(x) {
     if (typeof x === 'number' && x !== 0) {
@@ -49,19 +46,22 @@ export default function Results({ headers, headerLabels, request }) {
   }
 
   function dataRow(row) {
-    return headers.map((x) => <Col>{formatEntry(row[x])}</Col>)
+    if (headers) {
+      return headers.map((x) => <div className='col'>{formatEntry(row[x])}</div>)
+    } else {
+      return row.map((it) => <div className='row'><div className='col'>{it}</div></div>);
+    }
   }
+
   function dataRows(rows) {
-    return rows.map((row, idx) => <Row key={idx}>{dataRow(row)}</Row>);
+    return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
   }
 
   return (
     <>
       {loading && <Spinner animation='border' />}
-      <Container>
-        <Row key={-1}>{headerRow}</Row>
+        <div className='row' key={-1}>{headerRow}</div>
         {dataRows(output)}
-      </Container>
     </>
   );
 }
