@@ -1,5 +1,5 @@
 export function extendList(lst, n, supplier) {
-  const actualSupplier = supplier || (() => []);
+  const actualSupplier = supplier || (() => [""]);
   if (n < 1) {
     return lst;
   } else {

@@ -17,7 +17,7 @@ export default function GuessScorePair({scores, guess, setScores, setGuess, dele
 
   function setScoreHandler(idx) {
     return function(s) {
-      setScores((scr) => replaceInList(scr, s.value, idx));
+      setScores(replaceInList(scores, s.value, idx));
     }
   }
 
@@ -35,7 +35,7 @@ export default function GuessScorePair({scores, guess, setScores, setGuess, dele
         <div className='row'>
            <div className='col' align='left'>
              <Button className="add-delete-button" onClick={deleter} size="sm"><TrashIcon/></Button>
-             <Button className="add-delete-button" onClick={adder} size="sm"><PlusIcon/></Button>
+             {adder && <Button className="add-delete-button" onClick={adder} size="sm"><PlusIcon/></Button>}
            </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import GuessScorePair from './GuessScorePair';
 import Button from 'react-bootstrap/Button';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
-import { listWithAdjustedLength, listOfEmptyStrings, replaceInList } from './Util';
+import { deleteAt, listWithAdjustedLength, listOfEmptyStrings, replaceInList } from './Util';
 
 export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLists, targetCount}) {
 
@@ -27,15 +27,8 @@ export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLi
 
   const deleter = function(index) {
     return function() {
-      const newGuesses = guesses.filter((guess, idx) => {
-        return idx !== index;
-      });
-      setGuesses(newGuesses);
-
-      const newScoreLists = scoreLists.filter((scoreList, idx) => {
-        return idx !== index;
-      });
-      setScoreLists(newScoreLists);
+      setGuesses((gs) => deleteAt(gs, index));
+      setScoreLists((sls) => sls.map((sl) => deleteAt(sl, index)));
     }
   };
 
@@ -47,7 +40,7 @@ export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLi
     <>
       {guesses && scoreLists && guesses.map((guess, index) => {
         const scores = scoreLists.map((sl) => sl[index]);
-        return <GuessScorePair key={index} scores={scores} guess={guess} setScores={setScores(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={adder} />
+        return <GuessScorePair key={index} scores={scores} guess={guess} setScores={setScores(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={(index === guesses.length -1 ) && adder} />
       }
       )}
       {(!guesses || guesses.length === 0) && (
