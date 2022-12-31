@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Results from './Results';
 import {listOfEmptyStrings, listWithAdjustedLength} from './Util';
 
-export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setScoreLists, operation, headers, headerLabels, guessCount, targetCount, children, hardMode }) {
+export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setScoreLists, operation, headers, headerLabels, bestGuessCount, targetCount, children, hardMode }) {
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
@@ -27,7 +27,7 @@ export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setS
       setShowQueryButton(true);
       setRequest({
         operation: operation,
-        count: guessCount,
+        count: bestGuessCount,
         hard_mode: hardMode,
         guesses,
         score_lists: scoreLists
@@ -35,7 +35,7 @@ export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setS
     } else {
       setShowQueryButton(false);
     }
-  }, [guesses, scoreLists, guessCount, operation, hardMode]);
+  }, [guesses, scoreLists, bestGuessCount, operation, hardMode]);
 
   function callQuery() {
     setShowResults(true);

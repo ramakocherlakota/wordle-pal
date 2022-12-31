@@ -6,10 +6,11 @@ import { deleteAt, listWithAdjustedLength, listOfEmptyStrings, replaceInList } f
 
 export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLists, targetCount}) {
 
+  // TODO this is messed up.  when you change the target count or the number of geusses you need to update the scoreslist
   useEffect(() => {
     setScoreLists((sl) => listWithAdjustedLength(sl, targetCount, 
-                                                 () => listOfEmptyStrings(guesses.length)));
-  }, [targetCount, guesses, setScoreLists]);
+                                                 () => listOfEmptyStrings(guess.length));
+  }, [targetCount, setScoreLists]);
 
   const setGuess = function(index) {
     return function(guess) {
