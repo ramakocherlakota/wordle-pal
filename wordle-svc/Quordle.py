@@ -5,6 +5,13 @@ import sys, json
 class Quordle:
 
     def guess(self):
+        guesses = self.guesses(1);
+        if guesses and len(guesses) > 0:
+            return guesses[0]
+        else:
+            return None
+
+    def guesses(self, count):
         found_guess = None
         still_unsolved = []
         remaining_answers_list = []
@@ -33,7 +40,7 @@ class Quordle:
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))
         expected_uncertainties.sort(key=lambda x: x['expected_uncertainty_after_guess'])
-        return expected_uncertainties[0]
+        return expected_uncertainties[0:count]
             
     def solve(self, targets, start_with=[]):
         guesses = []

@@ -4,15 +4,10 @@ import Button from 'react-bootstrap/Button';
 import Results from './Results';
 import {listOfEmptyStrings, listWithAdjustedLength} from './Util';
 
-export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setScoreLists, operation, headers, headerLabels, bestGuessCount, targetCount, children, hardMode }) {
+export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, bestGuessCount, targetCount, children, hardMode }) {
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
-
-  useEffect(() => {
-    setScoreLists((t) => listWithAdjustedLength(t, targetCount, 
-                                                () => listOfEmptyStrings(guesses.length)))
-  }, [targetCount, setScoreLists]);
 
   useEffect(() => {
     setShowResults(false);
@@ -30,7 +25,7 @@ export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setS
         count: bestGuessCount,
         hard_mode: hardMode,
         guesses,
-        score_lists: scoreLists
+        scores_list: scoreLists
       });
     } else {
       setShowQueryButton(false);
@@ -44,7 +39,7 @@ export default function QueryGuessScores({ guesses, setGuesses, scoreLists, setS
 
   return (
     <>
-      <GuessScores guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
+      <GuessScores guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
       {children}
       {showQueryButton && <Button onClick={callQuery}>Go</Button>}
       {showResults && <Results request={request} headerLabels={headerLabels} headers={headers} />}

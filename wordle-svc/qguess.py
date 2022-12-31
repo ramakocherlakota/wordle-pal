@@ -1,11 +1,14 @@
 import Quordle
 import sys, json
 
+# python qguess.py --count=3 --guesses=trice,salon --score='----w,b----;-w--w,-w--w'
+
 scores_list = []
 hard_mode = False
 debug = False
 dbname = "wordle.sqlite"
 dbfolder = "../db"
+count = 1
 
 for arg in sys.argv[1:]:
     if arg.startswith("-"):
@@ -15,6 +18,8 @@ for arg in sys.argv[1:]:
             debug = True
         elif arg.startswith("--dbname"):
             dbname = arg.split("=")[1]
+        elif arg.startswith("--count"):
+            count = int(arg.split("=")[1])
         elif arg.startswith("--dbfolder"):
             dbfolder = arg.split("=")[1]
         elif arg.startswith("--guess"):
@@ -29,4 +34,4 @@ for arg in sys.argv[1:]:
 
 quordle = Quordle.Quordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, guesses=guesses, scores_list=scores_list, hard_mode=hard_mode, debug=debug)
 
-print(json.dumps(quordle.guess()))
+print(json.dumps(quordle.guesses(count)))

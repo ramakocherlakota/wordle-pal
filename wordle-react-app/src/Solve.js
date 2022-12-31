@@ -61,7 +61,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   }
 
   function setTarget(i, newval) {
-    setTargets((ts) => replaceInList(ts, i, newval));
+    setTargets((ts) => replaceInList(ts, newval, i));
   }
 
   function setTargetHandler(i) {

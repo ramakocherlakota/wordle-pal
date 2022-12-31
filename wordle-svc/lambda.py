@@ -46,7 +46,7 @@ def handler(event, context) :
                                   hard_mode = data.get('hard_mode', False))
     
                 if data['operation'] == "qguess":
-                    return ok(quordle.guess())
+                    return ok(quordle.guesses(data.get("count", 1)))
     
                 if data['operation'] == "qremaining_answers":
                     return ok(quordle.remaining_answers())

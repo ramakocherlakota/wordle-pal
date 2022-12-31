@@ -1,7 +1,7 @@
 import React from 'react';
 import QueryGuessScores from './QueryGuessScores';
 
-export default function Remainder({ guesses, setGuesses, scoreLists, setScoreLists, hardMode, setHardMode, targetCount }) {
+export default function Remainder({ guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, hardMode, setHardMode, targetCount }) {
 
   let headerLabels = {}
   for (let i=1; i<=targetCount; i++) {
@@ -10,6 +10,6 @@ export default function Remainder({ guesses, setGuesses, scoreLists, setScoreLis
   const headers = Object.keys(headerLabels);
 
   return (
-    <QueryGuessScores guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} operation="qremaining_answers" headers={headers} headerLabels={ headerLabels } targetCount={targetCount} />
+    <QueryGuessScores guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} operation="qremaining_answers" headers={headers} headerLabels={ headerLabels } targetCount={targetCount} />
   );
 }

@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import GuessScorePair from './GuessScorePair';
 import Button from 'react-bootstrap/Button';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
-import { deleteAt, listWithAdjustedLength, listOfEmptyStrings, replaceInList } from './Util';
+import { deleteAt, replaceInList } from './Util';
 
-export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLists, targetCount}) {
-
-  // TODO this is messed up.  when you change the target count or the number of geusses you need to update the scoreslist
-  useEffect(() => {
-    setScoreLists((sl) => listWithAdjustedLength(sl, targetCount, 
-                                                 () => listOfEmptyStrings(guess.length));
-  }, [targetCount, setScoreLists]);
+export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, targetCount}) {
 
   const setGuess = function(index) {
     return function(guess) {
@@ -20,7 +14,7 @@ export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLi
 
   const setScores = function(guessNum) {
     return function(newScores) {
-      setScoreLists((sl) => scoreLists.map((scoreList, i) => {
+      setScoreLists((sls) => sls.map((scoreList, i) => {
         return replaceInList(scoreList, newScores[i], guessNum);
       }));
     }
@@ -30,11 +24,12 @@ export default function GuessScores({guesses, setGuesses, scoreLists, setScoreLi
     return function() {
       setGuesses((gs) => deleteAt(gs, index));
       setScoreLists((sls) => sls.map((sl) => deleteAt(sl, index)));
+      setGuessCount((gs) => gs - 1);
     }
   };
 
   const adder = function() {
-    setGuesses(listWithAdjustedLength(guesses, guesses.length + 1));
+    setGuessCount((gs) => gs + 1);
   };
 
   return (
