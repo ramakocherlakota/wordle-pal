@@ -1,17 +1,22 @@
 import React, {useState, useEffect} from 'react';
 
 import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
+import './results.scss';
 
 export default function Results({ headers, headerLabels, request }) {
   const [ loading, setLoading ] = useState(false);
   const [ output, setOutput ] = useState([]);
+  const [ elapsedTime, setElapsedTime ] = useState(0);
 
   const url = process.env.REACT_APP_API_URI;
   
   useEffect(() => {
     async function callService() {
+      const startingTime = Date.now();
+      const timer = setInterval(() => setElapsedTime(Date.now() - startingTime), 1000); 
       try {
-        setOutput([])
+        setOutput([]);
         setLoading(true);
         const response = await fetch(url, {
           method: 'POST',
@@ -26,6 +31,7 @@ export default function Results({ headers, headerLabels, request }) {
       } catch (err) {
         console.log(err.message);
       } finally {
+        clearInterval(timer);
         setLoading(false);
       }
     }
@@ -37,16 +43,20 @@ export default function Results({ headers, headerLabels, request }) {
 
   const headerRow = (headers && headers.map((x) => <div className='col'>{headerLabels[x]}</div>));
 
-  function formatEntry(x) {
-    if (typeof x === 'number' && x !== 0) {
-      return x.toFixed(4);
+  function formatEntry(x, header) {
+    if (typeof x === 'number') {
+      if (header === 'compatible') {
+        return x > 0 ? "true" : "false";
+      } else {
+        return x.toFixed(4);
+      }
     } else {
       return x;
     }
   }
 
   function dataRow(row) {
-    return headers.map((x) => <div className='col'>{formatEntry(row[x])}</div>)
+    return headers.map((x) => <div className='col'>{formatEntry(row[x], x)}</div>)
   }
 
   function wordList(list) {
@@ -68,11 +78,13 @@ export default function Results({ headers, headerLabels, request }) {
   function formatRemaining(rows) {
     return (
       <div className='row'>
+        <div key="guesses" className="col"/>
         {rows.map((lst, idx) => {
           return (
-            <div key={idx} className="col">{wordList(lst)}</div>
+            <div key={idx} className="col" align="center">{wordList(lst)}</div>
           );
         })}
+        <div key="buttons" className="col"/>
       </div>
     );
   }
@@ -87,8 +99,20 @@ export default function Results({ headers, headerLabels, request }) {
 
   return (
     <>
-      {loading && <Spinner animation='border' />}
-      {headerRow && <div className='row' key={-1}>{headerRow}</div>}
+      {loading && (
+        <div className="loading">
+          <Button variant="primary" disabled>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />{(elapsedTime / 1000).toFixed(0)} sec.
+          </Button>
+        </div>
+      )}
+      {headerRow && <div className='row header' key={-1}>{headerRow}</div>}
       {dataRows(output)}
     </>
   );

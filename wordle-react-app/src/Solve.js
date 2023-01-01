@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import Button from 'react-bootstrap/Button';
 import Results from './Results';
 import StartWith from './StartWith';
+import GoButton from './GoButton';
 import Select from 'react-select';
 import HardModeRow from './HardModeRow';
 import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
@@ -55,11 +55,6 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     }
   }, [targets, startWith, hardMode]);
 
-  function callQuery() {
-    setShowResults(true);
-    setShowQueryButton(false);
-  }
-
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));
   }
@@ -101,7 +96,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
         </div>
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-      {showQueryButton && <Button onClick={callQuery} >Go!</Button>}
+      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} />
       {showResults && <><Results request={request} headerLabels={headerLabels} headers={headers} /></>}
     </>
   )

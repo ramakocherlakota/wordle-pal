@@ -6,6 +6,7 @@ import Remainder from './Remainder';
 import Solve from './Solve';
 import NumberInput from './NumberInput';
 import { listWithAdjustedLength} from './Util';
+import './App.css';
 
 function App() {
 
@@ -63,8 +64,16 @@ function App() {
   }
 
   return (
-    <div>
-      <div className='row'>
+    <>
+      <div className='row header'>
+        <div className='col' align='left'>
+          <h2>Wordle Pal</h2>
+        </div>
+        <div className='col' align='right'>
+          <h4><a target="_blank" href="help.html">Help?</a></h4>
+        </div>
+      </div>
+      <div className='row target-word'>
         <div className='col' align='right'>
           Target Word Count
         </div>
@@ -87,7 +96,7 @@ function App() {
           <Solve hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
       </Tabs>
-    </div>
+    </>
   );
 }
 
