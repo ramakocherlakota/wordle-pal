@@ -46,22 +46,50 @@ export default function Results({ headers, headerLabels, request }) {
   }
 
   function dataRow(row) {
-    if (headers) {
-      return headers.map((x) => <div className='col'>{formatEntry(row[x])}</div>)
+    return headers.map((x) => <div className='col'>{formatEntry(row[x])}</div>)
+  }
+
+  function wordList(list) {
+    if (list.length > 0) {
+      return (
+        list.map((it) => {
+          return (
+            <>
+              {it}<br/>
+            </>
+          );
+        })
+      ); 
     } else {
-      return row.map((it) => <div className='row'><div className='col'>{it}</div></div>);
+      return <em>No matches</em>
     }
   }
 
+  function formatRemaining(rows) {
+    return (
+      <div className='row'>
+        {rows.map((lst, idx) => {
+          return (
+            <div key={idx} className="col">{wordList(lst)}</div>
+          );
+        })}
+      </div>
+    );
+  }
+
   function dataRows(rows) {
-    return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
+    if (request.operation === "qremaining_answers") {
+      return formatRemaining(rows);
+    } else {
+      return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
+    }
   }
 
   return (
     <>
       {loading && <Spinner animation='border' />}
-        <div className='row' key={-1}>{headerRow}</div>
-        {dataRows(output)}
+      {headerRow && <div className='row' key={-1}>{headerRow}</div>}
+      {dataRows(output)}
     </>
   );
 }
