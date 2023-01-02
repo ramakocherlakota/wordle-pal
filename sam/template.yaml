@@ -49,12 +49,15 @@ Resources:
       Runtime: python3.9
       Environment: 
         Variables:
-          CORS_ORIGIN: !Ref LambdaUrlCorsOrigin
           SQLITE_DBNAME: "wordle.sqlite"
           SQLITE_FOLDER: !Ref EfsMountPoint
 
       FunctionUrlConfig:
         AuthType: NONE
+        Cors:
+          AllowOrigins: [!Ref LambdaUrlCorsOrigin]
+          AllowHeaders: [Content-type]
+          AllowMethods: [GET,POST]
 
       VpcConfig:
         SecurityGroupIds: !Ref SecurityGroupIds

@@ -31,7 +31,7 @@ Resources:
   WordleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://wordle-quordle-code/4b5d8f4667112a8fb3aeb72d9d9fd075
+      CodeUri: s3://wordle-pal-svc-code/4b5d8f4667112a8fb3aeb72d9d9fd075
       FunctionName:
         Ref: LambdaFunctionName
       Handler: lambda.handler
@@ -40,13 +40,19 @@ Resources:
       Runtime: python3.9
       Environment:
         Variables:
-          CORS_ORIGIN:
-            Ref: LambdaUrlCorsOrigin
           SQLITE_DBNAME: wordle.sqlite
           SQLITE_FOLDER:
             Ref: EfsMountPoint
       FunctionUrlConfig:
         AuthType: NONE
+        Cors:
+          AllowOrigins:
+          - Ref: LambdaUrlCorsOrigin
+          AllowHeaders:
+          - Content-type
+          AllowMethods:
+          - GET
+          - POST
       VpcConfig:
         SecurityGroupIds:
           Ref: SecurityGroupIds
