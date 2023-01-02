@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import axios from 'axios';
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import './results.scss';
@@ -18,13 +18,11 @@ export default function Results({ headers, headerLabels, request }) {
       try {
         setOutput([]);
         setLoading(true);
-        const response = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify(request)
+        const response = await axios.post(url, request, {
+          timeout: 300*1000, // really, five minutes
         })
-        if (response.ok) {
-          const json = await response.json();
-          setOutput(json);
+        if (response.status === 200) {
+          setOutput(response.data);
         } else {
           console.log(`Response failed with status code ${response.status}`);
         }
@@ -81,7 +79,7 @@ export default function Results({ headers, headerLabels, request }) {
         <div key="guesses" className="col"/>
         {rows.map((lst, idx) => {
           return (
-            <div key={idx} className="col" align="center">{wordList(lst)}</div>
+            <div key={idx} className="col" align="left">{wordList(lst)}</div>
           );
         })}
         <div key="buttons" className="col"/>

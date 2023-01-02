@@ -64,7 +64,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='app'>
       <div className='row header'>
         <div className='col' align='left'>
           <h2>Wordle Pal</h2>
@@ -96,7 +96,7 @@ function App() {
           <Solve hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
       </Tabs>
-    </>
+    </div>
   );
 }
 
