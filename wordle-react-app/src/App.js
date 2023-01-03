@@ -6,7 +6,7 @@ import Remainder from './Remainder';
 import Solve from './Solve';
 import NumberInput from './NumberInput';
 import { listWithAdjustedLength} from './Util';
-import './App.css';
+import './App.scss';
 
 function App() {
 

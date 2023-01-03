@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import { ReactComponent as MinusIcon } from './dash-circle.svg';
 import './number-input.scss';
@@ -26,9 +25,9 @@ export default function NumberInput({ value, setValue, minValue, maxValue }) {
 
   return (
     <>
-      <Button className='up-down-button' onClick={incf(-1)} size="sm"><MinusIcon/></Button>
+      <a href="#" className='up-down-button' onClick={incf(-1)}><MinusIcon className="icon" /></a>
       <input className='value' value={value} onChange={validateAndSet} />
-      <Button className='up-down-button' onClick={incf(1)} size="sm"><PlusIcon/></Button>
+      <a href="#" className='up-down-button' onClick={incf(1)} ><PlusIcon className="icon"/></a>
     </>
   );
 }

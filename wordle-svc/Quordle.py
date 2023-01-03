@@ -21,12 +21,12 @@ class Quordle:
                 still_unsolved.append(n)
                 remaining_answers = wordle.remaining_answers()
                 if len(remaining_answers) == 0:
-                    raise Exception(f"Inconsistent data in wordle {n}")
+                    return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
                 if len(remaining_answers) == 1:
                     found_guess = remaining_answers[0]
                 remaining_answers_list.append(remaining_answers)
         if len(still_unsolved) == 0:
-            return "Done"
+            return {"error": "Already solved!"}
             
         wordle_expected_uncertainties = []
         for n in range(len(still_unsolved)):
@@ -40,7 +40,9 @@ class Quordle:
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))
         expected_uncertainties.sort(key=lambda x: x['expected_uncertainty_after_guess'])
-        return expected_uncertainties[0:count]
+        unranked = expected_uncertainties[0:count]
+        # see https://stackoverflow.com/questions/1551666/how-can-2-python-dictionaries-become-1/1551878#1551878
+        return list(map(lambda x, i: dict(x, **{"rank": i+1}), unranked, range(len(unranked))))
             
     def solve(self, targets, start_with=[]):
         guesses = []

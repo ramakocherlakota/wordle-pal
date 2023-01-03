@@ -1,4 +1,8 @@
 .add-delete-button {
     display: inline;
-    margin-right: 10px;
+    margin-right: 20px;
+
+    .icon {
+        transform: scale(2);
+    }
 }

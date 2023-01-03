@@ -13,7 +13,7 @@ class Wordle :
             return None
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
-            raise Exception("Inconsistent data")
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent ."}
         return self.expected_uncertainty_for_guess(remaining_answers, guess)
 
     
@@ -22,7 +22,7 @@ class Wordle :
             return None
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
-            raise Exception("Inconsistent data")
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
         info_map = {}
         compatible = []
@@ -41,7 +41,7 @@ class Wordle :
             return None
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
-            raise Exception("Inconsistent data")
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
         prior_unc = exp_by_guess[0]['uncertainty_before_guess']
         info_map = {}
@@ -73,7 +73,7 @@ class Wordle :
             return None
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
-            raise Exception("Inconsistent data")
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         answer_count = len(remaining_answers)
         if answer_count <= 2:
             return list(map(lambda a: {
@@ -195,13 +195,13 @@ class Wordle :
             hard_mode_clause = f"and guess in ({answers_clause}) "
         sql = f"select guess, sum(c * log2n) / sum(c) as h, guess in ({answers_clause}) as compatible from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2, 3 desc"
         uncertainty_by_guess = []
-#        rank = 1
+        rank = 1
         for [guess, uncertainty, compatible] in self.query(sql, "expected_uncertainty_by_guess"):
             g = {
                 "guess": guess,
                 "expected_uncertainty_after_guess": uncertainty,
                 "compatible": compatible,
-#                "rank": rank,
+                "rank": rank,
                 "uncertainty_before_guess" : math.log(answer_count, 2)
             }
             if guess == for_guess:
@@ -209,7 +209,7 @@ class Wordle :
             uncertainty_by_guess.append(g)
 
             # TODO need something special here to handle ties
-#            rank = rank + 1
+            rank = rank + 1
         return uncertainty_by_guess
 
     def expected_uncertainty_for_guess(self, remaining_answers, guess) :

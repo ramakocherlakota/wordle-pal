@@ -8,6 +8,7 @@ export default function Results({ headers, headerLabels, request }) {
   const [ loading, setLoading ] = useState(false);
   const [ output, setOutput ] = useState([]);
   const [ elapsedTime, setElapsedTime ] = useState(0);
+  const [ error, setError ] = useState("");
 
   const url = process.env.REACT_APP_API_URI;
   
@@ -16,13 +17,18 @@ export default function Results({ headers, headerLabels, request }) {
       const startingTime = Date.now();
       const timer = setInterval(() => setElapsedTime(Date.now() - startingTime), 1000); 
       try {
+        setError("");
         setOutput([]);
         setLoading(true);
         const response = await axios.post(url, request, {
           timeout: 300*1000, // really, five minutes
         })
         if (response.status === 200) {
-          setOutput(response.data);
+          if ("error" in response.data) {
+            setError(response.data.error);
+          } else {
+            setOutput(response.data);
+          }
         } else {
           console.log(`Response failed with status code ${response.status}`);
         }
@@ -39,12 +45,14 @@ export default function Results({ headers, headerLabels, request }) {
     }
   }, [request, url]);
 
-  const headerRow = (headers && headers.map((x) => <div className='col'>{headerLabels[x]}</div>));
+  const headerRow = (headers && headers.map((x) => <div className='header-cell col'>{headerLabels[x]}</div>));
 
   function formatEntry(x, header) {
     if (typeof x === 'number') {
       if (header === 'compatible') {
         return x > 0 ? "true" : "false";
+      } else if (header === 'rank' || header === 'turn') {
+        return x;
       } else {
         return x.toFixed(4);
       }
@@ -99,8 +107,9 @@ export default function Results({ headers, headerLabels, request }) {
     <>
       {loading && (
         <div className="loading">
-          <Button variant="primary" disabled>
+          <Button variant="primary" disabled  >
             <Spinner
+              className="loading-spinner"
               as="span"
               animation="border"
               size="sm"
@@ -110,8 +119,9 @@ export default function Results({ headers, headerLabels, request }) {
           </Button>
         </div>
       )}
-      {headerRow && <div className='row header' key={-1}>{headerRow}</div>}
-      {dataRows(output)}
+      {error && <div className="error">{error}</div>}
+      {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
+      {!error && dataRows(output)}
     </>
   );
 }

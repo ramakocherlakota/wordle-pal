@@ -16,13 +16,12 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
 
-  const headers = ["turn", "guess", "score", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"] 
+  const headers = ["turn", "guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"] 
   const headerLabels = {
     "turn": "Turn",
     "guess": "Guess",
-    "score": "Score",
-    "uncertainty_before_guess": "H-Prior",
-    "expected_uncertainty_after_guess": "Expected H-post",
+    "uncertainty_before_guess": "Prior Uncertainty",
+    "expected_uncertainty_after_guess": "Expected Uncertainty",
     "compatible": "Compatible?"
   };
 
@@ -68,9 +67,9 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   function targetSelects() {
     return targets.map((target, idx) => {
       return (
-        <div className='row'>
+        <div className='row' key={idx} >
           <div className='col' >
-            <Select key={idx} options={answerOptions} onChange={setTargetHandler(idx)} value={answerOptions.filter(option=> option.value === target)} /> 
+            <Select  options={answerOptions} onChange={setTargetHandler(idx)} value={answerOptions.filter(option=> option.value === target)} /> 
           </div>
         </div>
       );
@@ -95,7 +94,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
           <StartWith startWith={startWith} setStartWith={setStartWith} />
         </div>
       </div>
-      <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
+      <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} />
       {showResults && <><Results request={request} headerLabels={headerLabels} headers={headers} /></>}
     </>

@@ -1,6 +1,5 @@
 import React from 'react';
 import GuessScorePair from './GuessScorePair';
-import Button from 'react-bootstrap/Button';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import { deleteAt, replaceInList } from './Util';
 
@@ -41,7 +40,7 @@ export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLi
       )}
       {(!guesses || guesses.length === 0) && (
        <div className='row'>
-           <div className='col' align='center'><Button onClick={adder} ><PlusIcon/></Button></div>    
+           <div className='col' align='center'><a href="#" onClick={adder} ><PlusIcon/></a></div>    
        </div>
       )   
       }

@@ -5,8 +5,9 @@ import NumberInput from './NumberInput';
 
 export default function Guess({guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, hardMode, setHardMode, targetCount}) {
     const [bestGuessCount, setBestGuessCount] = useState(5);
-    const headers = ["guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"];
+    const headers = ["rank", "guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"];
     const headerLabels = {
+        rank : "Rank",
         guess : "Guess",
         uncertainty_before_guess : "Prior Uncertainty",
         expected_uncertainty_after_guess : "Expected Uncertainty",

@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import Select from 'react-select';
@@ -28,16 +27,16 @@ export default function StartWith({startWith, setStartWith}) {
   return (
     <>
       {startWith.length === 0 && 
-       <Button className="add-delete-button" onClick={addRow} size="sm"><PlusIcon/></Button>}           
+       <a href="#" className="add-delete-button" onClick={addRow}><PlusIcon className="icon" /></a>}           
       {startWith.map((sw, index) => 
         <div className="row" key={index}>
           <div className="col">
             <Select  options={answerOptions} onChange={setStartWithAt(index)} value={answerOptions.filter(option => option.label === sw)} />
           </div>
           <div className='col'>
-            <Button className="add-delete-button" onClick={deleteRow(index)} size="sm"><TrashIcon/></Button>
+            <a href="#" className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>
             {index === startWith.length - 1 &&
-             <Button className="add-delete-button" onClick={addRow} size="sm"><PlusIcon/></Button>
+             <a href="#" className="add-delete-button" onClick={addRow} ><PlusIcon className="icon"/></a>
             }
           </div>
         </div>

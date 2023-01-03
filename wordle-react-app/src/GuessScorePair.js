@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
-import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
 import './add-delete-buttons.scss';
 import { replaceInList } from './Util';
@@ -33,9 +32,9 @@ export default function GuessScorePair({scores, guess, setScores, setGuess, dele
       )}
       <div className='col'>
         <div className='row'>
-           <div className='col' align='left'>
-             <Button className="add-delete-button" onClick={deleter} size="sm"><TrashIcon/></Button>
-             {adder && <Button className="add-delete-button" onClick={adder} size="sm"><PlusIcon/></Button>}
+           <div className='col' align='left'> 
+             <a href="#" className="add-delete-button" onClick={deleter}><TrashIcon className="icon" /></a>
+             {adder && <a href="#" className="add-delete-button" onClick={adder}><PlusIcon className="icon" /></a>}
            </div>
         </div>
       </div>
