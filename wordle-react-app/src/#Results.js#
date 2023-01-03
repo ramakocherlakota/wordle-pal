@@ -45,7 +45,7 @@ export default function Results({ headers, headerLabels, request }) {
     }
   }, [request, url]);
 
-  const headerRow = (headers && headers.map((x) => <div className='cell col'>{headerLabels[x]}</div>));
+  const headerRow = (headers && headers.map((x) => <div className='header-cell col'>{headerLabels[x]}</div>));
 
   function formatEntry(x, header) {
     if (typeof x === 'number') {
@@ -62,7 +62,7 @@ export default function Results({ headers, headerLabels, request }) {
   }
 
   function dataRow(row) {
-    return headers.map((x) => <div className='col cell'>{formatEntry(row[x], x)}</div>)
+    return headers.map((x) => <div className='col'>{formatEntry(row[x], x)}</div>)
   }
 
   function wordList(list) {
@@ -119,9 +119,10 @@ export default function Results({ headers, headerLabels, request }) {
           </Button>
         </div>
       )}
-      {error && <div className="error">{error}</div>}
-      {!error && headerRow && <div className='row' key={-1}>{headerRow}</div>}
-      {!error && dataRows(output)}
+      {error
+       ? <div className="error">{error}</div>
+       : {headerRow && <div className='row header' key={-1}>{headerRow}</div>
+          dataRows(output)}
     </>
   );
 }
