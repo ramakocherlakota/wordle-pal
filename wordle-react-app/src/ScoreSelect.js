@@ -20,6 +20,6 @@ export default function ScoreSelect({ value, onChange, placeholder }) {
   };
 
   return (
-    <AsyncSelect placeholder="Score" loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} />
+    <AsyncSelect placeholder={placeholder} loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} />
   );
 }
