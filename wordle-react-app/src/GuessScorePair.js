@@ -2,11 +2,10 @@ import React from 'react';
 
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
-import Select from 'react-select';
+import AnswerSelect from './AnswerSelect';
+import ScoreSelect from './ScoreSelect';
 import './add-delete-buttons.scss';
 import { replaceInList } from './Util';
-
-import {answerOptions, scoreOptions} from './Data';
 
 export default function GuessScorePair({scores, guess, setScores, setGuess, deleter, adder}) {
 
@@ -23,11 +22,11 @@ export default function GuessScorePair({scores, guess, setScores, setGuess, dele
   return (
     <div className="row">
       <div className="col">
-        <Select options={answerOptions} placeholder="Guess..." onChange={setGuessHandler} value={answerOptions.filter(option=>option.value === guess)} /> 
+        <AnswerSelect placeholder="Guess..." onChange={setGuessHandler} value={guess} /> 
       </div>
       {scores.map((score, idx) => 
         <div key={idx} className="col">
-          <Select options={scoreOptions} placeholder="Score..." onChange={setScoreHandler(idx)}  value={scoreOptions.filter(option=>option.label === score)} />
+          <ScoreSelect placeholder="Score..." onChange={setScoreHandler(idx)}  value={score} />
         </div>
       )}
       <div className='col'>

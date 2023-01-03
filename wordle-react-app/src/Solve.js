@@ -2,16 +2,14 @@ import React, {useState, useEffect} from 'react';
 import Results from './Results';
 import StartWith from './StartWith';
 import GoButton from './GoButton';
-import Select from 'react-select';
+import AnswerSelect from './AnswerSelect';
 import HardModeRow from './HardModeRow';
 import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 import './solve.scss';
 
-import {answerOptions} from './Data';
-
 export default function Solve({hardMode, setHardMode, targetCount}) {
   const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
-  const [ startWith, setStartWith ] = useState(["raise"]);
+  const [ startWith, setStartWith ] = useState([""]);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
@@ -69,7 +67,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
       return (
         <div className='row' key={idx} >
           <div className='col' >
-            <Select  options={answerOptions} onChange={setTargetHandler(idx)} value={answerOptions.filter(option=> option.value === target)} /> 
+            <AnswerSelect onChange={setTargetHandler(idx)} value={target} /> 
           </div>
         </div>
       );
