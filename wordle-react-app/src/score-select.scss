@@ -1,0 +1,20 @@
+.score {
+    display: flex;
+}
+
+.score-select {
+    flex-grow: 1;
+}
+
+.tip {
+    cursor: pointer;
+}
+
+.doc {
+    width: 100%;
+}
+
+[role='tooltip'].popup-content {
+  width: 500px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+}

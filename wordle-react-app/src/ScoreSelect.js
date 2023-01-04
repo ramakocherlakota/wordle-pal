@@ -1,7 +1,26 @@
 import React from 'react';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import AsyncSelect from 'react-select/async';
+import './score-select.scss';
 
 import {scoreOptions} from './Data';
+
+const tipStyle = {display: "inline"};
+
+const Tooltip = () => (
+  <Popup
+    trigger={open => (
+      <a style={tipStyle}><sup>?</sup></a>
+    )}
+    position="left center"
+    closeOnDocumentClick
+  >
+    <div className='doc'>
+      B? W? Dash?<br/><br/>We use the old MasterMind scoring system - a B (black) peg for a letter in the correct position, a W (white) peg for a correct letter in the wrong position.  <br/><br/>So 'B-W--' means the first letter is correct and the third letter is in the answer but in a different position.
+    </div>
+  </Popup>
+);
 
 export default function ScoreSelect({ value, onChange, placeholder }) {
   const filterOptions = (inputValue: string) => {
@@ -21,7 +40,7 @@ export default function ScoreSelect({ value, onChange, placeholder }) {
 
   return (
     <>
-      <AsyncSelect placeholder={placeholder} defaultOptions={scoreOptions} loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} />
+      <div className='score'><div className='score-select'><AsyncSelect placeholder={placeholder} defaultOptions={scoreOptions} loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} /></div><div className='tip'>{Tooltip()}</div></div>
     </>
   );
 }

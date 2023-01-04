@@ -43,7 +43,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
         operation: "qsolve",
         targets,
         hard_mode: hardMode,
-        start_with: startWith
+        start_with: startWith.filter(x => x.length > 0)
       });
       
       setShowQueryButton(true);
