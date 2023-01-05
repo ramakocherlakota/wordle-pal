@@ -16,6 +16,31 @@ function App() {
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
 
+  const remainingTitle = <PopupDoc doc=
+    <div>
+      Click on the Go button to return a list of words (for each of the target words) compatible with what guesses and scores have been selected.
+    </div> 
+    >
+      Remaining
+    </PopupDoc>;
+
+  const bestGuessTitle = <PopupDoc doc=
+    <div>
+      Click on the Go button to return a list of the best next guesses for your Wordle / Quordle, ranked from the best down.
+    </div> 
+    >
+      Best Guesses
+    </PopupDoc>;
+
+  const solveTitle = <PopupDoc doc=
+    <div>
+      Click on the Go button to have Wordle Pal solve the target word(s) you have set for it, starting from your favorite start words.
+    </div> 
+    >
+      Solve
+    </PopupDoc>;
+
+
   useEffect(() => {
     setGuesses((gs) => listWithAdjustedLength(gs, dimensions.guesses, () => ""))
     setScoreLists((sLists) => {
@@ -95,13 +120,13 @@ function App() {
         </div>
       </div>
       <Tabs className="mb-3" justify>
-        <Tab eventKey="remainder" title="Remaining" >
+        <Tab eventKey="remainder" title={remainingTitle} >
           <Remainder guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
-        <Tab eventKey="guess" title="Best Guesses">
+        <Tab eventKey="guess" title={bestGuessTitle} >
           <Guess guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
-        <Tab eventKey="solve" title="Solve">
+        <Tab eventKey="solve" title={solveTitle}>
           <Solve hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
       </Tabs>
