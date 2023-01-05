@@ -1,14 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
 import PopupDoc from './PopupDoc';
 import './results.scss';
 
-export default function Results({ headers, headerLabels, request, headerDocs }) {
-  const [ loading, setLoading ] = useState(false);
+export default function Results({ headers, headerLabels, request, headerDocs, setLoading, setElapsedTime }) {
   const [ output, setOutput ] = useState([]);
-  const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ error, setError ] = useState("");
 
   const url = process.env.REACT_APP_API_URI;
@@ -112,20 +109,6 @@ export default function Results({ headers, headerLabels, request, headerDocs }) 
 
   return (
     <>
-      {loading && (
-        <div className="loading">
-          <Button variant="primary" disabled  >
-            <Spinner
-              className="loading-spinner"
-              as="span"
-              animation="border"
-              size="sm"
-              role="status"
-              aria-hidden="true"
-            />{(elapsedTime / 1000).toFixed(0)} sec.
-          </Button>
-        </div>
-      )}
       {error && <div className="error">{error}</div>}
       {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
       {!error && dataRows(output)}

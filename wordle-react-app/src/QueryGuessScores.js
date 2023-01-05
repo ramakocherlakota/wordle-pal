@@ -4,6 +4,8 @@ import GoButton from './GoButton';
 import Results from './Results';
 
 export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, headerDocs, bestGuessCount, targetCount, children, hardMode }) {
+  const [ loading, setLoading ] = useState(false);
+  const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
@@ -35,7 +37,7 @@ export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, s
     <>
       <GuessScores guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
       {children}
-      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} />
-      {showResults && <Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} />}
+      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
+      {showResults && <Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime}  />}
     </>);
 }

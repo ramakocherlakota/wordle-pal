@@ -8,6 +8,8 @@ import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util'
 import './solve.scss';
 
 export default function Solve({hardMode, setHardMode, targetCount}) {
+  const [ loading, setLoading ] = useState(false);
+  const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
   const [ startWith, setStartWith ] = useState([""]);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
@@ -98,8 +100,8 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
         </div>
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
-      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} />
-      {showResults && <><Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} /></>}
+      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
+      {showResults && <><Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime} /></>}
     </>
   )
 }
