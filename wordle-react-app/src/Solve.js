@@ -66,9 +66,10 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     return targets.map((target, idx) => {
       return (
         <div className='row' key={idx} >
-          <div className='col' >
+          <div className='col target' >
             <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target word..." /> 
           </div>
+          <div className='col' />
         </div>
       );
     });
@@ -77,7 +78,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   return (
     <>
       <div className="row" >
-        <div className="col">
+        <div className="col targets">
           Target Word{targetCount > 1 ? "s" : ""}
         </div>
         <div className="col">
@@ -85,7 +86,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
         </div>
       </div>
       <div className="row start-with" >
-        <div className="col">
+        <div className="col start-with-label">
           Start With
         </div>
         <div className="col">
