@@ -103,6 +103,9 @@ function App() {
                   <br/><br/>
                 You'll need to be patient!  These operations take a long time, often minutes to complete.  
                 <br/><br/>Click on the handy question marks for inline docs.</div> />
+          <PopupDoc 
+            label=<h5>How does it work?</h5>
+            doc=<div>Wordle Pal uses a branch of mathematics called information theory to do its work.  The basic idea is that the best guess at any point is the one that minimizes the expected uncertainty after you make your guess and get your score back.  For more information, check out the <a target="_blank" href="slides.pdf">slides from a presentation</a>.</div> />
         </div>
       </div>
       <div className='row target-word'>
