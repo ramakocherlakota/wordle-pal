@@ -11,14 +11,12 @@ export default function GoButton({ showQueryButton, setShowQueryButton, showResu
 
   const doc = showQueryButton 
         ? <div>Click to submit query... but be patient.  Results can take minutes to come back.</div>
-        : <div>You need to fill in all the data (like selecting guesses and scores) before this button will become active.</div>
+        : <div>You need to fill in all the data (like selecting guesses and scores) before this button will become active.</div>;
 
   return (
       <div className='go-button'>
-        <PopupDoc
-        doc={doc}>
           <Button onClick={callQuery} disabled={!showQueryButton} >Go</Button>
-        </PopupDoc>
+          <PopupDoc doc={doc} />
       </div>
   );
 }

@@ -21,9 +21,9 @@ export default function PopupDoc({doc, children, label}) {
   return (
     <>
       <div className='popup-doc'>
-        <div className='children'>
-          {children}
-        </div>          
+         <div className='children'>
+           {children}
+         </div>       
         <div className='trigger'>
           {showDoc()}
         </div>
