@@ -4,6 +4,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Guess from './Guess';
 import Remainder from './Remainder';
 import Solve from './Solve';
+import PopupDoc from './PopupDoc';
 import NumberInput from './NumberInput';
 import { listWithAdjustedLength} from './Util';
 import './App.scss';
@@ -70,12 +71,20 @@ function App() {
           <h2>Wordle Pal</h2>
         </div>
         <div className='col' align='right'>
-          <h4><a target="_blank" href="help.html">Help?</a></h4>
+          <PopupDoc 
+            label=<h4>Help?</h4>
+            doc=<div>
+                Wordle Pal is an app to help you understand <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a> (and its cousin, <a href="https://www.quordle.com/#/" target="_blank">Quordle</a>) and hopefully to help you play better.  There are three modes, for getting the list of remaining possibilities, for getting what Wordle Pal thinks is the best next guess, or for having it solve a word.
+                  <br/><br/>
+                You'll need to be patient!  These operations take a long time, often minutes to complete.  
+                <br/><br/>Click on the handy question marks for inline docs.</div> />
         </div>
       </div>
       <div className='row target-word'>
         <div className='col' align='right'>
-          Target Word Count
+          <PopupDoc doc=<div>Quordle is just like Wordle except you try to guess four words at the same time - many of us feel that is a better, less chancy game than Wordle.  Target Word Count allows you to specify how many words you're solving at the same time - Wordle is 1, Quordle is 4 but there's nothing special about those.<br/><br/>High values here will slow things down so you'll need extra patience</div> >
+            Target Word Count
+          </PopupDoc>
         </div>
         <div className='col' align='center'>
           <NumberInput value={targetCount()} setValue={setTargetCount} minValue={1} />

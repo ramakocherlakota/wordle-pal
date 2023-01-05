@@ -30,7 +30,7 @@ export default function StartWith({startWith, setStartWith}) {
       {startWith.map((sw, index) => 
         <div className="row" key={index}>
           <div className="col">
-            <AnswerSelect onChange={setStartWithAt(index)} value={sw} />
+            <AnswerSelect onChange={setStartWithAt(index)} value={sw} placeholder="Starting..."/>
           </div>
           <div className='col'>
             <a href="#" className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>

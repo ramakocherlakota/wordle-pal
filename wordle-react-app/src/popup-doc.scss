@@ -1,0 +1,27 @@
+.popup-doc {
+    display: flex;
+    align-content: flex-start;
+}
+
+.default-anchor {
+    margin-left: 5px;
+}
+
+.popup-doc > .children {
+    flex-grow: 1;
+}
+
+.popup-doc > .trigger {
+    cursor: pointer;
+}
+
+.doc {
+    width: 100%;
+}
+
+.popup-content {
+  width: 500px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
+  padding: 10px 5px
+}
+

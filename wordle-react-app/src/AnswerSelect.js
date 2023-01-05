@@ -1,5 +1,6 @@
 import React from 'react';
 import AsyncSelect from 'react-select/async';
+import PopupDoc from './PopupDoc';
 
 import {answerOptions} from './Data';
 
@@ -23,6 +24,8 @@ export default function AnswerSelect({ value, onChange, placeholder }) {
   };
 
   return (
-    <AsyncSelect cacheOptions defaultOptions placeholder={placeholder} loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} />
+    <PopupDoc doc=<div>Start typing in the text area and it will auto-complete.  Only words from the 2315 possible Wordle answers are allowed.</div> >
+      <AsyncSelect cacheOptions defaultOptions placeholder={placeholder} loadOptions={loadOptions} onChange={onChange} value={filterOptions(value)} />
+    </PopupDoc>
   );
 }

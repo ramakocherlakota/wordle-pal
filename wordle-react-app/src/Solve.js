@@ -67,7 +67,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
       return (
         <div className='row' key={idx} >
           <div className='col' >
-            <AnswerSelect onChange={setTargetHandler(idx)} value={target} /> 
+            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target word..." /> 
           </div>
         </div>
       );
@@ -78,7 +78,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     <>
       <div className="row" >
         <div className="col">
-          Target Words
+          Target Word{targetCount > 1 ? "s" : ""}
         </div>
         <div className="col">
           {targetSelects()}
