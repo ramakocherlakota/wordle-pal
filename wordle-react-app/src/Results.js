@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Spinner from "react-bootstrap/Spinner";
 import Button from "react-bootstrap/Button";
+import PopupDoc from './PopupDoc';
 import './results.scss';
 
-export default function Results({ headers, headerLabels, request }) {
+export default function Results({ headers, headerLabels, request, headerDocs }) {
   const [ loading, setLoading ] = useState(false);
   const [ output, setOutput ] = useState([]);
   const [ elapsedTime, setElapsedTime ] = useState(0);
@@ -45,7 +46,13 @@ export default function Results({ headers, headerLabels, request }) {
     }
   }, [request, url]);
 
-  const headerRow = (headers && headers.map((x) => <div className='cell col'>{headerLabels[x]}</div>));
+  const headerRow = (headers && headers.map((x) => {
+    const doc = headerDocs && (x in headerDocs) && headerDocs[x];
+    const label = doc ? <PopupDoc doc={doc}>{headerLabels[x]}</PopupDoc> : headerLabels[x];
+    return (
+      <div className='cell col'>{label}</div>
+    );
+  }));
 
   function formatEntry(x, header) {
     if (typeof x === 'number') {
@@ -120,7 +127,7 @@ export default function Results({ headers, headerLabels, request }) {
         </div>
       )}
       {error && <div className="error">{error}</div>}
-      {!error && headerRow && <div className='row' key={-1}>{headerRow}</div>}
+      {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
       {!error && dataRows(output)}
     </>
   );

@@ -14,9 +14,14 @@ export default function Guess({guesses, setGuesses, setGuessCount, scoreLists, s
         expected_uncertainty_after_guess : "Expected Uncertainty",
         compatible: "Hard Mode Compatible"
     }
+    const headerDocs = {
+      uncertainty_before_guess: <div>Uncertainty (in bits) about the solution prior to this guess being made</div>,
+      expected_uncertainty_after_guess: <div>Expected value of the uncertainty after this guess is made and a score is returned.  Lower values indicate less uncertainty and are better!</div>
+    };
+
     return (
         <>
-            <QueryGuessScores operation="qguess" headers={ headers } headerLabels={headerLabels} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} bestGuessCount={bestGuessCount} hardMode={hardMode} targetCount={targetCount} >
+            <QueryGuessScores operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} bestGuessCount={bestGuessCount} hardMode={hardMode} targetCount={targetCount} >
               <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
               <div className='row'>
                 <div className='col' align='right'>

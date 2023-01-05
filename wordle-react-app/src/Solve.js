@@ -20,7 +20,11 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
     "guess": "Guess",
     "uncertainty_before_guess": "Prior Uncertainty",
     "expected_uncertainty_after_guess": "Expected Uncertainty",
-    "compatible": "Compatible?"
+    "compatible": "Hard Mode Compatible"
+  };
+  const headerDocs = {
+    uncertainty_before_guess: <div>Uncertainty (in bits) about the solution prior to this guess being made</div>,
+    expected_uncertainty_after_guess: <div>Expected value of the uncertainty after this guess is made and a score is returned.  Lower values indicate less uncertainty and are better!</div>
   };
 
   useEffect(() => {
@@ -95,7 +99,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} />
-      {showResults && <><Results request={request} headerLabels={headerLabels} headers={headers} /></>}
+      {showResults && <><Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} /></>}
     </>
   )
 }
