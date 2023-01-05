@@ -6,11 +6,11 @@ import {scoreOptions} from './Data';
 
 export default function ScoreSelect({ value, onChange, placeholder }) {
   const filterOptions = (inputValue: string) => {
-    if (inputValue.length > 1) {
+    if (inputValue.length > 0) {
       const key = inputValue.toLowerCase().replace(/[^a-z]/g, "-");
       return scoreOptions.filter((i) => i.label.toLowerCase().startsWith(key));
     } else {
-      return [];
+      return null;
     }
   }
 
