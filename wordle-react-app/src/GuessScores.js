@@ -41,7 +41,7 @@ export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLi
       )}
       {(!guesses || guesses.length === 0) && (
        <div className='row'>
-           <div className='col' align='center'><button className='link-button add-delete-button' onClick={adder} ><PlusIcon/></button></div>    
+           <div className='col' align='center'><button className='link-button add-delete-button' onClick={adder} ><PlusIcon className='icon' /></button></div>    
        </div>
       )   
       }
