@@ -5,6 +5,7 @@ import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import AnswerSelect from './AnswerSelect';
 import ScoreSelect from './ScoreSelect';
 import './add-delete-buttons.scss';
+import './link-button.scss';
 import { replaceInList } from './Util';
 
 export default function GuessScorePair({scores, guess, setScores, setGuess, deleter, adder}) {
@@ -32,8 +33,8 @@ export default function GuessScorePair({scores, guess, setScores, setGuess, dele
       <div className='col'>
         <div className='row'>
            <div className='col' align='left'> 
-             <a href="#" className="add-delete-button" onClick={deleter}><TrashIcon className="icon" /></a>
-             {adder && <a href="#" className="add-delete-button" onClick={adder}><PlusIcon className="icon" /></a>}
+             <button className="link-button add-delete-button" onClick={deleter}><TrashIcon className="icon" /></button>
+             {adder && <button className="link-button add-delete-button" onClick={adder}><PlusIcon className="icon" /></button>}
            </div>
         </div>
       </div>

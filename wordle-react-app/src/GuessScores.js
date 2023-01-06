@@ -2,6 +2,7 @@ import React from 'react';
 import GuessScorePair from './GuessScorePair';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import { deleteAt, replaceInList } from './Util';
+import './link-button.scss';
 
 export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, targetCount}) {
 
@@ -40,7 +41,7 @@ export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLi
       )}
       {(!guesses || guesses.length === 0) && (
        <div className='row'>
-           <div className='col' align='center'><a href="#" onClick={adder} ><PlusIcon/></a></div>    
+           <div className='col' align='center'><button className='link-button add-delete-button' onClick={adder} ><PlusIcon/></button></div>    
        </div>
       )   
       }

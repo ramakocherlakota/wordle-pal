@@ -26,16 +26,16 @@ export default function StartWith({startWith, setStartWith}) {
   return (
     <>
       {startWith.length === 0 && 
-       <a href="#" className="add-delete-button" onClick={addRow}><PlusIcon className="icon" /></a>}           
+       <a href="/#" className="add-delete-button" onClick={addRow}><PlusIcon className="icon" /></a>}           
       {startWith.map((sw, index) => 
         <div className="row" key={index}>
           <div className="col">
             <AnswerSelect onChange={setStartWithAt(index)} value={sw} placeholder="Starting..."/>
           </div>
           <div className='col'>
-            <a href="#" className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>
             {index === startWith.length - 1 &&
-             <a href="#" className="add-delete-button" onClick={addRow} ><PlusIcon className="icon"/></a>
+             <a href="/#" className="add-delete-button" onClick={addRow} ><PlusIcon className="icon"/></a>
             }
           </div>
         </div>

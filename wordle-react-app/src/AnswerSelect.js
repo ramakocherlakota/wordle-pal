@@ -5,7 +5,7 @@ import PopupDoc from './PopupDoc';
 import {answerOptions} from './Data';
 
 export default function AnswerSelect({ value, onChange, placeholder }) {
-  const filterOptions = (inputValue: string) => {
+  const filterOptions = (inputValue) => {
     if (inputValue.length > 1) {
       const key = inputValue.substring(0, 2).toLowerCase();;
       if (key in answerOptions) {

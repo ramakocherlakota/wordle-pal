@@ -99,7 +99,7 @@ function App() {
           <PopupDoc 
             label=<h4>Help?</h4>
             doc=<div>
-                Wordle Pal is an app to help you understand <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a> (and its cousin, <a href="https://www.quordle.com/#/" target="_blank">Quordle</a>) and hopefully to help you play better.  There are three modes, for getting the list of remaining possibilities, for getting what Wordle Pal thinks is the best next guess, or for having it solve a word.
+                Wordle Pal is an app to help you understand <a href="https://www.nytimes.com/games/wordle/index.html" rel="noreferrer" target="_blank">Wordle</a> (and its cousin, <a rel="noreferrer" href="https://www.quordle.com/#/" target="_blank">Quordle</a>) and hopefully to help you play better.  There are three modes, for getting the list of remaining possibilities, for getting what Wordle Pal thinks is the best next guess, or for having it solve a word.
                   <br/><br/>
                 You'll need to be patient!  These operations take a long time, often minutes to complete.  
                 <br/><br/>Click on the handy question marks for inline docs.</div> />

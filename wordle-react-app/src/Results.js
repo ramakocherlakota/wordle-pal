@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import Button from "react-bootstrap/Button";
 import PopupDoc from './PopupDoc';
 import './results.scss';
 
@@ -41,7 +40,7 @@ export default function Results({ headers, headerLabels, request, headerDocs, se
     if (request) {
       callService();
     }
-  }, [request, url]);
+  }, [request, url, setElapsedTime, setLoading]);
 
   const headerRow = (headers && headers.map((x) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];

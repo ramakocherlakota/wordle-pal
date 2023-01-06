@@ -1,7 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
+import './link-button.scss';
 import './popup-doc.scss';
 
 export default function PopupDoc({doc, children, label}) {
@@ -10,7 +10,7 @@ export default function PopupDoc({doc, children, label}) {
   function showDoc() {
     return <Popup
              trigger={open => (
-               <a>{anchorLabel}</a>
+               <button className='link-button'>{anchorLabel}</button>
              )}
              modal
            >

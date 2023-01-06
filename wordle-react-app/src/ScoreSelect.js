@@ -5,7 +5,7 @@ import PopupDoc from './PopupDoc';
 import {scoreOptions} from './Data';
 
 export default function ScoreSelect({ value, onChange, placeholder }) {
-  const filterOptions = (inputValue: string) => {
+  const filterOptions = (inputValue) => {
     if (inputValue.length > 0) {
       const key = inputValue.toLowerCase().replace(/[^a-z]/g, "-");
       return scoreOptions.filter((i) => i.label.toLowerCase().startsWith(key));

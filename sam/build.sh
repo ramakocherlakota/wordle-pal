@@ -1,10 +1,18 @@
-if [ ! -f ./env.sh ]
+env=$1
+
+if [ ! "$env" ]
 then
-   echo "Create env.sh based on env-template.sh, filling in the necessary data"
+    echo "Usage: ./build.sh <env>"
+    exit 1
+fi
+    
+if [ ! -f ./$env.sh ]
+then
+   echo "Create $env.sh based on env-template.sh, filling in the necessary data"
    exit 1
 fi
 
-source env.sh
+source $env.sh
 
 $(aws s3api head-bucket --bucket "$CODE_BUCKET" 2>/dev/null)
 if [ $? != 0 ]
