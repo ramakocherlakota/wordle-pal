@@ -4,8 +4,7 @@ import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import { deleteAt, replaceInList } from './Util';
 import './link-button.scss';
 
-export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, targetCount}) {
-
+export default function GuessScores({allGuesses, guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, targetCount}) {
   const setGuess = function(index) {
     return function(guess) {
       setGuesses((gs) => replaceInList(gs, guess, index));
@@ -36,7 +35,7 @@ export default function GuessScores({guesses, setGuesses, setGuessCount, scoreLi
     <>
       {guesses && scoreLists && guesses.map((guess, index) => {
         const scores = scoreLists.map((sl) => sl[index]);
-        return <GuessScorePair key={index} scores={scores} guess={guess} setScores={setScores(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={(index === guesses.length -1 ) && adder} />
+        return <GuessScorePair allGuesses={allGuesses} key={index} scores={scores} guess={guess} setScores={setScores(index)} setGuess={setGuess(index)} deleter={deleter(index)} adder={(index === guesses.length -1 ) && adder} />
       }
       )}
       {(!guesses || guesses.length === 0) && (

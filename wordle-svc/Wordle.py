@@ -13,7 +13,7 @@ class Wordle :
             return None
         remaining_answers = self.remaining_answers()
         if len(remaining_answers) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent ."}
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         return self.expected_uncertainty_for_guess(remaining_answers, guess)
 
     

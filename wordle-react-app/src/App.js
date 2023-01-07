@@ -10,7 +10,7 @@ import { listWithAdjustedLength} from './Util';
 import './App.scss';
 
 function App() {
-
+  const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
   const [ dimensions, setDimensions ] = useState({targets: 1, guesses: 1});
   const [ guesses, setGuesses ] = useState([""]);
   const [ scoreLists, setScoreLists ] = useState([[""]]);
@@ -124,13 +124,13 @@ function App() {
       </div>
       <Tabs className="mb-3" justify>
         <Tab eventKey="remainder" title={remainingTitle} >
-          <Remainder guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+          <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
         <Tab eventKey="guess" title={bestGuessTitle} >
-          <Guess guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+          <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
         <Tab eventKey="solve" title={solveTitle}>
-          <Solve hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+          <Solve allGuesses={allGuesses} setAllGuesses={setAllGuesses} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
       </Tabs>
     </div>

@@ -3,7 +3,7 @@ import GuessScores from './GuessScores';
 import GoButton from './GoButton';
 import Results from './Results';
 
-export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, headerDocs, bestGuessCount, targetCount, children, hardMode }) {
+export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, headerDocs, bestGuessCount, targetCount, children, hardMode }) {
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
@@ -12,7 +12,7 @@ export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, s
 
   useEffect(() => {
     setShowResults(false);
-    const guessesComplete = guesses.filter((guess) => guess.length === 0).length === 0;
+    const guessesComplete = guesses.filter((guess) => (!guess || guess.length === 0)).length === 0;
     const scoreListsComplete = !(scoreLists.filter((scoreList) => {
       return scoreList.filter((score) => {
         return score.length === 0;
@@ -35,9 +35,9 @@ export default function QueryGuessScores({ guesses, setGuesses, setGuessCount, s
 
   return (
     <>
-      <GuessScores guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
+      <GuessScores allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
       {children}
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime}  />}
+      {showResults && <Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime}  />}
     </>);
 }

@@ -2,9 +2,11 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 import PopupDoc from './PopupDoc';
 
-import {scoreOptions} from './Data';
+import ScoreOptions from './data/ScoreOptions';
 
 export default function ScoreSelect({ value, onChange, placeholder }) {
+  const scoreOptions = ScoreOptions();
+
   const filterOptions = (inputValue) => {
     if (inputValue.length > 0) {
       const key = inputValue.toLowerCase().replace(/[^a-z]/g, "-");

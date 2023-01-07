@@ -3,7 +3,7 @@ import axios from 'axios';
 import PopupDoc from './PopupDoc';
 import './results.scss';
 
-export default function Results({ headers, headerLabels, request, headerDocs, setLoading, setElapsedTime }) {
+export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, setLoading, setElapsedTime }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
 

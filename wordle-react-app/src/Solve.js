@@ -4,10 +4,11 @@ import StartWith from './StartWith';
 import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import HardModeRow from './HardModeRow';
+import AllGuessesRow from './AllGuessesRow';
 import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 import './solve.scss';
 
-export default function Solve({hardMode, setHardMode, targetCount}) {
+export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode, targetCount}) {
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
@@ -36,7 +37,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
   useEffect(() => {
     function allTargetsChosen() {
       for (let i=0; i<targets.length; i++) {
-        if (targets[i].length === 0) {
+        if (!targets[i] || targets[i].length === 0) {
           return false;
         }
       }
@@ -64,7 +65,7 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
 
   function setTargetHandler(i) {
     return function(a) {
-      setTarget(i, a.value);
+      setTarget(i, a && a.value);
     }
   }
 
@@ -96,12 +97,13 @@ export default function Solve({hardMode, setHardMode, targetCount}) {
           Start With
         </div>
         <div className="col">
-          <StartWith startWith={startWith} setStartWith={setStartWith} />
+          <StartWith allGuesses={allGuesses} startWith={startWith} setStartWith={setStartWith} />
         </div>
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
+      <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime} /></>}
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime} /></>}
     </>
   )
 }
