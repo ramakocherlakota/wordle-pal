@@ -3,7 +3,13 @@ import axios from 'axios';
 import PopupDoc from './PopupDoc';
 import './results.scss';
 
-export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, setLoading, setElapsedTime }) {
+export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime }) {
+  const [ dbName, setDbName ] = useState("wordle.sqlite");
+
+  useState(() => {
+    setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");
+  }, [allGuesses]);
+
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
 
@@ -17,9 +23,16 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
         setError("");
         setOutput([]);
         setLoading(true);
-        const response = await axios.post(url, request, {
-          timeout: 300*1000, // really, five minutes
-        })
+        const response = await axios.post(
+          url, 
+          {
+            ...request, 
+            sqlite_dbname: dbName
+          }, 
+          {
+            timeout: 900*1000 // really, fifteen minutes :-)
+          } 
+        );                                
         if (response.status === 200) {
           if ("error" in response.data) {
             setError(response.data.error);
@@ -40,7 +53,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
     if (request) {
       callService();
     }
-  }, [request, url, setElapsedTime, setLoading]);
+  }, [request, url, setElapsedTime, setLoading, dbName]);
 
   const headerRow = (headers && headers.map((x) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];
@@ -111,6 +124,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
       {error && <div className="error">{error}</div>}
       {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
       {!error && dataRows(output)}
+      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(elapsedTime / 1000).toFixed(0)} sec.</div></div>}
     </>
   );
 }

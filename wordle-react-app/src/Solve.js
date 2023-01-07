@@ -102,8 +102,8 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
-      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime} /></>}
+      <GoButton allGuesses={allGuesses} showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} /></>}
     </>
   )
 }

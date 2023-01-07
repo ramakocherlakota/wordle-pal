@@ -31,13 +31,13 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
     } else {
       setShowQueryButton(false);
     }
-  }, [guesses, scoreLists, bestGuessCount, operation, hardMode]);
+  }, [allGuesses, guesses, scoreLists, bestGuessCount, operation, hardMode]);
 
   return (
     <>
       <GuessScores allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} targetCount={targetCount} />
       {children}
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} setLoading={setLoading} setElapsedTime={setElapsedTime}  />}
+      {showResults && <Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading}  setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime}  />}
     </>);
 }
