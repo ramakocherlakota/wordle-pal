@@ -46,9 +46,10 @@ class Quordle:
         rank = 1
         rank_including_ties = 0
         previous_uncertainty = -1
+        previous_compatible = -1
         for g in uncs:
             rank_including_ties = rank_including_ties + 1
-            if previous_uncertainty < g['expected_uncertainty_after_guess']:
+            if previous_uncertainty != g['expected_uncertainty_after_guess'] or previous_compatible != g['compatible'] :
                 rank = rank_including_ties
             g['rank'] = rank
             previous_uncertainty = g['expected_uncertainty_after_guess']

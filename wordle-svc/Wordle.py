@@ -198,12 +198,14 @@ class Wordle :
         rank = 1
         rank_including_ties = 0
         previous_uncertainty = -1
+        previous_compatible = -1
         for [guess, uncertainty, compatible] in self.query(sql, "expected_uncertainty_by_guess"):
             rank_including_ties = rank_including_ties + 1
-            if previous_uncertainty < uncertainty:
+            if previous_uncertainty != uncertainty or previous_compatible != compatible:
                 rank = rank_including_ties
                 # otherwise it's a tie so just keep the same rank
             previous_uncertainty = uncertainty
+            previous_compatible = compatible
 
             g = {
                 "guess": guess,
