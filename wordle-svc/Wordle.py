@@ -196,7 +196,15 @@ class Wordle :
         sql = f"select guess, sum(c * log2n) / sum(c) as h, guess in ({answers_clause}) as compatible from ({subsql}) as t1, log2_lookup where log2_lookup.n = c {hard_mode_clause} group by 1 order by 2, 3 desc"
         uncertainty_by_guess = []
         rank = 1
+        rank_including_ties = 0
+        previous_uncertainty = -1
         for [guess, uncertainty, compatible] in self.query(sql, "expected_uncertainty_by_guess"):
+            rank_including_ties = rank_including_ties + 1
+            if previous_uncertainty < uncertainty:
+                rank = rank_including_ties
+                # otherwise it's a tie so just keep the same rank
+            previous_uncertainty = uncertainty
+
             g = {
                 "guess": guess,
                 "expected_uncertainty_after_guess": uncertainty,
@@ -207,9 +215,6 @@ class Wordle :
             if guess == for_guess:
                 return g
             uncertainty_by_guess.append(g)
-
-            # TODO need something special here to handle ties
-            rank = rank + 1
         return uncertainty_by_guess
 
     def expected_uncertainty_for_guess(self, remaining_answers, guess) :

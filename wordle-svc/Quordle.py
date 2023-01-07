@@ -40,10 +40,20 @@ class Quordle:
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))
         expected_uncertainties.sort(key=lambda x: x['expected_uncertainty_after_guess'])
-        unranked = expected_uncertainties[0:count]
-        # see https://stackoverflow.com/questions/1551666/how-can-2-python-dictionaries-become-1/1551878#1551878
-        return list(map(lambda x, i: dict(x, **{"rank": i+1}), unranked, range(len(unranked))))
-            
+        uncs = expected_uncertainties[0:count]
+
+        # need to re-rank for ties
+        rank = 1
+        rank_including_ties = 0
+        previous_uncertainty = -1
+        for g in uncs:
+            rank_including_ties = rank_including_ties + 1
+            if previous_uncertainty < g['expected_uncertainty_after_guess']:
+                rank = rank_including_ties
+            g['rank'] = rank
+            previous_uncertainty = g['expected_uncertainty_after_guess']
+        return uncs
+
     def solve(self, targets, start_with=[]):
         guesses = []
         turn = 1
