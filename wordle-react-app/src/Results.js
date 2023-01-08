@@ -5,6 +5,7 @@ import './results.scss';
 
 export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime }) {
   const [ dbName, setDbName ] = useState("wordle.sqlite");
+  const [ finalElapsedTime, setFinalElapsedTime ] = useState(0);
 
   useState(() => {
     setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");
@@ -45,6 +46,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
       } catch (err) {
         console.log(err.message);
       } finally {
+        setFinalElapsedTime(elapsedTime);
         clearInterval(timer);
         setLoading(false);
       }
@@ -124,7 +126,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
       {error && <div className="error">{error}</div>}
       {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
       {!error && dataRows(output)}
-      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(elapsedTime / 1000).toFixed(0)} sec.</div></div>}
+      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(finalElapsedTime / 1000).toFixed(0)} sec.</div></div>}
     </>
   );
 }

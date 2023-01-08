@@ -8,6 +8,22 @@ class Wordle :
 
     # wordle api functions
 
+    def rate_solution(self, target, guesses):
+        ratings = []
+        turn = 1
+        for guess in guesses:
+            all_guesses_rated = self.rate_all_guesses()
+            score = self.score_guess(target, guess)
+            ratings.append({
+                'remaining_answers': all_guesses_rated.get('compatible', []),
+                'guesses_rated': all_guesses_rated.get('info_map', []),
+                'guess': guess,
+                'score': score,
+                'turn': turn})
+            self.guess_scores.append([guess, score])
+            turn = turn + 1
+        return ratings
+
     def rate_guess(self, guess) :
         if self.is_solved():
             return None
@@ -224,3 +240,4 @@ class Wordle :
 
     def random_answer(self):
         return self.query("select answer from answers order by random() limit 1")[0][0]
+

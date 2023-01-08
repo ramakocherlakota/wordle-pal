@@ -57,7 +57,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
     } else {
       setShowQueryButton(false);
     }
-  }, [targets, startWith, hardMode]);
+  }, [targets, startWith, hardMode, allGuesses]);
 
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));
@@ -102,7 +102,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
       </div>
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
-      <GoButton allGuesses={allGuesses} showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
+      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
       {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} /></>}
     </>
   )
