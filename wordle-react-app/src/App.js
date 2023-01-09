@@ -105,7 +105,8 @@ function App() {
                 <br/><br/>Click on the handy question marks for inline docs.</div> />
           <PopupDoc 
             label=<h5>How does it work?</h5>
-            doc=<div>Wordle Pal uses a branch of mathematics called information theory to do its work.  The basic idea is that the best guess at any point is the one that minimizes the expected uncertainty after you make your guess and get your score back.  For more information, check out the <a target="_blank" href="slides.pdf">slides from a presentation</a>.  If you have thoughts or questions, feel free to email me at <a href="mailto:rama.kocherlakota@gmail.com">rama.kocherlakota@gmail.com</a></div> />
+            doc=<div>Wordle Pal uses a branch of mathematics called information theory to do its work.  The basic idea is that the best guess at any point is the one that minimizes the expected uncertainty after you make your guess and get your score back.  For more information, check out the <a target="_blank" href="slides.pdf" rel="noreferrer">slides from a presentation</a> or else <a target="_blank" rel="noreferrer" href="https://github.com/ramakocherlakota/wordle-level-up-2022">the code</a>.<br/><br/>
+If you have thoughts or questions, feel free to email me at <a href="mailto:rama.kocherlakota@gmail.com">rama.kocherlakota@gmail.com</a></div> />
         </div>
       </div>
       <div className='row target-word'>

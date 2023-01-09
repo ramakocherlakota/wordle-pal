@@ -12,6 +12,38 @@ class Quordle:
             return None
 
     def guesses(self, count):
+        all_guesses = self.rate_all_guesses()
+        return all_guesses['uncertainties'][0:count]
+
+    def rate_guess(self, guess, targets, count):
+        scores = self.compute_scores(targets, guess)
+        all_guesses = self.rate_all_guesses()
+        top_guesses = all_guesses['uncertainties'][0:count]
+        compatible = all_guesses['compatible']
+        guess_records = list(all_guesses['uncertainties'].filter(lambda x: x['guess'] == guess))
+        if len(guess_records) == 1:
+            guess_record = guess_records[0]
+            rank = guess_record['rank']
+            guess_info = guess_record['uncertainty_before_guess'] - guess_record['expected_uncertainty_after_guess'] 
+            best_info = top_records[0]['uncertainty_before_guess'] - top_records[0]['expected_uncertainty_after_guess'] 
+            info_ratio = guess_info / best_info
+            compatibles_containing_guess = list(compatible.filter(lambda c: guess in c))
+            solves_a_wordle = len(list(compatibles_containing_guess.filter(lambda c: len(c) == 1))) > 0
+            return {
+                "rank" : rank,
+                "guess": guess,
+                "scores" : scores,
+                "info_ratio": info_ratio,
+                "is_compatible" : len(compatibles_containing_guess) > 0,
+                "solves_a_wordle" : solves_a_wordle,
+                "guess_record" : guess_record,
+                "top_records" : top_records,
+                "compatible" : compatible
+            }
+        else:
+            return None
+
+    def rate_all_guesses(self):
         found_guess = None
         still_unsolved = []
         remaining_answers_list = []
@@ -40,20 +72,22 @@ class Quordle:
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))
         expected_uncertainties.sort(key=lambda x: x['expected_uncertainty_after_guess'])
-        uncs = expected_uncertainties[0:count]
 
         # need to re-rank for ties
         rank = 1
         rank_including_ties = 0
         previous_uncertainty = -1
         previous_compatible = -1
-        for g in uncs:
+        for g in expected_uncertainties:
             rank_including_ties = rank_including_ties + 1
             if previous_uncertainty != g['expected_uncertainty_after_guess'] or previous_compatible != g['compatible'] :
                 rank = rank_including_ties
             g['rank'] = rank
             previous_uncertainty = g['expected_uncertainty_after_guess']
-        return uncs
+        return {
+            "uncertainties" : expected_uncertainties,
+            "remaining_answers": remaining_answers_list
+        }
 
     def solve(self, targets, start_with=[]):
         guesses = []
@@ -116,6 +150,9 @@ class Quordle:
             if n < len(scores):
                 guess_scores.append([guesses[n], scores[n]])
         return guess_scores
+
+    def compute_scores(self, targets, guess):
+        
 
     def is_solved(self):
         for w in self.wordles:

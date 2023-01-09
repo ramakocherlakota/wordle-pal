@@ -46,7 +46,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
       } catch (err) {
         console.log(err.message);
       } finally {
-        setFinalElapsedTime(elapsedTime);
+        setFinalElapsedTime(Date.now() - startingTime);
         clearInterval(timer);
         setLoading(false);
       }
