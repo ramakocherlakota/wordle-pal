@@ -45,8 +45,15 @@ def handler(event, context) :
                                   guesses = data.get("guesses", []),
                                   hard_mode = data.get('hard_mode', False))
     
+                targets = data.get("targets", [])
+                count = data.get("count", 1)
+                guesses = data.get("guesses", [])
+
+                if data['operation'] == 'qrate_guess':
+                    return ok(quordle.rate_guess(guesses, targets, guess, count);
+
                 if data['operation'] == "qguess":
-                    return ok(quordle.guesses(data.get("count", 1)))
+                    return ok(quordle.guesses(count)
     
                 if data['operation'] == "qremaining_answers":
                     return ok(quordle.remaining_answers())
