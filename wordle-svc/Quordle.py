@@ -15,30 +15,38 @@ class Quordle:
         all_guesses = self.rate_all_guesses()
         return all_guesses['uncertainties'][0:count]
 
-    def rate_guess(self, guess, targets, count):
-        scores = self.compute_scores(targets, guess)
+    def rate_guess(self, guesses, targets, guess, count):
+        score_lists = []
+        for t in targets:
+            scores = []
+            for g in guesses:
+                score = self.common_wordle.score_guess(t, g)
+                scores.append(score)
+            guess_scores = self.create_guess_scores(g, scores)
+            score_lists.append(scores)
+        self.set_scores_list(guesses, score_lists);
         all_guesses = self.rate_all_guesses()
         top_guesses = all_guesses['uncertainties'][0:count]
-        compatible = all_guesses['compatible']
-        guess_records = list(all_guesses['uncertainties'].filter(lambda x: x['guess'] == guess))
+        remaining_answer_lists = all_guesses['remaining_answers']
+        guess_records = list(filter(lambda x: x['guess'] == guess, all_guesses['uncertainties']))
         if len(guess_records) == 1:
             guess_record = guess_records[0]
             rank = guess_record['rank']
             guess_info = guess_record['uncertainty_before_guess'] - guess_record['expected_uncertainty_after_guess'] 
-            best_info = top_records[0]['uncertainty_before_guess'] - top_records[0]['expected_uncertainty_after_guess'] 
+            best_info = top_guesses[0]['uncertainty_before_guess'] - top_guesses[0]['expected_uncertainty_after_guess'] 
             info_ratio = guess_info / best_info
-            compatibles_containing_guess = list(compatible.filter(lambda c: guess in c))
-            solves_a_wordle = len(list(compatibles_containing_guess.filter(lambda c: len(c) == 1))) > 0
+            compatible_targets_iter = map(lambda c, t: (guess in c) and t,
+                                          remaining_answer_lists,
+                                          targets)
+            compatible_targets = list(filter(None, compatible_targets_iter))
             return {
-                "rank" : rank,
-                "guess": guess,
-                "scores" : scores,
+                "scores" : score_lists,
                 "info_ratio": info_ratio,
-                "is_compatible" : len(compatibles_containing_guess) > 0,
-                "solves_a_wordle" : solves_a_wordle,
                 "guess_record" : guess_record,
-                "top_records" : top_records,
-                "compatible" : compatible
+                "top_guesses" : top_guesses,
+                "solves_a_quordle" : guess in targets,
+                "is_compatible_with" : compatible_targets,
+                "remaining_answers": remaining_answer_lists
             }
         else:
             return None
@@ -59,7 +67,6 @@ class Quordle:
                 remaining_answers_list.append(remaining_answers)
         if len(still_unsolved) == 0:
             return {"error": "Already solved!"}
-            
         wordle_expected_uncertainties = []
         for n in range(len(still_unsolved)):
             wordle = self.wordles[still_unsolved[n]]
@@ -138,11 +145,13 @@ class Quordle:
         self.common_wordle = Wordle.Wordle(sqlite_folder=sqlite_folder, sqlite_dbname = sqlite_dbname, sqlite_bucket = sqlite_bucket)
         self.hard_mode = hard_mode
         self.debug = debug
+        self.set_scores_list(guesses, scores_list);
 
+    def set_scores_list(self, guesses, scores_list):
         self.wordles = []
         for scores in scores_list:
             guess_scores = self.create_guess_scores(guesses, scores)
-            self.wordles.append(Wordle.Wordle(guess_scores=guess_scores, hard_mode = False, debug = self.debug, sqlite_dbname=sqlite_dbname, sqlite_folder=sqlite_folder, sqlite_bucket=sqlite_bucket))
+            self.wordles.append(Wordle.Wordle(guess_scores=guess_scores, hard_mode = False, debug = self.debug, sqlite_dbname=self.sqlite_dbname, sqlite_folder=self.sqlite_folder, sqlite_bucket=self.sqlite_bucket))
 
     def create_guess_scores(self, guesses, scores):
         guess_scores = []
@@ -150,9 +159,6 @@ class Quordle:
             if n < len(scores):
                 guess_scores.append([guesses[n], scores[n]])
         return guess_scores
-
-    def compute_scores(self, targets, guess):
-        
 
     def is_solved(self):
         for w in self.wordles:

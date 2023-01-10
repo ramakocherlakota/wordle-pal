@@ -24,15 +24,6 @@ class Wordle :
             turn = turn + 1
         return ratings
 
-    def rate_guess(self, guess) :
-        if self.is_solved():
-            return None
-        remaining_answers = self.remaining_answers()
-        if len(remaining_answers) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-        return self.expected_uncertainty_for_guess(remaining_answers, guess)
-
-    
     def rate_all_guesses(self) :
         if self.is_solved():
             return None
@@ -230,13 +221,8 @@ class Wordle :
                 "rank": rank,
                 "uncertainty_before_guess" : math.log(answer_count, 2)
             }
-            if guess == for_guess:
-                return g
             uncertainty_by_guess.append(g)
         return uncertainty_by_guess
-
-    def expected_uncertainty_for_guess(self, remaining_answers, guess) :
-        return self.expected_uncertainty_by_guess(remaining_answers, for_guess = guess)
 
     def random_answer(self):
         return self.query("select answer from answers order by random() limit 1")[0][0]
