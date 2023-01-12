@@ -8,8 +8,8 @@ fi
     
 if [ ! -f ./$env.sh ]
 then
-   echo "Create $env.sh based on env-template.sh, filling in the necessary data"
-   exit 1
+    echo "Usage: ./build.sh <env>"
+    exit 1
 fi
 
 source $env.sh
