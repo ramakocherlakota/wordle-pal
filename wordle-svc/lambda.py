@@ -49,6 +49,9 @@ def handler(event, context) :
                 count = data.get("count", 1)
                 guesses = data.get("guesses", [])
 
+                if data['operation'] == 'qrate_solution':
+                    return ok(quordle.rate_solution(guesses, targets, count);
+
                 if data['operation'] == 'qrate_guess':
                     return ok(quordle.rate_guess(guesses, targets, guess, count);
 

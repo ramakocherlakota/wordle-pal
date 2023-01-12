@@ -15,6 +15,14 @@ class Quordle:
         all_guesses = self.rate_all_guesses()
         return all_guesses['uncertainties'][0:count]
 
+    def rate_solution(self, guesses, targets, count):
+        so_far = []
+        ratings = []
+        for guess in guesses:
+            ratings.append(self.rate_guess(so_far, targets, guess, count))
+            so_far.append(guess)
+        return ratings
+
     def rate_guess(self, guesses, targets, guess, count):
         score_lists = []
         for t in targets:
@@ -22,7 +30,6 @@ class Quordle:
             for g in guesses:
                 score = self.common_wordle.score_guess(t, g)
                 scores.append(score)
-            guess_scores = self.create_guess_scores(g, scores)
             score_lists.append(scores)
         self.set_scores_list(guesses, score_lists);
         all_guesses = self.rate_all_guesses()
@@ -34,7 +41,7 @@ class Quordle:
             rank = guess_record['rank']
             guess_info = guess_record['uncertainty_before_guess'] - guess_record['expected_uncertainty_after_guess'] 
             best_info = top_guesses[0]['uncertainty_before_guess'] - top_guesses[0]['expected_uncertainty_after_guess'] 
-            info_ratio = guess_info / best_info
+            info_ratio = guess_info / best_info if (best_info > 0 or guess_info > 0) else 1
             compatible_targets_iter = map(lambda c, t: (guess in c) and t,
                                           remaining_answer_lists,
                                           targets)
@@ -46,7 +53,7 @@ class Quordle:
                 "top_guesses" : top_guesses,
                 "solves_a_quordle" : guess in targets,
                 "is_compatible_with" : compatible_targets,
-                "remaining_answers": remaining_answer_lists
+                "remaining_answer_counts": list(map(len, remaining_answer_lists))
             }
         else:
             return None
