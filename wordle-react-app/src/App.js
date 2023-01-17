@@ -9,7 +9,19 @@ import NumberInput from './NumberInput';
 import { listWithAdjustedLength} from './Util';
 import './App.scss';
 
-function App() {
+export function RemainingEmoji() {
+  return String.fromCodePoint(0x1F319);  // crescent moon
+}
+
+export function GuessEmoji() {
+  return String.fromCodePoint(0x1F4A1);  // light bulb
+}
+
+export function SolveEmoji() {
+  return String.fromCodePoint(0x1F3C1);  // checkered flag
+}
+
+export default function App() {
   const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
   const [ dimensions, setDimensions ] = useState({targets: 1, guesses: 1});
   const [ guesses, setGuesses ] = useState([""]);
@@ -21,7 +33,7 @@ function App() {
       Click on the Go button to return a list of words (for each of the target words) compatible with what guesses and scores have been selected.
     </div> 
     >
-      Remaining
+      {RemainingEmoji()} Remaining
     </PopupDoc>;
 
   const bestGuessTitle = <PopupDoc doc=
@@ -29,7 +41,7 @@ function App() {
       Click on the Go button to return a list of the best next guesses for your Wordle / Quordle, ranked from the best down.
     </div> 
     >
-      Best Guesses
+      {GuessEmoji()} Best Guesses
     </PopupDoc>;
 
   const solveTitle = <PopupDoc doc=
@@ -37,7 +49,7 @@ function App() {
       Click on the Go button to have Wordle Pal solve the target word(s) you have set for it, starting from your favorite start words.
     </div> 
     >
-      Solve
+      {SolveEmoji()} Solve
     </PopupDoc>;
 
 
@@ -138,4 +150,3 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
   );
 }
 
-export default App;
