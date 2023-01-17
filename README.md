@@ -22,7 +22,7 @@ The `create-db.py` prints out a number after every 1000 records loaded.  It take
 
 ## The python code
 
-The python scripts are in the `wordle` directory.  The `Wordle.py` and `Quordle.py` files are modules used by the scripts.  The scripts are:
+The python scripts are in the `wordle-svc` directory.  The `Wordle.py` and `Quordle.py` files are modules used by the scripts.  The scripts are:
 
 1. `guess.py` : given a series of Wordle guesses and responses, recommends a next guess.
 2. `qguess.py` : given a series of Quordle guesses and responses, recommends a next guess.
