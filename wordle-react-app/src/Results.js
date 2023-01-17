@@ -3,16 +3,13 @@ import axios from 'axios';
 import PopupDoc from './PopupDoc';
 import './results.scss';
 
-export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime }) {
+export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime, output, setOutput, error, setError }) {
   const [ dbName, setDbName ] = useState("wordle.sqlite");
   const [ finalElapsedTime, setFinalElapsedTime ] = useState(0);
 
   useState(() => {
     setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");
   }, [allGuesses]);
-
-  const [ output, setOutput ] = useState([]);
-  const [ error, setError ] = useState("");
 
   const url = process.env.REACT_APP_API_URI;
   

@@ -50,13 +50,13 @@ def handler(event, context) :
                 guesses = data.get("guesses", [])
 
                 if data['operation'] == 'qrate_solution':
-                    return ok(quordle.rate_solution(guesses, targets, count);
+                    return ok(quordle.rate_solution(guesses, targets, count));
 
                 if data['operation'] == 'qrate_guess':
-                    return ok(quordle.rate_guess(guesses, targets, guess, count);
+                    return ok(quordle.rate_guess(guesses, targets, guess, count));
 
                 if data['operation'] == "qguess":
-                    return ok(quordle.guesses(count)
+                    return ok(quordle.guesses(count))
     
                 if data['operation'] == "qremaining_answers":
                     return ok(quordle.remaining_answers())

@@ -9,6 +9,8 @@ import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util'
 import './solve.scss';
 
 export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode, targetCount}) {
+  const [ output, setOutput ] = useState([]);
+  const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
@@ -103,7 +105,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} /></>}
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} /></>}
     </>
   )
 }
