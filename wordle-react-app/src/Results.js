@@ -52,7 +52,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
     if (request) {
       callService();
     }
-  }, [request, url, setElapsedTime, setLoading, dbName]);
+  }, [request, url, setElapsedTime, setLoading, setOutput, setError, dbName]);
 
   const headerRow = (headers && headers.map((x) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];
@@ -113,6 +113,8 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
   function dataRows(rows) {
     if (request.operation === "qremaining_answers") {
       return formatRemaining(rows);
+    } else if (request.operation === "qrate_solutions") {
+      return <></>;  // <FormatRateSolutions rows={rows} />
     } else {
       return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
     }
