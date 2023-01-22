@@ -25,6 +25,10 @@ export function deleteAt(lst, at) {
   });
 }
 
+export function addAt(lst, at, add) {
+  return lst.slice(0, at).concat(add).concat(lst.slice(at));
+}
+
 export function replaceInList(lst, val, at) {
   return lst.map((it, idx) => {
     if (idx === at) {

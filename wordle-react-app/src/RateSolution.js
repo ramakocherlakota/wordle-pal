@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { ReactComponent as TrashIcon } from './trash.svg';
+import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import Results from './Results';
 import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import GuessSelect from './GuessSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
-import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
+import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 
-export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHardMode, targetCount) {
+export default function RateSolution({ allGuesses, setAllGuesses, 
+                                       hardMode, setHardMode, targetCount }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
@@ -22,7 +25,7 @@ export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHar
   const [ headerDocs, setHeaderDocs ] = useState({});
 
   useEffect(() => {
-    const newHeaders = ["guess", ...targets.map(t, i => `target_${i}`), "outcome", "best_guess", "guess_rank", "info", "buttons"]
+    const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "outcome", "best_guess", "guess_rank", "info", "buttons"]
     setHeaders(newHeaders);
 
     let newHeaderLabels = {"guess" : "Guess",
@@ -44,7 +47,7 @@ export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHar
       "buttons" : <div>Click on an icon to navigate to the corresponding tab, prepopulated with these guesses and targets</div>
     }
     for (let i=0; i<targets.length; i++) {
-      newHeaderDocs[`target_${i}`] = <div>Score of the guess for this target word, plus the number of remaining possible answers.</div>
+      newHeaderDocs[`target_${i}`] = <div>Score of the guess for this target word, together with the number of remaining possible answers consistent with what is known so far about this target..</div>
     }                           
     setHeaderDocs(newHeaderDocs);
   }, [targets]);
@@ -84,7 +87,7 @@ export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHar
     } else {
       setShowQueryButton(false);
     }
-  }, [targets, hardMode, allGuesses]);
+  }, [guesses, targets, hardMode, allGuesses]);
 
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));
@@ -97,16 +100,18 @@ export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHar
   }
 
   function targetSelects() {
-    return targets.map((target, idx) => {
+    const filling = targets.map((target, idx) => {
       return (
         <div className='row' key={idx} >
-          <div className='col target' >
-            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target word..." /> 
-          </div>
-          <div className='col' />
+            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." /> 
         </div>
       );
     });
+    return (
+      <div className='col target'>
+        {filling}
+      </div>
+    );
   }
 
   function setGuess(i, newval) {
@@ -119,16 +124,44 @@ export default function RateSolution(allGuesses, setAllGuesses, hardMode, setHar
     }
   }
 
+  function deleteGuess(index) {
+    return function() {
+      setGuesses((gs) => deleteAt(gs, index));
+    }
+  }
+
+  function addGuess(index) {
+    return function() {
+      setGuesses((gs) => addAt(gs, index, ""));
+    }
+  }
+
   function guessSelects() {
-    return guesses.map((guess, idx) => {
+    const filling = guesses.map((guess, idx) => {
       return (
         <div className='row' key={idx} >
-          <div className='col guess' >
-            <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)} value={guess} placeholder="Guess word..." /> 
+          <div className='col'>
+            <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)}
+                         value={guess} placeholder="Guess..." /> 
           </div>
-          <div className='col' />
+          <div className='col'>
+            <a href="/#" className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
+          </div>
         </div>
       );
     });
+    return (
+      <>
+        <div className='col guess'>
+          {filling}
+          <div className='row' key='-1'>
+            <div className='col'>
+              <a href="/#" className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
+            </div>
+          </div>
+        </div>
+      </>
+    );
   }
 }

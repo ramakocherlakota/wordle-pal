@@ -4,6 +4,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Guess from './Guess';
 import Remainder from './Remainder';
 import Solve from './Solve';
+import RateSolution from './RateSolution';
 import PopupDoc from './PopupDoc';
 import NumberInput from './NumberInput';
 import { listWithAdjustedLength} from './Util';
@@ -11,6 +12,10 @@ import './App.scss';
 
 export function RemainingEmoji() {
   return String.fromCodePoint(0x1F319);  // crescent moon
+}
+
+export function ScoreEmoji() {
+  return String.fromCodePoint(0x1F4AF);  // 100
 }
 
 export function GuessEmoji() {
@@ -27,6 +32,14 @@ export default function App() {
   const [ guesses, setGuesses ] = useState([""]);
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
+
+  const rateSolutionTitle = <PopupDoc doc=
+      <div>
+        Select the target words and the guesses you made and click Go to get a rating of how well you guessed at each step of the game.
+      </div>
+    >
+      {ScoreEmoji()} Rate Me!
+    </PopupDoc>;
 
   const remainingTitle = <PopupDoc doc=
     <div>
@@ -136,6 +149,9 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
         </div>
       </div>
       <Tabs className="mb-3" justify>
+        <Tab eventKey="rate_solution" title={rateSolutionTitle} >
+          <RateSolution allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+        </Tab>
         <Tab eventKey="remainder" title={remainingTitle} >
           <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
