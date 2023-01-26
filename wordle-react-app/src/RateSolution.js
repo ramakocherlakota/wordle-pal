@@ -8,6 +8,7 @@ import GuessSelect from './GuessSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
 import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
+import './rate-solution.scss';
 
 export default function RateSolution({ allGuesses, setAllGuesses, 
                                        hardMode, setHardMode, targetCount }) {
@@ -103,7 +104,9 @@ export default function RateSolution({ allGuesses, setAllGuesses,
     const filling = targets.map((target, idx) => {
       return (
         <div className='row' key={idx} >
-            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." /> 
+          <div className='col'>
+            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
+          </div>
         </div>
       );
     });
@@ -164,4 +167,31 @@ export default function RateSolution({ allGuesses, setAllGuesses,
       </>
     );
   }
+
+  return (
+    <>
+      <div className="row" >
+        <div className="col targets">
+          Target Word{targetCount > 1 ? "s" : ""}
+        </div>
+        <div className="col">
+          {targetSelects()}
+        </div>
+      </div>
+      <div className="row" >
+        <div className="col guesses">
+          Guesses
+        </div>
+        <div className="col">
+          {guessSelects()}
+        </div>
+      </div>
+      <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
+      <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
+      <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} /></>}
+    </>
+  );
+
 }
+

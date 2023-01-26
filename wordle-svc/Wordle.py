@@ -8,6 +8,32 @@ class Wordle :
 
     # wordle api functions
 
+    def rate_guess(self, target, guess) :
+        score = self.score_guess(target, guess)
+        remaining_answers_prior = self.remaining_answers()
+        if len(remaining_answers_prior) == 0:
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+        uncertainty_prior = math.log(len(remaining_answers_prior), 2)
+        exp_uncertainty_post = self.expected_uncertainty_by_guess(remaining_answers_prior, guess)[0]["expected_uncertainty_after_guess"]
+        post = self.extend(guess, score)
+        remaining_answers_post = post.remaining_answers()
+        if len(remaining_answers_post) == 0:
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+        uncertainty_post = math.log(len(remaining_answers_post), 2)
+        solved = post.is_solved()
+        luck =  exp_uncertainty_post - uncertainty_post
+        return {
+            "target": target,
+            "guess": guess,
+            "score": score,
+            "remaining_answers_prior": len(remaining_answers_prior),
+            "uncertainty_prior": uncertainty_prior,
+            "remaining_answers_post": len(remaining_answers_post),
+            "uncertainty_post": uncertainty_post,
+            "exp_uncertainty_post": exp_uncertainty_post,
+            "luck": luck
+        }
+
     def rate_all_guesses(self) :
         if self.is_solved():
             return None
@@ -99,6 +125,12 @@ class Wordle :
         return guesses            
 
 
+    def extend(self, guess, score):
+        new_guess_scores = self.guess_scores.copy()
+        new_guess_scores.extend([[guess, score]])
+        return Wordle(new_guess_scores, self.hard_mode, self.debug, self.sqlite_bucket,
+                      self.sqlite_folder, self.sqlite_dbname)
+
     def __init__(self, guess_scores=[], hard_mode=False, debug=False,
                  sqlite_bucket=None,
                  sqlite_folder=None,
@@ -148,7 +180,7 @@ class Wordle :
     def score_guess(self, target, guess):
         rows = self.query(f"select score from scores where guess = '{guess}' and answer = '{target}'", "score_guess")
         for row in rows:
-            return row[0]
+            return row[0].lower()
         raise Exception(f"Inconsistent data in score_guess (guess={guess} answer={target})")
 
     def is_solved(self):
@@ -180,6 +212,8 @@ class Wordle :
         answer_count = len(remaining_answers)
         answers_clause = ",".join(list(map(lambda x : f"'{x}'", remaining_answers)))
         guess_clause = ""
+        if for_guess:
+            guess_clause = f"AND guess='{for_guess}'"
         subsql = f"select guess, score, count(*) as c from scores where answer in ({answers_clause}) {guess_clause} group by 1, 2"
         hard_mode_clause = ""
         if self.hard_mode:
