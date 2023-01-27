@@ -15,13 +15,21 @@ class Quordle:
         all_guesses = self.rate_all_guesses()
         return all_guesses['uncertainties'][0:count]
 
-    def rate_solution(self, guesses, targets, count):
+    def rate_solution(self, targets, guesses, count=1):
+        target_ratings = {}
+        for target in targets:
+            wordle = Wordle.Wordle(guess_scores=[], hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)
+            target_ratings[target] = wordle.rate_solution(target, guesses)
+
+        global_ratings = []
         so_far = []
-        ratings = []
         for guess in guesses:
-            ratings.append(self.rate_guess(so_far, targets, guess, count))
+            global_ratings.append(self.rate_guess(so_far, targets, guess, count))
             so_far.append(guess)
-        return ratings
+        return {
+            "target_ratings": target_ratings,
+            "global_ratings" : global_ratings
+        }
 
     def rate_guess(self, guesses, targets, guess, count):
         score_lists = []
@@ -47,15 +55,15 @@ class Quordle:
                                           targets)
             compatible_targets = list(filter(None, compatible_targets_iter))
             return {
-                "scores" : score_lists,
                 "info_ratio": info_ratio,
                 "guess_record" : guess_record,
                 "top_guesses" : top_guesses,
                 "solves_a_quordle" : guess in targets,
-                "is_compatible_with" : compatible_targets,
-                "remaining_answer_counts": list(map(len, remaining_answer_lists))
+                "is_compatible_with" : compatible_targets
             }
         else:
+            print(f"guess {guess} not found in rate_all_guesses", file=sys.stderr)
+            print(f"all_guesses={all_guesses}", file=sys.stderr)
             return None
 
     def rate_all_guesses(self):
@@ -78,7 +86,7 @@ class Quordle:
         for n in range(len(still_unsolved)):
             wordle = self.wordles[still_unsolved[n]]
             remaining_answers = remaining_answers_list[n]
-            exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers, found_guess)
+            exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers)
             if not type(exp_unc_by_guess) is list:
                 exp_unc_by_guess = [exp_unc_by_guess]
             wordle_expected_uncertainties.append(self.list_to_dict_keyed_on(exp_unc_by_guess, 'guess'))

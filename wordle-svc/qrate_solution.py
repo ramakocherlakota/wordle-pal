@@ -17,8 +17,6 @@ for arg in sys.argv[1:]:
             debug = True
         elif arg.startswith("--dbname"):
             dbname = arg.split("=")[1]
-        elif arg.startswith("--count"):
-            count = int(arg.split("=")[1])
         elif arg.startswith("--dbfolder"):
             dbfolder = arg.split("=")[1]
         elif arg.startswith("--guess"):
@@ -32,4 +30,4 @@ for arg in sys.argv[1:]:
 
 quordle = Quordle.Quordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, guesses=guesses, scores_list=[], hard_mode=hard_mode, debug=debug)
 
-print(json.dumps(quordle.rate_solution(guesses, targets, count)))
+print(json.dumps(quordle.rate_solution(targets, guesses)))

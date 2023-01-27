@@ -8,6 +8,16 @@ class Wordle :
 
     # wordle api functions
 
+    def rate_solution(self, target, guesses) :
+        ratings = []
+        current = self
+        for guess in guesses:
+            if not current.is_solved():
+                ratings.append(current.rate_guess(target, guess))
+                score = self.score_guess(target, guess)
+                current = current.extend(guess, score)
+        return ratings
+
     def rate_guess(self, target, guess) :
         score = self.score_guess(target, guess)
         remaining_answers_prior = self.remaining_answers()
@@ -23,7 +33,6 @@ class Wordle :
         solved = post.is_solved()
         luck =  exp_uncertainty_post - uncertainty_post
         return {
-            "target": target,
             "guess": guess,
             "score": score,
             "remaining_answers_prior": len(remaining_answers_prior),
