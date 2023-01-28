@@ -1,6 +1,6 @@
 import Wordle
 from functools import reduce
-import sys, json
+import sys, json, math
 
 class Quordle:
 
@@ -20,16 +20,17 @@ class Quordle:
         for target in targets:
             wordle = Wordle.Wordle(guess_scores=[], hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)
             target_ratings[target] = wordle.rate_solution(target, guesses)
+        return target_ratings;
 
-        global_ratings = []
-        so_far = []
-        for guess in guesses:
-            global_ratings.append(self.rate_guess(so_far, targets, guess, count))
-            so_far.append(guess)
-        return {
-            "target_ratings": target_ratings,
-            "global_ratings" : global_ratings
-        }
+#         global_ratings = []
+#         so_far = []
+#         for guess in guesses:
+#             global_ratings.append(self.rate_guess(so_far, targets, guess, count))
+#             so_far.append(guess)
+#         return {
+#             "target_ratings": target_ratings,
+#             "global_ratings" : global_ratings
+#         }
 
     def rate_guess(self, guesses, targets, guess, count):
         score_lists = []
@@ -43,6 +44,8 @@ class Quordle:
         all_guesses = self.rate_all_guesses()
         top_guesses = all_guesses['uncertainties'][0:count]
         remaining_answer_lists = all_guesses['remaining_answers']
+        uncertainty_after_guess = sum(map(lambda x: math.log(len(x), 2),
+                                          remaining_answer_lists))
         guess_records = list(filter(lambda x: x['guess'] == guess, all_guesses['uncertainties']))
         if len(guess_records) == 1:
             guess_record = guess_records[0]
@@ -55,6 +58,7 @@ class Quordle:
                                           targets)
             compatible_targets = list(filter(None, compatible_targets_iter))
             return {
+                "uncertainty_after_guess" : uncertainty_after_guess,
                 "info_ratio": info_ratio,
                 "guess_record" : guess_record,
                 "top_guesses" : top_guesses,
@@ -62,8 +66,6 @@ class Quordle:
                 "is_compatible_with" : compatible_targets
             }
         else:
-            print(f"guess {guess} not found in rate_all_guesses", file=sys.stderr)
-            print(f"all_guesses={all_guesses}", file=sys.stderr)
             return None
 
     def rate_all_guesses(self):
