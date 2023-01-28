@@ -15,24 +15,33 @@ class Quordle:
         all_guesses = self.rate_all_guesses()
         return all_guesses['uncertainties'][0:count]
 
-    def rate_solution(self, targets, guesses, count=1):
+    def rate_solution(self, targets, guesses):
         target_ratings = {}
         for target in targets:
             wordle = Wordle.Wordle(guess_scores=[], hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)
             target_ratings[target] = wordle.rate_solution(target, guesses)
-        return target_ratings;
 
-#         global_ratings = []
-#         so_far = []
-#         for guess in guesses:
-#             global_ratings.append(self.rate_guess(so_far, targets, guess, count))
-#             so_far.append(guess)
-#         return {
-#             "target_ratings": target_ratings,
-#             "global_ratings" : global_ratings
-#         }
+        totals = []
+        for target in targets:
+            target_rating_list = target_ratings[target]
+            for n in range(len(target_rating_list)):
+                rating = target_rating_list[n]
+                if n >= len(totals):
+                    totals.append({"uncertainty_prior" : 0,
+                                   "uncertainty_post" : 0,
+                                   "exp_uncertainty_post" : 0,
+                                   "luck" : 0});
+                totals[n]["uncertainty_prior"] += rating.get("uncertainty_prior", 0)
+                totals[n]["uncertainty_post"] += rating.get("uncertainty_post", 0)
+                totals[n]["exp_uncertainty_post"] += rating.get("exp_uncertainty_post", 0)
+                totals[n]["luck"] += rating.get("luck", 0)
 
-    def rate_guess(self, guesses, targets, guess, count):
+        return {
+            "by_target": target_ratings,
+            "totals" : totals
+        }
+
+    def rate_guess(self, guesses, targets, guess):
         score_lists = []
         for t in targets:
             scores = []
