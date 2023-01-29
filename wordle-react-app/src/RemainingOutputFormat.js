@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function RemainingOutputFormat(data) {
-  const { output, headers, headerLabels, headerDocs } = data;
+  const { output } = data;
 
   function dataRows(rows) {
     return (

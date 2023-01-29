@@ -24,6 +24,7 @@ export default function RateSolution({ allGuesses, setAllGuesses,
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
   const [ headerDocs, setHeaderDocs ] = useState({});
+  const formatRemainingOutput = (data) => <div/>;
 
   useEffect(() => {
     const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "outcome", "best_guess", "guess_rank", "info", "buttons"]
@@ -189,7 +190,7 @@ export default function RateSolution({ allGuesses, setAllGuesses,
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} /></>}
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} outputHandler={formatRemainingOutput} /></>}
     </>
   );
 
