@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import PopupDoc from './PopupDoc';
+import DefaultOutputFormat from './DefaultOutputFormat';
 import './results.scss';
 
-export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime, output, setOutput, error, setError }) {
+export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime, output, setOutput, error, setError, outputHandler }) {
   const [ dbName, setDbName ] = useState("wordle.sqlite");
   const [ finalElapsedTime, setFinalElapsedTime ] = useState(0);
+
+  const handleOutput = outputHandler
+        ? outputHandler
+        : (data) => <DefaultOutputFormat {...data} />;
 
   useState(() => {
     setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");
@@ -54,78 +58,11 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
     }
   }, [request, url, setElapsedTime, setLoading, setOutput, setError, dbName]);
 
-  const headerRow = (headers && headers.map((x) => {
-    const doc = headerDocs && (x in headerDocs) && headerDocs[x];
-    const label = doc ? <PopupDoc doc={doc}>{headerLabels[x]}</PopupDoc> : headerLabels[x];
-    return (
-      <div className='cell col'>{label}</div>
-    );
-  }));
-
-  function formatEntry(x, header) {
-    if (typeof x === 'number') {
-      if (header === 'compatible') {
-        return x > 0 ? "true" : "false";
-      } else if (header === 'rank' || header === 'turn') {
-        return x;
-      } else {
-        return x.toFixed(4);
-      }
-    } else {
-      return x;
-    }
-  }
-
-  function dataRow(row) {
-    return headers.map((x) => <div className='col cell'>{formatEntry(row[x], x)}</div>)
-  }
-
-  function wordList(list) {
-    if (list.length > 0) {
-      return (
-        list.map((it) => {
-          return (
-            <>
-              {it}<br/>
-            </>
-          );
-        })
-      ); 
-    } else {
-      return <em>No matches</em>
-    }
-  }
-
-  function formatRemaining(rows) {
-    return (
-      <div className='row'>
-        <div key="guesses" className="col"/>
-        {rows.map((lst, idx) => {
-          return (
-            <div key={idx} className="col" align="left">{wordList(lst)}</div>
-          );
-        })}
-        <div key="buttons" className="col"/>
-      </div>
-    );
-  }
-
-  function dataRows(rows) {
-    if (request.operation === "qremaining_answers") {
-      return formatRemaining(rows);
-    } else if (request.operation === "qrate_solutions") {
-      return <></>;  // <FormatRateSolutions rows={rows} />
-    } else {
-      return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
-    }
-  }
-
   return (
     <>
       {error && <div className="error">{error}</div>}
-      {!error && headerRow && <div className='row header' key={-1}>{headerRow}</div>}
-      {!error && dataRows(output)}
-      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(finalElapsedTime / 1000).toFixed(0)} sec.</div></div>}
+      {!error && output && handleOutput({output, headers, headerLabels, headerDocs}) }
+      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(finalElapsedTime / 1000).toFixed(2)} sec.</div></div>}
     </>
   );
 }
