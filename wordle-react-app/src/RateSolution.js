@@ -9,6 +9,7 @@ import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
 import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 import './rate-solution.scss';
+import FormatRateSolution from './FormatRateSolution';
 
 export default function RateSolution({ allGuesses, setAllGuesses, 
                                        hardMode, setHardMode, targetCount }) {
@@ -24,7 +25,7 @@ export default function RateSolution({ allGuesses, setAllGuesses,
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
   const [ headerDocs, setHeaderDocs ] = useState({});
-  const formatRemainingOutput = (data) => <div/>;
+  const formatRemainingOutput = (data) => <FormatRateSolution {...data} />;
 
   useEffect(() => {
     const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "outcome", "best_guess", "guess_rank", "info", "buttons"]
