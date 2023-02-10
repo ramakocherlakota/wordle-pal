@@ -31,7 +31,10 @@ class Wordle :
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         uncertainty_post = math.log(len(remaining_answers_post), 2)
         solved = post.is_solved()
-        luck =  exp_uncertainty_post - uncertainty_post
+        if uncertainty_prior > 0:
+            luck = (exp_uncertainty_post - uncertainty_post) / uncertainty_prior
+        else:
+            luck = 0
         return {
             "guess": guess,
             "score": score,
