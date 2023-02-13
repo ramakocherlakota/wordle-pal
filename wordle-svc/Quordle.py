@@ -4,6 +4,18 @@ import sys, json, math
 
 class Quordle:
 
+    def scores(self, targets, guesses):
+        score_lists = []
+        for t in targets:
+            scores = []
+            for g in guesses:
+                score = self.common_wordle.score_guess(t, g)
+                scores.append(score)
+                if self.common_wordle.solved(score):
+                    break
+            score_lists.append(scores)
+        return score_lists
+            
     def guess(self):
         guesses = self.guesses(1);
         if guesses and len(guesses) > 0:
@@ -14,6 +26,7 @@ class Quordle:
     def guesses(self, count):
         all_guesses = self.rate_all_guesses()
         return all_guesses['uncertainties'][0:count]
+        
 
     def rate_solution(self, targets, guesses):
         target_ratings = {}
@@ -34,11 +47,8 @@ class Quordle:
                 totals[n]["uncertainty_post"] += rating.get("uncertainty_post", 0)
                 totals[n]["exp_uncertainty_post"] += rating.get("exp_uncertainty_post", 0)
         for n in range(len(totals)):
+            totals[n]['luck'] = totals[n]["exp_uncertainty_post"] - totals[n]["uncertainty_post"]
             totals[n]['guess'] = guesses[n]
-            if totals[n]["uncertainty_prior"] > 0:
-                totals[n]["luck"] = (totals[n]["exp_uncertainty_post"] - totals[n]["uncertainty_post"]) / totals[n]["uncertainty_prior"]
-            else :
-                totals[n]["luck"] = 0
 
         return {
             "by_target": target_ratings,

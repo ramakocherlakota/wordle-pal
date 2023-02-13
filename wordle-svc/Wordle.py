@@ -8,6 +8,17 @@ class Wordle :
 
     # wordle api functions
 
+    def scores(self, target, guesses):
+        scores = []
+        current = self
+        for guess in guesses:
+            if not current.is_solved():
+                score = self.score_guess(target, guess)
+                scores.append([guess, score])
+                current = current.extend(guess, score)
+        return scores        
+
+
     def rate_solution(self, target, guesses) :
         ratings = []
         current = self
@@ -31,10 +42,7 @@ class Wordle :
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         uncertainty_post = math.log(len(remaining_answers_post), 2)
         solved = post.is_solved()
-        if uncertainty_prior > 0:
-            luck = (exp_uncertainty_post - uncertainty_post) / uncertainty_prior
-        else:
-            luck = 0
+        luck = uncertainty_post if self.is_solved() else exp_uncertainty_post - uncertainty_post
         return {
             "guess": guess,
             "score": score,
@@ -42,8 +50,8 @@ class Wordle :
             "uncertainty_prior": uncertainty_prior,
             "remaining_answers_post": len(remaining_answers_post),
             "uncertainty_post": uncertainty_post,
-            "exp_uncertainty_post": exp_uncertainty_post,
-            "luck": luck
+            "luck" : luck,
+            "exp_uncertainty_post": exp_uncertainty_post
         }
 
     def rate_all_guesses(self) :
@@ -197,9 +205,12 @@ class Wordle :
 
     def is_solved(self):
         for [guess, score] in self.guess_scores:
-            if re.match("^B+$", score.upper()):
+            if self.solved(score):
                 return True
         return False
+
+    def solved(self, score):
+        return re.match("^B+$", score.upper())
 
     def remaining_answers(self):
         remaining_answers = []
