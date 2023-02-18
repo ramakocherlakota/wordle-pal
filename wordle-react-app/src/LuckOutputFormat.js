@@ -1,7 +1,9 @@
 import React from 'react';
+import { luckEmoji } from './App';
 import PopupDoc from './PopupDoc';
+import './luck-output-format.scss';
 
-export default function LuckOutputFormat(data) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs}) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {
@@ -31,7 +33,6 @@ export default function LuckOutputFormat(data) {
   }
 
   function table_row(guess, targets, by_target) {
-    //    const row_data = Object.values(by_target).map(records => records.filter(record => record.guess === guess));
     const row_data = targets.map(target => {
       const rows_for_target = by_target[target];
       const rows_for_target_with_guess = rows_for_target.filter(record => record.guess === guess);
@@ -41,51 +42,30 @@ export default function LuckOutputFormat(data) {
         return null;
       }
     })
-    const filling = row_data.map(cell => {
-      const anchors = "anchors!";
+    const scoreCells = row_data.map(cell => {
       return 'score' in cell
-        ? <>
-            <div className='col'>
-              <strong>{cell.guess}</strong>
-            </div>
-            <div className='col'></div>
-            <PopupDoc doc={formatCell(cell)} 
-              label={cell.score}
-            />
-            <div className='col'>
-              {anchors}
-            </div>
-          </>
-        : <div />;
+        ? <td className='score-cell'>{cell.score.toUpperCase()}<br/>{luckEmoji()} {cell.luck.toFixed(2)}</td> : <td/>
     });
 
     return (
-      <div className='row' key={guess} >
-        {filling}
-      </div>
+      <tr>
+        <td>{guess}</td>
+        {scoreCells}
+        <td>anchors go here</td>
+      </tr>
     );
   }
 
-  function getHeaderRow(targets) {
+  if (output && typeof output === 'object' && 'by_target' in output ) {
+    const targets = Object.keys(output.by_target);
+    const guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
+    const header_row = headers.map(x => <th>{headerLabels[x]}</th>)
+    const rows = guesses.map(guess => table_row(guess, targets, output.by_target));
     return (
-      <div className='row'>
-        <div className='col'/>
-        {targets.map(target => <div className='col'><strong>{target}</strong></div>)}
-        <div className='col'>Buttons</div>
-      </div>
-    );
-  }
-
-  if (data.output && typeof data.output === 'object' && 'by_target' in data.output ) {
-    const targets = Object.keys(data.output.by_target);
-    const guesses = union_lists(Object.values(data.output.by_target).map(records => records.map(record=>record.guess)))
-    const header_row = getHeaderRow(targets);
-    const rows = guesses.map(guess => table_row(guess, targets, data.output.by_target));
-    return (
-      <>
-        {header_row}
+      <table className='luck-table'>
+        <tr>{header_row}</tr>
         {rows}
-      </>
+      </table>
     );
   }
 }

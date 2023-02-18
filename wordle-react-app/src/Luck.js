@@ -28,31 +28,15 @@ export default function Luck({ allGuesses, setAllGuesses,
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} />;
 
   useEffect(() => {
-    const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "outcome", "best_guess", "guess_rank", "info", "buttons"]
+    const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "total"]
     setHeaders(newHeaders);
 
-    let newHeaderLabels = {"guess" : "Guess",
-                           "outcome" : "Solved?",
-                           "best_guess" : "Best Guess",
-                           "guess_rank" : "Guess Rank",
-                           "info" : "Guess Quality",
-                           "buttons" : "Actions"}
-    for (let i=0; i<targets.length; i++) {
-      const target = targets[i]
-      newHeaderLabels[`target_${i}`] = target;
-    }                           
-    setHeaderLabels(newHeaderLabels);
-
-    let newHeaderDocs = {
-      "best_guess" : <div>What Wordle Pal would guess in this situation</div>,
-      "info" : <div>Value of this guess, on a scale of 0 - 100, based on the expected amount of information it would get back</div>,
-      "guess_rank" : <div>Rank of the guess in the list, rated by Guess Quality</div>,
-      "buttons" : <div>Click on an icon to navigate to the corresponding tab, prepopulated with these guesses and targets</div>
-    }
-    for (let i=0; i<targets.length; i++) {
-      newHeaderDocs[`target_${i}`] = <div>Score of the guess for this target word, together with the number of remaining possible answers consistent with what is known so far about this target..</div>
-    }                           
-    setHeaderDocs(newHeaderDocs);
+    const targetLabels = targets.reduce((a, v, i) => ({ ...a, [`target_${i}`]: v}), {})
+    const headerLabels = {"guess" : "Guess",
+                          "total" : "Total",
+                          ...targetLabels};
+                           
+    setHeaderLabels(headerLabels);
   }, [targets]);
 
   useEffect(() => {
