@@ -1,5 +1,5 @@
 import React from 'react';
-import { luckEmoji } from './App';
+import { LuckEmoji } from './App';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 
@@ -44,7 +44,12 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     })
     const scoreCells = row_data.map(cell => {
       return 'score' in cell
-        ? <td className='score-cell'>{cell.score.toUpperCase()}<br/>{luckEmoji()} {cell.luck.toFixed(2)}</td> : <td/>
+        ? <td className='score-cell'>
+            <PopupDoc label=<div>{LuckEmoji()} {cell.luck.toFixed(2)}</div> doc={formatCell(cell)} >
+              <div>{cell.score.toUpperCase()}</div>
+            </PopupDoc>
+          </td>
+        : <td/>
     });
 
     return (

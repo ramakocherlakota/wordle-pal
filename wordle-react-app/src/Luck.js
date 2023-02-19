@@ -24,7 +24,6 @@ export default function Luck({ allGuesses, setAllGuesses,
   const [ request, setRequest ] = useState(undefined);
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
-  const [ headerDocs, setHeaderDocs ] = useState({});
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} />;
 
   useEffect(() => {
@@ -175,7 +174,7 @@ export default function Luck({ allGuesses, setAllGuesses,
       <HardModeRow hardMode={hardMode} setHardMode={setHardMode}  />
       <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} outputHandler={luckOutputFormat} /></>}
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} outputHandler={luckOutputFormat} /></>}
     </>
   );
 

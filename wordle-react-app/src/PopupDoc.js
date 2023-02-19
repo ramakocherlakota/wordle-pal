@@ -10,7 +10,7 @@ export default function PopupDoc({doc, children, label}) {
   function showDoc() {
     return <Popup
              trigger={open => (
-               <a className='anchor-label' href="/#">{anchorLabel}</a>
+               <a className='anchor-label' >{anchorLabel}</a>
              )}
              modal
            >

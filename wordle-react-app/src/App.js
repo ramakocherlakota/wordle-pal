@@ -14,7 +14,7 @@ export function RemainingEmoji() {
   return String.fromCodePoint(0x1F319);  // crescent moon
 }
 
-export function luckEmoji() {
+export function LuckEmoji() {
   return String.fromCodePoint(0x1F340);  // clover
 }
 
@@ -38,7 +38,7 @@ export default function App() {
         Select the target words and the guesses you made and click Go to get a rating of where you were lucky or unlucky in your guessing.
       </div>
     >
-      {luckEmoji()} Feel Lucky?
+      {LuckEmoji()} Luck
     </PopupDoc>;
 
   const remainingTitle = <PopupDoc doc=
@@ -54,7 +54,7 @@ export default function App() {
       Click on the Go button to return a list of the best next guesses for your Wordle / Quordle, ranked from the best down.
     </div> 
     >
-      {GuessEmoji()} Best Guesses
+      {GuessEmoji()} Guesses
     </PopupDoc>;
 
   const solveTitle = <PopupDoc doc=
