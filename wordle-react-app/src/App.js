@@ -7,7 +7,7 @@ import Solve from './Solve';
 import Luck from './Luck';
 import PopupDoc from './PopupDoc';
 import NumberInput from './NumberInput';
-import { listWithAdjustedLength} from './Util';
+import { listWithAdjustedLength, listOfEmptyStrings } from './Util';
 import './App.scss';
 
 export function RemainingEmoji() {
@@ -32,6 +32,7 @@ export default function App() {
   const [ guesses, setGuesses ] = useState([""]);
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
+  const [ targets, setTargets ] = useState(listOfEmptyStrings(1));
 
   const luckTitle = <PopupDoc doc=
       <div>
@@ -150,7 +151,7 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
       </div>
       <Tabs className="mb-3" justify>
         <Tab eventKey="luck" title={luckTitle} >
-          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} />
         </Tab>
         <Tab eventKey="remainder" title={remainingTitle} >
           <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
@@ -159,7 +160,7 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
           <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
         <Tab eventKey="solve" title={solveTitle}>
-          <Solve allGuesses={allGuesses} setAllGuesses={setAllGuesses} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+          <Solve allGuesses={allGuesses} setAllGuesses={setAllGuesses} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} />
         </Tab>
       </Tabs>
     </div>

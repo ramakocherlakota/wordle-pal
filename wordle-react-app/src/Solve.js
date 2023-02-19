@@ -5,15 +5,16 @@ import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
-import {listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
+import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
 import './solve.scss';
+import { ReactComponent as TrashIcon } from './trash.svg';
+import { ReactComponent as PlusIcon } from './plus-circle.svg';
 
-export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode, targetCount}) {
+export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode, targetCount, setTargetCount, targets, setTargets}) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
-  const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
   const [ startWith, setStartWith ] = useState([""]);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
@@ -61,6 +62,20 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
     }
   }, [targets, startWith, hardMode, allGuesses]);
 
+  function deleteTarget(index) {
+    return function() {
+      setTargets((gs) => deleteAt(gs, index));
+      setTargetCount(t => t - 1);
+    }
+  }
+
+  function addTarget(index) {
+    return function() {
+      setTargets((gs) => addAt(gs, index, ""));
+      setTargetCount(t => t + 1);
+    }
+  }
+
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));
   }
@@ -72,16 +87,29 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
   }
 
   function targetSelects() {
-    return targets.map((target, idx) => {
+    const filling = targets.map((target, idx) => {
       return (
         <div className='row' key={idx} >
-          <div className='col target' >
-            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target word..." /> 
+          <div className='col'>
+            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
           </div>
-          <div className='col' />
+          <div className='col'>
+            <a className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
+            <a className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
+          </div>
         </div>
       );
     });
+    return (
+      <div className='col target-block'>
+        {filling}
+        <div className='row' key='-1'>
+          <div className='col'>
+            <a className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

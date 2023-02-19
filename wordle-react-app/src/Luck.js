@@ -8,16 +8,15 @@ import GuessSelect from './GuessSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
 import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
-import './rate-solution.scss';
+import './luck.scss';
 import LuckOutputFormat from './LuckOutputFormat';
 
-export default function Luck({ allGuesses, setAllGuesses, 
-                                       hardMode, setHardMode, targetCount }) {
+export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
+                               hardMode, setHardMode, targetCount, setTargetCount }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
-  const [ targets, setTargets ] = useState(listOfEmptyStrings(targetCount));
   const [ guesses, setGuesses ] = useState([""]);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
@@ -92,12 +91,21 @@ export default function Luck({ allGuesses, setAllGuesses,
           <div className='col'>
             <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
           </div>
+          <div className='col'>
+            <a className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
+            <a className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
+          </div>
         </div>
       );
     });
     return (
       <div className='col target'>
         {filling}
+        <div className='row' key='-1'>
+          <div className='col'>
+            <a className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
+          </div>
+        </div>
       </div>
     );
   }
@@ -124,6 +132,20 @@ export default function Luck({ allGuesses, setAllGuesses,
     }
   }
 
+  function deleteTarget(index) {
+    return function() {
+      setTargets((gs) => deleteAt(gs, index));
+      setTargetCount(t => t - 1);
+    }
+  }
+
+  function addTarget(index) {
+    return function() {
+      setTargets((gs) => addAt(gs, index, ""));
+      setTargetCount(t => t + 1);
+    }
+  }
+
   function guessSelects() {
     const filling = guesses.map((guess, idx) => {
       return (
@@ -133,8 +155,8 @@ export default function Luck({ allGuesses, setAllGuesses,
                          value={guess} placeholder="Guess..." /> 
           </div>
           <div className='col'>
-            <a href="/#" className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
-            <a href="/#" className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
+            <a className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
+            <a className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -145,7 +167,7 @@ export default function Luck({ allGuesses, setAllGuesses,
           {filling}
           <div className='row' key='-1'>
             <div className='col'>
-              <a href="/#" className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
+              <a className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
             </div>
           </div>
         </div>
@@ -163,7 +185,7 @@ export default function Luck({ allGuesses, setAllGuesses,
           {targetSelects()}
         </div>
       </div>
-      <div className="row" >
+      <div className="row guess-block" >
         <div className="col guesses">
           Guesses
         </div>
