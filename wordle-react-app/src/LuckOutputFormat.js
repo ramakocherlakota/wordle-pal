@@ -43,13 +43,18 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
       }
     })
     const scoreCells = row_data.map(cell => {
-      return 'score' in cell
-        ? <td className='score-cell'>
-            <PopupDoc label=<div>{LuckEmoji()} {cell.luck.toFixed(2)}</div> doc={formatCell(cell)} >
-              <div>{cell.score.toUpperCase()}</div>
-            </PopupDoc>
-          </td>
-        : <td/>
+      if (cell) {
+        return 'score' in cell
+          ? <td className='score-cell'>
+              <PopupDoc label=<div className='luck-bits'>{cell.luck.toFixed(2)}{LuckEmoji()}</div>
+                doc={formatCell(cell)} >
+                <div>{cell.score.toUpperCase()}</div>
+              </PopupDoc>
+            </td>
+           : <td/>;
+        } else {
+          return <td/>;
+        }
     });
 
     return (
@@ -64,13 +69,15 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   if (output && typeof output === 'object' && 'by_target' in output ) {
     const targets = Object.keys(output.by_target);
     const guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
-    const header_row = headers.map(x => <th>{headerLabels[x]}</th>)
+    const header_row = headers.map(x => <th className='luck-header'>{headerLabels[x]}</th>)
     const rows = guesses.map(guess => table_row(guess, targets, output.by_target));
     return (
+      <center>
       <table className='luck-table'>
         <tr>{header_row}</tr>
         {rows}
       </table>
+      </center>
     );
   }
 }

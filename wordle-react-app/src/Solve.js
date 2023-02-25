@@ -5,7 +5,7 @@ import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
-import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
+import {addAt, deleteAt, listWithAdjustedLength, replaceInList} from './Util';
 import './solve.scss';
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';

@@ -2,13 +2,23 @@
     font-family: monospace;
 }
 
+.luck-bits {
+    margin-left: 40px;
+}
+
 .luck-table {
-    width: 100%;
     border: 1px solid;
     margin-top: 50px;
 
-    td, th {
+    td {
         border: 1px solid;
         text-align: left;
+        padding: 20px;
+    }
+
+    th {
+        border: 2px solid;
+        text-align: center;
+        padding: 20px;
     }
 }
