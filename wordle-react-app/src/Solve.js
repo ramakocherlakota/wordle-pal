@@ -35,7 +35,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
 
   useEffect(() => {
     setTargets((t) => listWithAdjustedLength(t, targetCount));
-  }, [targetCount]);
+  }, [targetCount, setTargets]);
 
   useEffect(() => {
     function allTargetsChosen() {
@@ -94,8 +94,8 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
             <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
           </div>
           <div className='col'>
-            <a className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
-            <a className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -105,7 +105,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
         {filling}
         <div className='row' key='-1'>
           <div className='col'>
-            <a className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       </div>

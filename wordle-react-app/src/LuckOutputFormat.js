@@ -32,7 +32,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     );
   }
 
-  function table_row(guess, targets, by_target) {
+  function table_row(guess, targets, by_target, totals) {
     const row_data = targets.map(target => {
       const rows_for_target = by_target[target];
       const rows_for_target_with_guess = rows_for_target.filter(record => record.guess === guess);
@@ -42,7 +42,14 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
         return null;
       }
     })
-    const scoreCells = row_data.map(cell => {
+    const row_data_with_totals = targets.length > 1
+          ? row_data.concat(totals.filter(record => record.guess === guess)
+                            .map(record => {
+                              record.score = "";
+                              return record;
+                            }))
+          : row_data;
+    const scoreCells = row_data_with_totals.map(cell => {
       if (cell) {
         return 'score' in cell
           ? <td className='score-cell'>
@@ -70,7 +77,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     const targets = Object.keys(output.by_target);
     const guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
     const header_row = headers.map(x => <th className='luck-header'>{headerLabels[x]}</th>)
-    const rows = guesses.map(guess => table_row(guess, targets, output.by_target));
+    const rows = guesses.map(guess => table_row(guess, targets, output.by_target, output.totals));
     return (
       <center>
       <table className='luck-table'>

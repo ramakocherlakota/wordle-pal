@@ -7,7 +7,7 @@ import AnswerSelect from './AnswerSelect';
 import GuessSelect from './GuessSelect';
 import HardModeRow from './HardModeRow';
 import AllGuessesRow from './AllGuessesRow';
-import {addAt, deleteAt, listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './Util';
+import {addAt, deleteAt, listWithAdjustedLength, replaceInList} from './Util';
 import './luck.scss';
 import LuckOutputFormat from './LuckOutputFormat';
 
@@ -26,11 +26,13 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} />;
 
   useEffect(() => {
-    const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`), "total"]
+    const newHeaders = targets.length > 1
+          ? ["guess", ...targets.map((t, i) => `target_${i}`), "total"]
+          : ["guess", ...targets.map((t, i) => `target_${i}`)];
     setHeaders(newHeaders);
 
     const targetLabels = targets.reduce((a, v, i) => ({ ...a, [`target_${i}`]: v}), {})
-    const headerLabels = {"guess" : "Guess",
+    const headerLabels = {"guess" : "",
                           "total" : "Total",
                           ...targetLabels};
                            
@@ -39,7 +41,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
 
   useEffect(() => {
     setTargets((t) => listWithAdjustedLength(t, targetCount));
-  }, [targetCount]);
+  }, [targetCount, setTargets]);
 
   useEffect(() => {
     function allChosen() {
@@ -92,8 +94,8 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
             <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
           </div>
           <div className='col'>
-            <a className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
-            <a className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -103,7 +105,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
         {filling}
         <div className='row' key='-1'>
           <div className='col'>
-            <a className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       </div>
@@ -155,8 +157,8 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
                          value={guess} placeholder="Guess..." /> 
           </div>
           <div className='col'>
-            <a className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
-            <a className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -167,7 +169,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets,
           {filling}
           <div className='row' key='-1'>
             <div className='col'>
-              <a className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
+              <a href="/#" className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
             </div>
           </div>
         </div>

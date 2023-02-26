@@ -33,14 +33,14 @@ export default function StartWith({allGuesses, startWith, setStartWith}) {
             <GuessSelect allGuesses={allGuesses} onChange={setStartWithAt(index)} value={sw} placeholder="Starting..."/>
           </div>
           <div className='col'>
-            <a className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>
-            <a className="add-delete-button" onClick={addRow(index)} ><PlusIcon className="icon"/></a>
+            <a href="/#" className="add-delete-button" onClick={deleteRow(index)} ><TrashIcon className="icon" /></a>
+            <a href="/#" className="add-delete-button" onClick={addRow(index)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       )}
       <div className='row' key='-1'>
         <div className='col'>
-          <a className="add-delete-button" onClick={addRow(startWith.length)} ><PlusIcon className="icon"/></a>
+          <a href="/#" className="add-delete-button" onClick={addRow(startWith.length)} ><PlusIcon className="icon"/></a>
         </div>
       </div>
     </>

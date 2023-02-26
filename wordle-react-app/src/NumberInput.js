@@ -26,9 +26,9 @@ export default function NumberInput({ value, setValue, minValue, maxValue }) {
 
   return (
     <>
-      <a className='add-delete-button' onClick={incf(-1)}><MinusIcon className="icon" /></a>
+      <a href="/#" className='add-delete-button' onClick={incf(-1)}><MinusIcon className="icon" /></a>
       <input className='value' value={value} onChange={validateAndSet} />
-      <a className='add-delete-button' onClick={incf(1)} ><PlusIcon className="icon"/></a>
+      <a href="/#" className='add-delete-button' onClick={incf(1)} ><PlusIcon className="icon"/></a>
     </>
   );
 }
