@@ -12,7 +12,7 @@ import './luck.scss';
 import LuckOutputFormat from './LuckOutputFormat';
 
 export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, setScoreLists,
-                               hardMode, setHardMode, targetCount, setTargetCount, setPane, setGlobalGuesses }) {
+                               hardMode, setHardMode, targetCount, setTargetCount, setPane, setGlobalGuesses, setGlobalGuessCount }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
@@ -23,7 +23,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
   const [ request, setRequest ] = useState(undefined);
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
-  const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} />;
+  const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} setGlobalGuessCount={setGlobalGuessCount} />;
 
   useEffect(() => {
     const newHeaders = targets.length > 1

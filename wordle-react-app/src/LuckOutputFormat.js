@@ -3,7 +3,7 @@ import { LuckEmoji, RemainingEmoji, GuessEmoji } from './App';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 
-export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses}) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses, setGlobalGuessCount}) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {
@@ -32,10 +32,32 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     );
   }
 
+  function extractGuesses(n) {
+    const all_guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
+    if (n) {
+      return all_guesses.sllice(0, n);
+    } else {
+      return all_guesses;
+    }
+  }
+
+  function extractScoreLists(n) {
+
+  }
+
+  function gotoPane(pane, n) {
+    return function() {
+      setPane(pane);
+      setGlobalGuessCount(n);
+      setGlobalGuesses(extractGuesses(n));
+      setScoreLists(extractScoreLists(n));
+    }
+  }    
+
   function links(n) {
     return <>
-             <a onClick={() => setPane('remaining')}>{RemainingEmoji()}</a>
-             <a onClick={() => setPane('guess')}>{GuessEmoji()}</a>
+             <a onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
+             <a onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
            </>;
   }
 
@@ -82,7 +104,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
 
   if (output && typeof output === 'object' && 'by_target' in output ) {
     const targets = Object.keys(output.by_target);
-    const guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
+    const guesses = extractGuesses();
     const header_row = headers.map(x => <th className='luck-header'>{headerLabels[x]}</th>)
     const rows = guesses.map((guess, n) => table_row(guess, n, targets, output.by_target, output.totals));
     return (

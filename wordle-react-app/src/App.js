@@ -153,7 +153,7 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
       <Tabs className="mb-3" justify activeKey={pane}
             onSelect={(k) => setPane(k)} >
         <Tab eventKey="luck" title={luckTitle} >
-          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists} />
+          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists} setGlobalGuessCount={setGuessCount} />
         </Tab>
         <Tab eventKey="remaining" title={remainingTitle} >
           <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
