@@ -1,9 +1,9 @@
 import React from 'react';
-import { LuckEmoji } from './App';
+import { LuckEmoji, RemainingEmoji, GuessEmoji } from './App';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 
-export default function LuckOutputFormat({output, headers, headerLabels, hederDocs}) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses}) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {
@@ -32,7 +32,14 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     );
   }
 
-  function table_row(guess, targets, by_target, totals) {
+  function links(n) {
+    return <>
+             <a onClick={() => setPane('remaining')}>{RemainingEmoji()}</a>
+             <a onClick={() => setPane('guess')}>{GuessEmoji()}</a>
+           </>;
+  }
+
+  function table_row(guess, n, targets, by_target, totals) {
     const row_data = targets.map(target => {
       const rows_for_target = by_target[target];
       const rows_for_target_with_guess = rows_for_target.filter(record => record.guess === guess);
@@ -68,7 +75,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
       <tr>
         <td>{guess}</td>
         {scoreCells}
-        <td>anchors go here</td>
+        <td>{links(n)}</td>
       </tr>
     );
   }
@@ -77,7 +84,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     const targets = Object.keys(output.by_target);
     const guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
     const header_row = headers.map(x => <th className='luck-header'>{headerLabels[x]}</th>)
-    const rows = guesses.map(guess => table_row(guess, targets, output.by_target, output.totals));
+    const rows = guesses.map((guess, n) => table_row(guess, n, targets, output.by_target, output.totals));
     return (
       <center>
       <table className='luck-table'>

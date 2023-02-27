@@ -33,6 +33,7 @@ export default function App() {
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
   const [ targets, setTargets ] = useState(listOfEmptyStrings(1));
+  const [ pane, setPane ] = useState("luck");
 
   const luckTitle = <PopupDoc doc=
       <div>
@@ -149,11 +150,12 @@ If you have thoughts or questions, feel free to email me at <a href="mailto:rama
           {targetCount() === 4 && "Quordle"}
         </div>
       </div>
-      <Tabs className="mb-3" justify>
+      <Tabs className="mb-3" justify activeKey={pane}
+            onSelect={(k) => setPane(k)} >
         <Tab eventKey="luck" title={luckTitle} >
-          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} />
+          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists} />
         </Tab>
-        <Tab eventKey="remainder" title={remainingTitle} >
+        <Tab eventKey="remaining" title={remainingTitle} >
           <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
         </Tab>
         <Tab eventKey="guess" title={bestGuessTitle} >
