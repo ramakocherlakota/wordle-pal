@@ -108,8 +108,8 @@ class Quordle:
         if len(still_unsolved) == 0:
             return {"error": "Already solved!"}
         wordle_expected_uncertainties = []
-        for n in range(self.wordles):
-            wordle = self.wordles[still_unsolved[n]]
+        for n in range(len(self.wordles)):
+            wordle = self.wordles[n]
             remaining_answers = remaining_answers_list[n]
             exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers)
             if not type(exp_unc_by_guess) is list:
