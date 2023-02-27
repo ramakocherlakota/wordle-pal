@@ -219,12 +219,13 @@ class Wordle :
         where_clause = ""
         n = 0
         for [guess, score] in self.guess_scores:
-            table = f"scores_{n}"
-            froms.append(f"scores as {table}")
-            where_clauses.append(f"a.answer = {table}.answer")
-            where_clauses.append(f"'{guess.lower()}' = {table}.guess")
-            where_clauses.append(f"'{score.upper()}' = {table}.score")
-            n = n + 1
+            if len(score) > 0:
+                table = f"scores_{n}"
+                froms.append(f"scores as {table}")
+                where_clauses.append(f"a.answer = {table}.answer")
+                where_clauses.append(f"'{guess.lower()}' = {table}.guess")
+                where_clauses.append(f"'{score.upper()}' = {table}.score")
+                n = n + 1
         if n > 0:
             where_clause = f" where " + " and ".join(where_clauses)
         from_clause = ", ".join(froms)

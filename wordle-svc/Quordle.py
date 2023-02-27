@@ -99,16 +99,16 @@ class Quordle:
             wordle = self.wordles[n]
             if not wordle.is_solved():
                 still_unsolved.append(n)
-                remaining_answers = wordle.remaining_answers()
-                if len(remaining_answers) == 0:
-                    return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-                if len(remaining_answers) == 1:
-                    found_guess = remaining_answers[0]
-                remaining_answers_list.append(remaining_answers)
+            remaining_answers = wordle.remaining_answers()
+            if len(remaining_answers) == 0:
+                return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+            if len(remaining_answers) == 1:
+                found_guess = remaining_answers[0]
+            remaining_answers_list.append(remaining_answers)
         if len(still_unsolved) == 0:
             return {"error": "Already solved!"}
         wordle_expected_uncertainties = []
-        for n in range(len(still_unsolved)):
+        for n in range(self.wordles):
             wordle = self.wordles[still_unsolved[n]]
             remaining_answers = remaining_answers_list[n]
             exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers)
@@ -171,8 +171,7 @@ class Quordle:
         remaining_answers = []
         for n in range(len(self.wordles)):
             wordle = self.wordles[n]
-            if not wordle.is_solved():
-                remaining_answers.append(wordle.remaining_answers());
+            remaining_answers.append(wordle.remaining_answers());
         return remaining_answers
 
     def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
