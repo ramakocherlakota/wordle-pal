@@ -42,13 +42,15 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   }
 
   function extractScoreLists(n) {
-    const score_lists = output.by_target.map(target => {
+    const targets = Object.keys(output.by_target);
+    const score_lists = targets.map(target => {
       const rows_for_target = output.by_target[target];
       return rows_for_target.map((row) => {
-        return row.scoree;
+        return row.score;
       });
     });
     console.log(score_lists);
+    return score_lists;
   }
 
   function gotoPane(pane, n) {
