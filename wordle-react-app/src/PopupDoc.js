@@ -10,12 +10,13 @@ export default function PopupDoc({doc, children, label}) {
   function showDoc() {
     return <Popup
              trigger={open => (
+               // eslint-disable-next-line
                <a className='anchor-label' >{anchorLabel}</a>
              )}
              modal
            >
              <div className='doc'>{doc}</div>
-           </Popup>;
+           </Popup>; 
   }
 
   return (

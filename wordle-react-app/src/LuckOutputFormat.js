@@ -42,22 +42,28 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   }
 
   function extractScoreLists(n) {
-
+    const score_lists = output.by_target.map(target => {
+      const rows_for_target = output.by_target[target];
+      return rows_for_target.map((row) => {
+        return row.scoree;
+      });
+    });
+    console.log(score_lists);
   }
 
   function gotoPane(pane, n) {
     return function() {
-      setPane(pane);
       setGlobalGuessCount(n);
       setGlobalGuesses(extractGuesses(n));
       setScoreLists(extractScoreLists(n));
+      setPane(pane);
     }
   }    
 
   function links(n) {
     return <>
-             <a onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
-             <a onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
+             <a href="/#" onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
+             <a href="/#" onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
            </>;
   }
 
