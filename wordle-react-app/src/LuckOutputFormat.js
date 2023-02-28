@@ -62,8 +62,8 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
 
   function links(n) {
     return <>
-             <a href="/#" onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
-             <a href="/#" onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
+             <a href="/#" className='pane-link' onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
+             <a href="/#" className='pane-link' onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
            </>;
   }
 
