@@ -35,7 +35,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   function extractGuesses(n) {
     const all_guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
     if (n) {
-      return all_guesses.sllice(0, n);
+      return all_guesses.slice(0, n);
     } else {
       return all_guesses;
     }
@@ -49,7 +49,6 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
         return row.score;
       });
     });
-    console.log(score_lists);
     return score_lists;
   }
 
@@ -105,7 +104,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
       <tr>
         <td>{guess}</td>
         {scoreCells}
-        <td>{links(n)}</td>
+        <td>{links(n+1)}</td>
       </tr>
     );
   }
