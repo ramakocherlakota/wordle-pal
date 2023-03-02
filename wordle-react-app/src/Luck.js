@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
 import { ReactComponent as TrashIcon } from './trash.svg';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
@@ -94,8 +95,8 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
             <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
           </div>
           <div className='col'>
-            <a href="/#" className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
-            <a href="/#" className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
+            <a  className="add-delete-button" onClick={deleteTarget(idx)} ><TrashIcon className="icon" /></a>
+            <a  className="add-delete-button" onClick={addTarget(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -105,7 +106,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
         {filling}
         <div className='row' key='-1'>
           <div className='col'>
-            <a href="/#" className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
+            <a  className="add-delete-button" onClick={addTarget(targetCount)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       </div>
@@ -157,8 +158,8 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
                          value={guess} placeholder="Guess..." /> 
           </div>
           <div className='col'>
-            <a href="/#" className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
-            <a href="/#" className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
+            <a  className="add-delete-button" onClick={deleteGuess(idx)} ><TrashIcon className="icon" /></a>
+            <a  className="add-delete-button" onClick={addGuess(idx)} ><PlusIcon className="icon"/></a>
           </div>
         </div>
       );
@@ -169,7 +170,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
           {filling}
           <div className='row' key='-1'>
             <div className='col'>
-              <a href="/#" className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
+              <a  className="add-delete-button" onClick={addGuess(guesses.length)} ><PlusIcon className="icon"/></a>
             </div>
           </div>
         </div>

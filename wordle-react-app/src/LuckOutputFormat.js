@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { LuckEmoji, RemainingEmoji, GuessEmoji } from './App';
 import PopupDoc from './PopupDoc';
@@ -63,8 +64,8 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
 
   function links(n) {
     return <>
-             <a href="/#" className='pane-link' onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
-             <a href="/#" className='pane-link' onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
+             <a  className='pane-link' onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
+             <a  className='pane-link' onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
            </>;
   }
 

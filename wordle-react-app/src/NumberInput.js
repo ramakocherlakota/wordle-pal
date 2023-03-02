@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import { ReactComponent as MinusIcon } from './dash-circle.svg';
@@ -26,9 +27,9 @@ export default function NumberInput({ value, setValue, minValue, maxValue }) {
 
   return (
     <>
-      <a href="/#" className='add-delete-button' onClick={incf(-1)}><MinusIcon className="icon" /></a>
+      <a  className='add-delete-button' onClick={incf(-1)}><MinusIcon className="icon" /></a>
       <input className='value' value={value} onChange={validateAndSet} />
-      <a href="/#" className='add-delete-button' onClick={incf(1)} ><PlusIcon className="icon"/></a>
+      <a  className='add-delete-button' onClick={incf(1)} ><PlusIcon className="icon"/></a>
     </>
   );
 }
