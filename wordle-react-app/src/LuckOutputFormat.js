@@ -15,22 +15,40 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     }, []);
   }
 
+  function formatLuck(luck) {
+    return (luck > 0 ? "+" : "") + luck.toFixed(2);
+  }
+
   function formatCell(cell) {
-    return (
-      <div>
-        Remaining Answers Before Guess: {cell.remaining_answers_prior}
-        <br/>
-        Remaining Answers After Guess: {cell.remaining_answers_post}
-        <br/>
-        Uncerttainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
-        <br/>
-        Expected Uncertainty After Guess: {cell.exp_uncertainty_post.toFixed(2)}
-        <br/>
-        Uncerttainty After Guess: {cell.uncertainty_post.toFixed(2)}
-        <br/>
-        Luck: {cell.luck.toFixed(2)}
-      </div>
-    );
+    if ("TOTAL" in cell) {
+      return (
+        <div>
+          Uncerttainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
+          <br/>
+          Expected Uncertainty After Guess: {cell.exp_uncertainty_post.toFixed(2)}
+          <br/>
+          Uncerttainty After Guess: {cell.uncertainty_post.toFixed(2)}
+          <br/>
+          Luck: {formatLuck(cell.luck)}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          Remaining Answers Before Guess: ${cell.remaining_answers_prior}
+          <br/>
+          Remaining Answers After Guess: {cell.remaining_answers_post}
+          <br/>
+          Uncerttainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
+          <br/>
+          Expected Uncertainty After Guess: {cell.exp_uncertainty_post.toFixed(2)}
+          <br/>
+          Uncerttainty After Guess: {cell.uncertainty_post.toFixed(2)}
+          <br/>
+          Luck: {formatLuck(cell.luck)}
+        </div>
+      );
+    }
   }
 
   function extractGuesses(n) {
@@ -64,8 +82,8 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
 
   function links(n) {
     return <>
-             <a  className='pane-link' onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
-             <a  className='pane-link' onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
+             <a href="#" className='pane-link' onClick={gotoPane('remaining', n)}>{RemainingEmoji()}</a>
+             <a href="#" className='pane-link' onClick={gotoPane('guess', n)}>{GuessEmoji()}</a>
            </>;
   }
 
@@ -83,6 +101,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
           ? row_data.concat(totals.filter(record => record.guess === guess)
                             .map(record => {
                               record.score = "";
+                              record.TOTAL = 1;
                               return record;
                             }))
           : row_data;
@@ -90,7 +109,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
       if (cell) {
         return 'score' in cell
           ? <td className='score-cell'>
-              <PopupDoc label=<div className='luck-bits'>{cell.luck.toFixed(2)}{LuckEmoji()}</div>
+              <PopupDoc label=<div className='luck-bits'>{formatLuck(cell.luck)}{LuckEmoji()}</div>
                 doc={formatCell(cell)} >
                 <div>{cell.score.toUpperCase()}</div>
               </PopupDoc>
