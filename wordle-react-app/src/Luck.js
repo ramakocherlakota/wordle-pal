@@ -35,6 +35,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
     const targetLabels = targets.reduce((a, v, i) => ({ ...a, [`target_${i}`]: v}), {})
     const headerLabels = {"guess" : "",
                           "total" : "Total",
+                          "links" : "Links",
                           ...targetLabels};
                            
     setHeaderLabels(headerLabels);

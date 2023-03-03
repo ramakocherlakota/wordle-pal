@@ -129,15 +129,39 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     );
   }
 
+  function headerLabelsWithDocs(x) {
+    if (x === 'guess') {
+      return <div/>;
+    }
+      return (
+        <PopupDoc doc=
+          <div>
+            How lucky was your guess?  The number next to the four-leaf clover gives you an estimate (in bits) of just how lucky you were, measured by the actual amount of uncertainty after your guess compared to the expecte amount of uncertainty.  For more detail on how good your guess was click on the clover.
+          </div>
+        >{headerLabels[x]}</PopupDoc>
+        );
+      }
+      
+    const linksHeader =
+      <PopupDoc doc=
+        <div>
+          Click on the crescent moon to see the list of remaining possible answers and the light bulb for a hint on good next guesses at that point in the puzzle.
+        </div>
+      >Links</PopupDoc>;
+
   if (output && typeof output === 'object' && 'by_target' in output ) {
     const targets = Object.keys(output.by_target);
     const guesses = extractGuesses();
-    const header_row = headers.map(x => <th className='luck-header'>{headerLabels[x]}</th>)
+    const headerRow = headers.map(x => <th className='luck-header'>{headerLabelsWithDocs(x)}</th>);
+    const headerRowWithTotals = targets.length > 1
+          ? headerRow.concat(<th className='luck-header'>Totals</th>)
+          : headerRow;
+    const headerRowWithLinks = headerRowWithTotals.concat(<th className='luck-header'>{linksHeader}</th>);
     const rows = guesses.map((guess, n) => table_row(guess, n, targets, output.by_target, output.totals));
     return (
       <center>
       <table className='luck-table'>
-        <tr>{header_row}</tr>
+        <tr>{headerRowWithLinks}</tr>
         {rows}
       </table>
       </center>

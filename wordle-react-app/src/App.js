@@ -38,7 +38,7 @@ export default function App() {
 
   const luckTitle = <PopupDoc doc=
       <div>
-        Select the target words and the guesses you made and click Go to get a rating of where you were lucky or unlucky in your guessing.
+        Select the target words and the guesses you made and click Go to get a rating of where you were lucky or unlucky in your guessing.  From here you can navigate to other tabs showing the lists of remaining words or get a hint on a good guess.
       </div>
     >
       {LuckEmoji()} Luck
