@@ -42,12 +42,13 @@ class Quordle:
                 if n >= len(totals):
                     totals.append({"uncertainty_prior" : 0,
                                    "uncertainty_post" : 0,
+                                   "luck": 0,
                                    "exp_uncertainty_post" : 0});
                 totals[n]["uncertainty_prior"] += rating.get("uncertainty_prior", 0)
                 totals[n]["uncertainty_post"] += rating.get("uncertainty_post", 0)
                 totals[n]["exp_uncertainty_post"] += rating.get("exp_uncertainty_post", 0)
+                totals[n]['luck'] += rating.get("luck", 0)
         for n in range(len(totals)):
-            totals[n]['luck'] = totals[n]["exp_uncertainty_post"] - totals[n]["uncertainty_post"]
             totals[n]['guess'] = guesses[n]
 
         return {
