@@ -23,11 +23,11 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     if ("TOTAL" in cell) {
       return (
         <div>
-          Uncerttainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
+          Uncertainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
           <br/>
           Expected Uncertainty After Guess: {cell.exp_uncertainty_post.toFixed(2)}
           <br/>
-          Uncerttainty After Guess: {cell.uncertainty_post.toFixed(2)}
+          Uncertainty After Guess: {cell.uncertainty_post.toFixed(2)}
           <br/>
           Luck: {formatLuck(cell.luck)}
         </div>
@@ -35,15 +35,15 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     } else {
       return (
         <div>
-          Remaining Answers Before Guess: ${cell.remaining_answers_prior}
+          Remaining Answers Before Guess: {cell.remaining_answers_prior}
           <br/>
           Remaining Answers After Guess: {cell.remaining_answers_post}
           <br/>
-          Uncerttainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
+          Uncertainty Before Guess: {cell.uncertainty_prior.toFixed(2)}
           <br/>
           Expected Uncertainty After Guess: {cell.exp_uncertainty_post.toFixed(2)}
           <br/>
-          Uncerttainty After Guess: {cell.uncertainty_post.toFixed(2)}
+          Uncertainty After Guess: {cell.uncertainty_post.toFixed(2)}
           <br/>
           Luck: {formatLuck(cell.luck)}
         </div>
