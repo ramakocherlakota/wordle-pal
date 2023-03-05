@@ -15,7 +15,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
     setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");
   }, [allGuesses]);
 
-  const url = process.env.REACT_APP_API_URI;
+  const url = process.env.REACT_APP_API_URI || '/service';
   
   useEffect(() => {
     async function callService() {
