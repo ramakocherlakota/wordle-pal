@@ -16,7 +16,7 @@ export default function StartWith({allGuesses, startWith, setStartWith}) {
 
   function setStartWithAt(index) {
     return function(opt) {
-      setStartWith((sw) => replaceInList(sw, (opt && opt.value), index));
+      setStartWith((sw) => replaceInList(sw, opt, index));
     }
   }
 

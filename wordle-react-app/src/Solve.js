@@ -83,7 +83,7 @@ export default function Solve({allGuesses, setAllGuesses, hardMode, setHardMode,
 
   function setTargetHandler(i) {
     return function(a) {
-      setTarget(i, a && a.value);
+      setTarget(i, a);
     }
   }
 

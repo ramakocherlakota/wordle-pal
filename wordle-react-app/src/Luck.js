@@ -84,7 +84,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
 
   function setTargetHandler(i) {
     return function(a) {
-      setTarget(i, a && a.value);
+      setTarget(i, a);
     }
   }
 
@@ -120,7 +120,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
 
   function setGuessHandler(i) {
     return function(a) {
-      setGuess(i, a && a.value);
+      setGuess(i, a);
     }
   }
 

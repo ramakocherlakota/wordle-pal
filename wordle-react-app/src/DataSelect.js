@@ -20,7 +20,7 @@ export default function DataSelect({ options, value, setValue, inputKeyMapper })
         setValue(newValue);
       }}
       options={filteredOptions}
-      renderInput={(params) => <TextField {...params}/>}
+      renderInput={(params) => <TextField className="data-select" {...params}/>}
     />
   );
 }

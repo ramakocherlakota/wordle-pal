@@ -11,7 +11,7 @@ import { replaceInList } from './Util';
 export default function GuessScorePair({allGuesses, scores, guess, setScores, setGuess, deleter, adder}) {
 
   const setGuessHandler = (a) => {
-    setGuess(a && a.value);
+    setGuess(a);
   }
 
   function setScoreHandler(idx) {
