@@ -13,7 +13,8 @@ export default function DataSelect({ placeholder, options, value, setValue, show
 
   useEffect(() => {
     const key = inputValue.toLowerCase();
-    setFilteredOptions(options(key).filter((option) => option.toLowerCase().startsWith(key)));
+    const keyedOptions = options(key) || [];
+    setFilteredOptions(keyedOptions.filter((option) => option.toLowerCase().startsWith(key)));
     setOpen((textHasFocus || listHasFocus) && showList(inputValue))
   }, [options, inputValue, showList, textHasFocus, listHasFocus]);
 
@@ -31,13 +32,15 @@ export default function DataSelect({ placeholder, options, value, setValue, show
 
   function item(option) {
     return (
-      <ListItemButton dense={true} onClick={handleClick(option)}>{option}</ListItemButton>
+      <ListItemButton key={option} dense={true} onClick={handleClick(option)}>{option}</ListItemButton>
     );
   }
 
   function optionList() {
     return (
-      <List onFocus={() => setListHasFocus(true)}>
+      <List onFocus={gainFocus}
+            onBlur={loseFocus}
+      >
         {filteredOptions.map(item)}
       </List>
     );    
@@ -48,15 +51,21 @@ export default function DataSelect({ placeholder, options, value, setValue, show
     setListHasFocus(true);
   }
 
+  function loseFocus() {
+    setTextHasFocus(false);
+    setTimeout(() => setListHasFocus(false), 500); // give it some time to handle the click event
+  }
+
   return (
     <>
       <TextField
+        sx={{width: "150px"}}
         size="small"
         margin="dense"
         placeholder={placeholder}
         onChange={changeInput}
         onFocus={gainFocus}
-        onBlur={() => setTextHasFocus(false)}
+        onBlur={loseFocus}
         value={inputValue}
       />
       {open && optionList() }

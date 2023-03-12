@@ -13,10 +13,14 @@ export default function WordSelect({ label, value, onChange, options, doc, place
     }
   }
 
-//  return (
-//     <PopupDoc doc=<div>{doc}</div> >
-//       <DataSelect label={label} value={value} setValue={onChange} options={keyedOptions} />
-//     </PopupDoc>
-//  );
-  return (<div/>);
+  return (
+     <PopupDoc doc=<div>{doc}</div> >
+       <DataSelect
+         placeholder={label}
+         value={value}
+         setValue={onChange}
+         showList={(input) => input.length > 1 && input.length < 5}
+         options={keyedOptions} />
+     </PopupDoc>
+  );
 }
