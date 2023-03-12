@@ -27,7 +27,7 @@ export default function GuessScorePair({allGuesses, scores, guess, setScores, se
       </div>
       {scores.map((score, idx) => 
         <div key={idx} className="col">
-          <ScoreSelect placeholder="Score..." onChange={setScoreHandler(idx)}  value={score} />
+          <ScoreSelect placeholder="Score..." setValue={setScoreHandler(idx)}  value={score} />
         </div>
       )}
       <div className='col'>

@@ -27,9 +27,7 @@ export default function Luck({ allGuesses, setAllGuesses, targets, setTargets, s
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} setGlobalGuessCount={setGlobalGuessCount} />;
 
   useEffect(() => {
-    const newHeaders = targets.length > 1
-          ? ["guess", ...targets.map((t, i) => `target_${i}`), "total"]
-          : ["guess", ...targets.map((t, i) => `target_${i}`)];
+    const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`)];
     setHeaders(newHeaders);
 
     const targetLabels = targets.reduce((a, v, i) => ({ ...a, [`target_${i}`]: v}), {})

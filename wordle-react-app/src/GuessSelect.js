@@ -16,6 +16,6 @@ export default function GuessSelect({ allGuesses, value, onChange, placeholder }
   }, [allGuesses]);
 
   return (
-    <WordSelect options={options} value={value} onChange={onChange} placeholder={placeholder} doc={doc} />
+    <WordSelect label="Guess..." options={options} value={value} onChange={onChange} placeholder={placeholder} doc={doc} />
   );
 }

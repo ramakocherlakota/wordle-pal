@@ -2,7 +2,7 @@ import React from 'react';
 import PopupDoc from './PopupDoc';
 import DataSelect from './DataSelect';
 
-export default function WordSelect({ value, onChange, options, doc, placeholder }) {
+export default function WordSelect({ label, value, onChange, options, doc, placeholder }) {
 
   function keyedOptions(input) {
     if (input && input.length > 1) {
@@ -13,9 +13,10 @@ export default function WordSelect({ value, onChange, options, doc, placeholder 
     }
   }
 
-  return (
-     <PopupDoc doc=<div>{doc}</div> >
-       <DataSelect value={value} setValue={onChange} options={keyedOptions} />
-     </PopupDoc>
-  );
+//  return (
+//     <PopupDoc doc=<div>{doc}</div> >
+//       <DataSelect label={label} value={value} setValue={onChange} options={keyedOptions} />
+//     </PopupDoc>
+//  );
+  return (<div/>);
 }
