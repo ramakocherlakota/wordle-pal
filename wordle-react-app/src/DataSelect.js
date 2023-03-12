@@ -14,8 +14,15 @@ export default function DataSelect({ placeholder, options, value, setValue, show
   useEffect(() => {
     const key = inputValue.toLowerCase();
     const keyedOptions = options(key) || [];
-    setFilteredOptions(keyedOptions.filter((option) => option.toLowerCase().startsWith(key)));
-    setOpen((textHasFocus || listHasFocus) && showList(inputValue))
+    const filteredOptions = keyedOptions.filter((option) => option.toLowerCase().startsWith(key));
+    if (filteredOptions.length === 1) {
+      setValue(filteredOptions[0]);
+      setInputValue(filteredOptions[0]);
+      setOpen(false);
+    } else {
+      setFilteredOptions(filteredOptions);
+      setOpen((textHasFocus || listHasFocus) && showList(inputValue))
+    }
   }, [options, inputValue, showList, textHasFocus, listHasFocus]);
 
   function changeInput(event) {
@@ -32,7 +39,7 @@ export default function DataSelect({ placeholder, options, value, setValue, show
 
   function item(option) {
     return (
-      <ListItemButton key={option} dense={true} onClick={handleClick(option)}>{option}</ListItemButton>
+      <ListItemButton sx={{"cursor": "pointer"}} key={option} dense={true} onClick={handleClick(option)}>{option}</ListItemButton>
     );
   }
 
