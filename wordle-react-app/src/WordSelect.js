@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import PopupDoc from './PopupDoc';
-import DataSelect from './DataSelect';
+import Autofill from './Autofill';
 
 export default function WordSelect({ label, value, onChange, options, doc, placeholder }) {
 
   function keyedOptions(input) {
     if (input && input.length > 1) {
       const key = input.substring(0, 2).toLowerCase();
-      return options[key];
+      return ["",...options[key]];
     } else {
       return [];
     }
@@ -15,12 +15,11 @@ export default function WordSelect({ label, value, onChange, options, doc, place
 
   return (
      <PopupDoc doc=<div>{doc}</div> >
-       <DataSelect
+       <Autofill
          placeholder={label}
          value={value}
          setValue={onChange}
-         showList={(input) => input.length > 1 && input.length < 5}
-         options={keyedOptions} />
+         optionFunc={keyedOptions} />
      </PopupDoc>
   );
 }

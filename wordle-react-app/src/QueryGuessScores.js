@@ -15,12 +15,12 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
     const guessesComplete = guesses.filter((guess) => (!guess || guess.length === 0)).length === 0;
     const hasBlanks = (scoreList) => {
       return (scoreList.filter((score) => {
-        return score.length === 0;
+        return score?.length === 0;
       }).length > 0);
     };
     const notSolved = (scoreList) => {
       return (scoreList.filter((score) => {
-        return score.match(/^B+$/i);
+        return score?.match(/^B+$/i);
       }).length === 0);
     }
     const scoreListsComplete = scoreLists.filter(scoreList =>
