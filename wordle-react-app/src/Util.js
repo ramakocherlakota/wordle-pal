@@ -3,7 +3,7 @@ export function extendList(lst, n, supplier) {
   if (n < 1) {
     return lst;
   } else {
-    return extendList(lst, n-1).concat(actualSupplier());
+    return extendList(lst, n-1, supplier).concat(actualSupplier());
   }
 }
 
@@ -37,5 +37,17 @@ export function replaceInList(lst, val, at) {
       return it;
     }
   });
+}
+
+export function isMobile() {
+  return window.innerWidth < 547;
+}
+
+export function ifDesktop(str) {
+  if (!isMobile()) {
+    return str;
+  } else {
+    return "";
+  }
 }
 

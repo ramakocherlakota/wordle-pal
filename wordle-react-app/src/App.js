@@ -8,7 +8,10 @@ import Solve from './Solve';
 import Luck from './Luck';
 import PopupDoc from './PopupDoc';
 import NumberInput from './NumberInput';
-import { listWithAdjustedLength, listOfEmptyStrings } from './Util';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { ifDesktop, listWithAdjustedLength, listOfEmptyStrings } from './Util';
 import './App.scss';
 
 export function RemainingEmoji() {
@@ -41,7 +44,7 @@ export default function App() {
         Select the target words and the guesses you made and click Go to get a rating of where you were lucky or unlucky in your guessing.  From here you can navigate to other tabs showing the lists of remaining words or get a hint on a good guess.
       </div>
     >
-      {LuckEmoji()} Luck
+    {LuckEmoji()} {ifDesktop("Luck")}
     </PopupDoc>;
 
   const remainingTitle = <PopupDoc doc=
@@ -49,7 +52,7 @@ export default function App() {
       Click on the Go button to return a list of words (for each of the target words) compatible with what guesses and scores have been selected.
     </div> 
     >
-      {RemainingEmoji()} Remaining
+    {RemainingEmoji()} {ifDesktop("Remaining")}
     </PopupDoc>;
 
   const bestGuessTitle = <PopupDoc doc=
@@ -57,7 +60,7 @@ export default function App() {
       Click on the Go button to return a list of the best next guesses for your Wordle / Quordle, ranked from the best down.
     </div> 
     >
-      {GuessEmoji()} Guesses
+                           {GuessEmoji()} {ifDesktop("Guesses")}
     </PopupDoc>;
 
   const solveTitle = <PopupDoc doc=
@@ -65,7 +68,7 @@ export default function App() {
       Click on the Go button to have Wordle Pal solve the target word(s) you have set for it, starting from your favorite start words.
     </div> 
     >
-      {SolveEmoji()} Solve
+    {SolveEmoji()} {ifDesktop("Solve")}
     </PopupDoc>;
 
 
@@ -117,11 +120,22 @@ export default function App() {
     return dimensions.targets;
   }
 
+  function handleQuordleSwitch(evt) {
+    setTargetCount(evt.target.checked ? 4 : 1);
+  }
+
   return (
     <div className='app'>
       <div className='row header'>
         <div className='col' align='left'>
           <h2>Wordle Pal</h2>
+        </div>
+        <div className='col'>
+          <PopupDoc doc=<div>Quordle is just like Wordle except you try to guess four words at the same time - many of us feel that is a better, less chancy game than Wordle.  Target Word Count allows you to specify how many words you're solving at the same time - Wordle is 1, Quordle is 4 but there's nothing special about those.<br/><br/>High values here will slow things down so you'll need extra patience</div> >
+            <FormGroup>
+              <FormControlLabel control={<Switch  checked={targetCount() > 1} onChange={handleQuordleSwitch} />} label="Quordle" />
+            </FormGroup>
+          </PopupDoc>
         </div>
         <div className='col' align='right'>
           <PopupDoc 
@@ -135,20 +149,6 @@ export default function App() {
             label=<h5>How does it work?</h5>
             doc=<div>Wordle Pal uses a branch of mathematics called information theory to do its work.  The basic idea is that the best guess at any point is the one that minimizes the expected uncertainty after you make your guess and get your score back.  For more information, check out the <a target="_blank" href="slides.pdf" rel="noreferrer">slides from a presentation</a> or else <a target="_blank" rel="noreferrer" href="https://github.com/ramakocherlakota/wordle-level-up-2022">the code</a>.<br/><br/>
 If you have thoughts or questions, feel free to email me at <a href="mailto:rama.kocherlakota@gmail.com">rama.kocherlakota@gmail.com</a></div> />
-        </div>
-      </div>
-      <div className='row target-word'>
-        <div className='col' align='right'>
-          <PopupDoc doc=<div>Quordle is just like Wordle except you try to guess four words at the same time - many of us feel that is a better, less chancy game than Wordle.  Target Word Count allows you to specify how many words you're solving at the same time - Wordle is 1, Quordle is 4 but there's nothing special about those.<br/><br/>High values here will slow things down so you'll need extra patience</div> >
-            Target Word Count
-          </PopupDoc>
-        </div>
-        <div className='col' align='center'>
-          <NumberInput value={targetCount()} setValue={setTargetCount} minValue={1} />
-        </div>
-        <div align='left' className='col'>
-          {targetCount() === 1 && "Classic Wordle"}
-          {targetCount() === 4 && "Quordle"}
         </div>
       </div>
       <Tabs className="mb-3" justify activeKey={pane}
