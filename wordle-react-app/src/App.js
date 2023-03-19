@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+
+import { TabContext, TabList, Tab } from '@mui/lab';
+import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
+
 import Guess from './Guess';
 import Remainder from './Remainder';
 import Solve from './Solve';
@@ -11,118 +14,73 @@ import NumberInput from './NumberInput';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { ifDesktop, listWithAdjustedLength, listOfEmptyStrings } from './Util';
+import { ifDesktop, listWithAdjustedLength, listOfEmptyStrings } from './util/Util';
 import './App.scss';
-
-export function RemainingEmoji() {
-  return String.fromCodePoint(0x1F319);  // crescent moon
-}
-
-export function LuckEmoji() {
-  return String.fromCodePoint(0x1F340);  // clover
-}
-
-export function GuessEmoji() {
-  return String.fromCodePoint(0x1F4A1);  // light bulb
-}
-
-export function SolveEmoji() {
-  return String.fromCodePoint(0x1F3C1);  // checkered flag
-}
 
 export default function App() {
   const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
-  const [ dimensions, setDimensions ] = useState({targets: 1, guesses: 1});
-  const [ guesses, setGuesses ] = useState([""]);
+  const [ quordle, setQuordle ] = useState(false);
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
+  const [ showSettings, setShowSettings ] = useState(false);
+
   const [ targets, setTargets ] = useState(listOfEmptyStrings(1));
+  const [ guesses, setGuesses ] = useState([""]);
+
   const [ pane, setPane ] = useState("luck");
 
-  const luckTitle = <PopupDoc doc=
-      <div>
-        Select the target words and the guesses you made and click Go to get a rating of where you were lucky or unlucky in your guessing.  From here you can navigate to other tabs showing the lists of remaining words or get a hint on a good guess.
-      </div>
-    >
-    {LuckEmoji()} {ifDesktop("Luck")}
-    </PopupDoc>;
-
-  const remainingTitle = <PopupDoc doc=
-    <div>
-      Click on the Go button to return a list of words (for each of the target words) compatible with what guesses and scores have been selected.
-    </div> 
-    >
-    {RemainingEmoji()} {ifDesktop("Remaining")}
-    </PopupDoc>;
-
-  const bestGuessTitle = <PopupDoc doc=
-    <div>
-      Click on the Go button to return a list of the best next guesses for your Wordle / Quordle, ranked from the best down.
-    </div> 
-    >
-                           {GuessEmoji()} {ifDesktop("Guesses")}
-    </PopupDoc>;
-
-  const solveTitle = <PopupDoc doc=
-    <div>
-      Click on the Go button to have Wordle Pal solve the target word(s) you have set for it, starting from your favorite start words.
-    </div> 
-    >
-    {SolveEmoji()} {ifDesktop("Solve")}
-    </PopupDoc>;
-
-
   useEffect(() => {
-    setGuesses((gs) => listWithAdjustedLength(gs, dimensions.guesses, () => ""))
-    setScoreLists((sLists) => {
-      const adjustedForTargetCount = listWithAdjustedLength(sLists, dimensions.targets, () => [[""]]);
-      return adjustedForTargetCount.map((scoreList) => listWithAdjustedLength(scoreList, dimensions.guesses, () => [""]));
-    });
-  }, [dimensions]);
-
-  function setTargetCount(targetCountUpdater) {
-    if (typeof targetCountUpdater === 'function') {
-      setDimensions((ds) => {
-        return {
-          guesses: ds.guesses,
-          targets: targetCountUpdater(ds.targets)
-        }
-      });
+    if (quordle) {
+      setGuesses(listOfEmptyStrings(9));
+      setTargets(listOfEmptyStrings(4));
     } else {
-      setDimensions((ds) => {
-        return {
-          guesses: ds.guesses,
-          targets: targetCountUpdater
-        }
-      });
+      setGuesses(listOfEmptyStrings(6));
+      setTargets(listOfEmptyStrings(1));
     }
-  }          
+  }, [quordle]);
 
-  function setGuessCount(guessCountUpdater) {
-    if (typeof guessCountUpdater === 'function') {
-      setDimensions((ds) => {
-        return {
-          targets: ds.targets,
-          guesses: guessCountUpdater(ds.guesses)
-        }
-      });
-    } else {
-      setDimensions((ds) => {
-        return {
-          targets: ds.targets,
-          guesses: guessCountUpdater
-        }
-      });
-    }
-  }          
-
-  function targetCount() {
-    return dimensions.targets;
+  function tabLabelWithIcon(label, icon, tooltip) {
+    return (
+      <div class="tab-heading">
+        <Tooltip title={tooltip}>
+          <div class="tab-icon">
+            {icon}
+          </div>
+          <div class="tab-label">
+            {label}
+          </div>
+        </Tooltip>
+      </div>
+    );
   }
 
-  function handleQuordleSwitch(evt) {
-    setTargetCount(evt.target.checked ? 4 : 1);
-  }
+  const luckLabel = tabLabelWithIcon("Luck", LuckEmoji(), "How lucky were your guesses?");
+  const remainingLabel = tabLabelWithIcon("Remaining", RemainingEmoji(), "What possibilities remain?");
+  const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
+  const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
+
+
+  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists}  />;
+  const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
+  const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
+  const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} />;
+
+  const tabPanels = (
+    <TabContext value={pane}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <TabList onChange={(k)=>setPane(k)} >
+          <Tab label={luckLabel} value="luck" />
+          <Tab label={remainingLabel} value="remaining" />
+          <Tab label={guessLabel} value="guess" />
+          <Tab label={solveLabel} value="solve" />
+        </TabList>
+      </Box>
+      <TabPanel value="luck">{luckPanel}</TabPanel>
+      <TabPanel value="remaining">{remainingPanel}</TabPanel>
+      <TabPanel value="guess">{guessPanel}</TabPanel>
+      <TabPanel value="solve">{solvePanel}</TabPanel>
+    </TabContext>
+  );
 
   return (
     <div className='app'>
@@ -151,19 +109,10 @@ export default function App() {
 If you have thoughts or questions, feel free to email me at <a href="mailto:rama.kocherlakota@gmail.com">rama.kocherlakota@gmail.com</a></div> />
         </div>
       </div>
-      <Tabs className="mb-3" justify activeKey={pane}
-            onSelect={(k) => setPane(k)} >
-        <Tab eventKey="luck" title={luckTitle} >
-          <Luck allGuesses={allGuesses} setAllGuesses={setAllGuesses} setGuessCount={setGuessCount} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists} setGlobalGuessCount={setGuessCount} />
-        </Tab>
-        <Tab eventKey="remaining" title={remainingTitle} >
-          <Remainder allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
-        </Tab>
         <Tab eventKey="guess" title={bestGuessTitle} >
-          <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} />
+
         </Tab>
         <Tab eventKey="solve" title={solveTitle}>
-          <Solve allGuesses={allGuesses} setAllGuesses={setAllGuesses} hardMode={hardMode} setHardMode={setHardMode} targetCount={targetCount()} setTargetCount={setTargetCount} targets={targets} setTargets={setTargets} />
         </Tab>
       </Tabs>
     </div>
