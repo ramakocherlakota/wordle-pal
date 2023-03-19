@@ -1,3 +1,7 @@
+export function SettingsEmoji() {
+  return String.fromCodePoint(0x2699);  // gear
+}
+
 export function RemainingEmoji() {
   return String.fromCodePoint(0x1F319);  // crescent moon
 }
