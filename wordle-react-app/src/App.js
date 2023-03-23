@@ -1,10 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
+import PopupDoc from './PopupDoc';
+import './App.scss';
 
 import {
+  PalEmoji,
   LuckEmoji,
   RemainingEmoji,
   GuessEmoji,
+  QuestionEmoji,
   SolveEmoji
 } from './util/Emojis';
 
@@ -21,7 +25,7 @@ import { listOfEmptyStrings } from './util/Util';
 //import PopupDoc from './PopupDoc';
 //import NumberInput from './NumberInput';
 //import Switch from '@mui/material/Switch';
-//import './App.scss';
+//<
 
 export default function App() {
   const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
@@ -88,13 +92,28 @@ export default function App() {
 //  );
 
   return (
-    <div>
-      <Settings  hardMode={hardMode}
-                 setHardMode={setHardMode}
-                 quordle={quordle}
-                 setQuordle={setQuordle}
-                 allGuesses={allGuesses}
-                 setAllGuesses={setAllGuesses}/>
+    <div className='app'>
+      <div className='header-row'>
+        <div className='header-row-cell'>
+          {PalEmoji()}
+        </div>
+        <div className='header-row-cell'>
+          Wordle Pal
+        </div>
+        <div className='header-row-cell'>
+          <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> fontSize="60px">
+            <div>
+              The first thing WordlePal will do for you is:
+            </div>
+          </PopupDoc>
+          <Settings  hardMode={hardMode}
+                     setHardMode={setHardMode}
+                     quordle={quordle}
+                     setQuordle={setQuordle}
+                     allGuesses={allGuesses}
+                     setAllGuesses={setAllGuesses}/>
+        </div>
+      </div>
     </div>
   );
     

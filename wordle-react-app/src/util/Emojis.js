@@ -1,3 +1,8 @@
+export function PalEmoji() {
+  return String.fromCodePoint(0x53cb);  // tomodachi
+}
+
+
 export function SettingsEmoji() {
   return String.fromCodePoint(0x2699);  // gear
 }
@@ -16,4 +21,8 @@ export function GuessEmoji() {
 
 export function SolveEmoji() {
   return String.fromCodePoint(0x1F3C1);  // checkered flag
+}
+
+export function QuestionEmoji() {
+  return String.fromCodePoint(0x2753);  // Black Question Mark
 }
