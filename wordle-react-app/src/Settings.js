@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,11 +8,6 @@ import { SettingsEmoji } from './util/Emojis.js';
 import './Settings.scss';
 
 export default function Settings({ hardMode, setHardMode, quordle, setQuordle, allGuesses, setAllGuesses }) {
-  const [ show, setShow ] = useState(false);
-
-  const handleOpen = () => setShow(true);
-  const handleClose = () => setShow(false);
-
   const onOff = (label, flag) => {
     return <div>{label}: {flag ? "on" : "off"}</div>;
   }

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
-import PopupDoc from './PopupDoc';
+
 import './App.scss';
 
 import {
@@ -12,20 +12,18 @@ import {
   SolveEmoji
 } from './util/Emojis';
 
-import { TabContext, TabList, Tab, TabPanel } from '@mui/lab';
+import PopupDoc from './PopupDoc';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
 import Tooltip from '@mui/material/Tooltip';
 
 import Settings from './Settings';
 import { listOfEmptyStrings } from './util/Util';
-//import Guess from './Guess';
-//import Remaining from './Remaining';
-//import Solve from './Solve';
-//import Luck from './Luck';
-//import PopupDoc from './PopupDoc';
-//import NumberInput from './NumberInput';
-//import Switch from '@mui/material/Switch';
-//<
+import Guess from './Guess';
+import Remaining from './Remaining';
+import Solve from './Solve';
+import Luck from './Luck';
 
 export default function App() {
   const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
@@ -48,54 +46,58 @@ export default function App() {
     }
   }, [quordle]);
 
-//  function tabLabelWithIcon(label, icon, tooltip) {
-//    return (
-//      <div class="tab-heading">
-//        <Tooltip title={tooltip}>
-//          <div class="tab-icon">
-//            {icon}
-//          </div>
-//          <div class="tab-label">
-//            {label}
-//          </div>
-//        </Tooltip>
-//      </div>
-//    );
-//  }
-//
-//  const luckLabel = tabLabelWithIcon("Luck", LuckEmoji(), "How lucky were your guesses?");
-//  const remainingLabel = tabLabelWithIcon("Remaining", RemainingEmoji(), "What possibilities remain?");
-//  const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
-//  const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
-//
-//
-//  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists}  />;
-//  const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
-//  const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
-//  const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} />;
-//
-//  const tabPanels = (
-//    <TabContext value={pane}>
-//      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-//        <TabList onChange={(k)=>setPane(k)} >
-//          <Tab label={luckLabel} value="luck" />
-//          <Tab label={remainingLabel} value="remaining" />
-//          <Tab label={guessLabel} value="guess" />
-//          <Tab label={solveLabel} value="solve" />
-//        </TabList>
-//      </Box>
-//      <TabPanel value="luck">{luckPanel}</TabPanel>
-//      <TabPanel value="remaining">{remainingPanel}</TabPanel>
-//      <TabPanel value="guess">{guessPanel}</TabPanel>
-//      <TabPanel value="solve">{solvePanel}</TabPanel>
-//    </TabContext>
-//  );
+  function tabLabelWithIcon(label, icon, tooltip) {
+    return (
+      <div class="tab-heading">
+        <Tooltip title={tooltip}>
+          <div class="tab-icon">
+            {icon}
+          </div>
+          <div class="tab-label">
+            {label}
+          </div>
+        </Tooltip>
+      </div>
+    );
+  }
+
+  const luckLabel = tabLabelWithIcon("Luck", LuckEmoji(), "How lucky were your guesses?");
+  const remainingLabel = tabLabelWithIcon("Remaining", RemainingEmoji(), "What possibilities remain?");
+  const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
+  const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
+
+
+  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} setScoreLists={setScoreLists}  />;
+  const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
+  const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
+  const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} />;
+
+  const tabPanels = (
+    <TabContext value={pane}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <TabList onChange={(k)=>setPane(k)} >
+          <Tab label={luckLabel} value="luck" />
+          <Tab label={remainingLabel} value="remaining" />
+          <Tab label={guessLabel} value="guess" />
+          <Tab label={solveLabel} value="solve" />
+        </TabList>
+      </Box>
+      <TabPanel value="luck">{luckPanel}</TabPanel>
+      <TabPanel value="remaining">{remainingPanel}</TabPanel>
+      <TabPanel value="guess">{guessPanel}</TabPanel>
+      <TabPanel value="solve">{solvePanel}</TabPanel>
+    </TabContext>
+  );
 
   return (
     <div className='app'>
       <div className='header-row'>
         <div className='header-row-cell'>
-          {PalEmoji()}
+          <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> fontSize="60px">
+            <div>
+              The first thing WordlePal will do for you is:
+            </div>
+          </PopupDoc>
         </div>
         <div className='header-row-cell'>
           Wordle Pal
@@ -113,6 +115,7 @@ export default function App() {
                      allGuesses={allGuesses}
                      setAllGuesses={setAllGuesses}/>
         </div>
+        {tabPanels}
       </div>
     </div>
   );

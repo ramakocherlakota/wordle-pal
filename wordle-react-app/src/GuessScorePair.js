@@ -1,14 +1,11 @@
 import React from 'react';
 
-import { ReactComponent as TrashIcon } from './trash.svg';
-import { ReactComponent as PlusIcon } from './plus-circle.svg';
 import GuessSelect from './GuessSelect';
 import ScoreSelect from './ScoreSelect';
-import './add-delete-buttons.scss';
 import './link-button.scss';
-import { replaceInList } from './Util';
+import { replaceInList } from './util/Util';
 
-export default function GuessScorePair({allGuesses, scores, guess, setScores, setGuess, deleter, adder}) {
+export default function GuessScorePair({allGuesses, scores, guess, setScores, setGuess}) {
 
   const setGuessHandler = (a) => {
     setGuess(a);
@@ -30,13 +27,5 @@ export default function GuessScorePair({allGuesses, scores, guess, setScores, se
           <ScoreSelect placeholder="Score..." setValue={setScoreHandler(idx)}  value={score} />
         </div>
       )}
-      <div className='col'>
-        <div className='row'>
-           <div className='col' align='left'> 
-             <button className="link-button add-delete-button" onClick={deleter}><TrashIcon className="icon" /></button>
-             {adder && <button className="link-button add-delete-button" onClick={adder}><PlusIcon className="icon" /></button>}
-           </div>
-        </div>
-      </div>
     </div>);
 }

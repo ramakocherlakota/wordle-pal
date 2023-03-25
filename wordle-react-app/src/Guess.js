@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import QueryGuessScores from './QueryGuessScores';
-import HardModeRow from './HardModeRow';
-import AllGuessesRow from './AllGuessesRow';
-import NumberInput from './NumberInput';
 import PopupDoc from './PopupDoc';
+import NumberInput from  './NumberInput';
 
-export default function Guess({allGuesses, setAllGuesses, guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, hardMode, setHardMode, targetCount}) {
+export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setScoreLists, targetCount, hardMode}) {
   const [bestGuessCount, setBestGuessCount] = useState(5);
   const headers = ["rank", "guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"];
   const headerLabels = {
@@ -25,9 +23,7 @@ export default function Guess({allGuesses, setAllGuesses, guesses, setGuesses, s
 
   return (
     <>
-      <QueryGuessScores allGuesses={allGuesses} operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses} setGuessCount={setGuessCount} scoreLists={scoreLists} setScoreLists={setScoreLists} bestGuessCount={bestGuessCount} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} >
-        <HardModeRow hardMode={hardMode} setHardMode={setHardMode} />
-        <AllGuessesRow allGuesses={allGuesses} setAllGuesses={setAllGuesses} />
+      <QueryGuessScores allGuesses={allGuesses} operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} bestGuessCount={bestGuessCount} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} >
         <div className='row'>
           <div className='col' align='right'>
             <PopupDoc doc=<div>

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { LuckEmoji, RemainingEmoji, GuessEmoji } from './App';
+import { LuckEmoji, RemainingEmoji, GuessEmoji } from './util/Emojis';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 
