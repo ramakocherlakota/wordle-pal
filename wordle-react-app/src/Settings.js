@@ -14,7 +14,6 @@ export default function Settings({ hardMode, setHardMode, quordle, setQuordle, a
 
   const currentSettings =
     <div className='tooltip-text'>
-      Current Settings
       {onOff("Quordle", quordle)}
       {onOff("Hard Mode", hardMode)}
       {onOff("All Guesses", allGuesses)}

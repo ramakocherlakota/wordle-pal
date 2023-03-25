@@ -13,9 +13,11 @@ import {
 } from './util/Emojis';
 
 import PopupDoc from './PopupDoc';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 
 import Settings from './Settings';
@@ -48,13 +50,15 @@ export default function App() {
 
   function tabLabelWithIcon(label, icon, tooltip) {
     return (
-      <div class="tab-heading">
+      <div className="tab-heading">
         <Tooltip title={tooltip}>
-          <div class="tab-icon">
-            {icon}
-          </div>
-          <div class="tab-label">
-            {label}
+          <div className="tab">
+            <div className="tab-icon">
+              {icon}
+            </div>
+            <div className="tab-label">
+              {label}
+            </div>
           </div>
         </Tooltip>
       </div>
@@ -73,9 +77,9 @@ export default function App() {
   const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} />;
 
   const tabPanels = (
-    <TabContext value={pane}>
+    <TabContext value={pane} >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList onChange={(k)=>setPane(k)} >
+        <TabList value={pane} onChange={(evt, k)=>setPane(k)} >
           <Tab label={luckLabel} value="luck" />
           <Tab label={remainingLabel} value="remaining" />
           <Tab label={guessLabel} value="guess" />
@@ -92,31 +96,29 @@ export default function App() {
   return (
     <div className='app'>
       <div className='header-row'>
-        <div className='header-row-cell'>
-          <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> fontSize="60px">
-            <div>
-              The first thing WordlePal will do for you is:
-            </div>
-          </PopupDoc>
-        </div>
-        <div className='header-row-cell'>
+        <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> fontSize="60px">
+          <div>
+            How does Wordle Pal work?
+          </div>
+        </PopupDoc>
+        <div className="header-row-cell">
           Wordle Pal
         </div>
-        <div className='header-row-cell'>
+        <div className="header-row-cell">
           <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> fontSize="60px">
             <div>
               The first thing WordlePal will do for you is:
             </div>
           </PopupDoc>
-          <Settings  hardMode={hardMode}
-                     setHardMode={setHardMode}
-                     quordle={quordle}
-                     setQuordle={setQuordle}
-                     allGuesses={allGuesses}
-                     setAllGuesses={setAllGuesses}/>
+        <Settings  hardMode={hardMode}
+                   setHardMode={setHardMode}
+                   quordle={quordle}
+                   setQuordle={setQuordle}
+                   allGuesses={allGuesses}
+                   setAllGuesses={setAllGuesses}/>
         </div>
-        {tabPanels}
       </div>
+      {tabPanels}
     </div>
   );
     

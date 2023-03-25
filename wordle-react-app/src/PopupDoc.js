@@ -20,11 +20,11 @@ export default function PopupDoc({children, label, tooltip, ok, fontSize}) {
   const buttonLabel = label ? label : <div className='default-anchor'><sup>{QuestionEmoji()}</sup></div>;
 
   return (
-    <>
-      <Tooltip title={tooltip}>
+    < >
+      <Tooltip title={tooltip} >
         <Button sx={{fontSize: {fontSize}}} onClick={handleOpen}>{buttonLabel}</Button>
       </Tooltip>
-      <Dialog open={show} handleClose={handleClose} onBackdropClick={handleClose} >
+      <Dialog open={show} onClose={handleClose} onBackdropClick={handleClose} >
         <DialogContent>
           {children}
         </DialogContent>
