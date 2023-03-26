@@ -6,7 +6,9 @@ export default function WordSelect({ label, value, onChange, options, doc, place
   function keyedOptions(input) {
     if (input && input.length > 1) {
       const key = input.substring(0, 2).toLowerCase();
-      return ["",...options[key]];
+      const keyedOptions = options[key];
+      const filtered = keyedOptions.filter(o => o.toLowerCase().startsWith(input.toLowerCase()));
+      return ["",...filtered];
     } else {
       return [];
     }
