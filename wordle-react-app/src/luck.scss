@@ -1,5 +1,19 @@
-.targets {
-    text-align: right;
+.targets-guesses {
+    display: flex;
+    flex-direction: column;
+
+    padding-bottom: 10px;
+
+    .label {
+        text-align: left;
+    }
+    
+    .fields {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
 
 .guesses {

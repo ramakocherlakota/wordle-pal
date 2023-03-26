@@ -1,5 +1,4 @@
 import React from 'react';
-import PopupDoc from './PopupDoc';
 import Autofill from './Autofill';
 
 export default function WordSelect({ label, value, onChange, options, doc, placeholder }) {
@@ -14,12 +13,10 @@ export default function WordSelect({ label, value, onChange, options, doc, place
   }
 
   return (
-     <PopupDoc doc=<div>{doc}</div> >
-       <Autofill
-         placeholder={label}
-         value={value}
-         setValue={onChange}
-         optionFunc={keyedOptions} />
-     </PopupDoc>
+    <Autofill
+      placeholder={label}
+      value={value}
+      setValue={onChange}
+      optionFunc={keyedOptions} />
   );
 }

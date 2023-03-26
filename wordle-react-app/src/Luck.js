@@ -4,17 +4,17 @@ import Results from './Results';
 import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import GuessSelect from './GuessSelect';
-import { listWithAdjustedLength, replaceInList} from './util/Util';
+import { listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './util/Util';
 import './luck.scss';
 import LuckOutputFormat from './LuckOutputFormat';
 
 export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
-                               hardMode, targetCount, setPane, setGlobalGuesses }) {
+                               hardMode, targetCount, setPane, setGlobalGuesses, globalGuessCount }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
-  const [ guesses, setGuesses ] = useState([""]);
+  const [ guesses, setGuesses ] = useState(listOfEmptyStrings(globalGuessCount));
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
@@ -38,6 +38,10 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   useEffect(() => {
     setTargets((t) => listWithAdjustedLength(t, targetCount));
   }, [targetCount, setTargets]);
+
+  useEffect(() => {
+    setGuesses((g) => listWithAdjustedLength(g, globalGuessCount));
+  }, [globalGuessCount, setGuesses]);
 
   useEffect(() => {
     function allChosen() {
@@ -83,20 +87,13 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   }
 
   function targetSelects() {
-    const filling = targets.map((target, idx) => {
+    return targets.map((target, idx) => {
       return (
-        <div className='row' key={idx} >
-          <div className='col'>
-            <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
-          </div>
+        <div className='select' key={idx}>
+          <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
         </div>
       );
     });
-    return (
-      <div className='col target'>
-        {filling}
-      </div>
-    );
   }
 
   function setGuess(i, newval) {
@@ -110,40 +107,31 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   }
 
   function guessSelects() {
-    const filling = guesses.map((guess, idx) => {
+    return guesses.map((guess, idx) => {
       return (
-        <div className='row' key={idx} >
-          <div className='col'>
-            <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)}
-                         value={guess} placeholder="Guess..." /> 
-          </div>
+        <div className='select' key={idx} >
+          <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)}
+                       value={guess} placeholder="Guess..." /> 
         </div>
       );
     });
-    return (
-      <>
-        <div className='col guess'>
-          {filling}
-        </div>
-      </>
-    );
   }
 
   return (
     <>
-      <div className="row" >
-        <div className="col targets">
-          Target Word{targetCount > 1 ? "s" : ""}
+      <div className="targets-guesses" >
+        <div className="label">
+          Targets
         </div>
-        <div className="col">
+        <div className='fields'>
           {targetSelects()}
         </div>
       </div>
-      <div className="row guess-block" >
-        <div className="col guesses">
+      <div className="targets-guesses" >
+        <div className="label">
           Guesses
         </div>
-        <div className="col">
+        <div className="fields">
           {guessSelects()}
         </div>
       </div>
