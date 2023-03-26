@@ -52,20 +52,20 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
       }
 
       for (let j=0; j<guesses.length; j++) {
-        if (!guesses[j] || guesses[j].length === 0) {
-          return false;
+        if (guesses[j] && guesses[j].length > 0) {
+          return true;
         }
       }
 
-      return true;
+      return false;
     }
 
     setShowResults(false);
     if (allChosen()) {
       setRequest({
         operation: "qrate_solution",
-        targets,
-        guesses,
+        targets: targets.filter(t => t && t.length > 0),
+        guesses: guesses.filter(g => g && g.length > 0),
         hard_mode: hardMode,
         count: 1
       });

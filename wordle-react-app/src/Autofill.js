@@ -7,10 +7,12 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
   const [ optionList, setOptionList ] = useState(initialOptions || []);
 
   function onInputChange(evt, val) {
-    const list = optionFunc(val);
-    setOptionList(list);
-    if (list.length === 2) {  // blank plus something else
-      setValue(list[1]);
+    setOptionList(optionFunc(val));
+  }
+
+  function onBlur() {
+    if (optionList.length === 2) {  // blank plus something else
+      setValue(optionList[1]);
     } else {
       setValue('');
     }
@@ -28,6 +30,7 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
         openOnFocus
         disableClearable
         value={value}
+        onBlur={onBlur}
         onChange={onChange}
         onInputChange={onInputChange}
         sx={{ width: 120 }}
