@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import './link-button.scss';
 import './popup-doc.scss';
-import {
-  QuestionEmoji
-} from './util/Emojis';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,18 +8,18 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import './App.scss';
 
-export default function PopupDoc({children, label, tooltip, ok, fontSize}) {
+export default function PopupDoc({children, label, tooltip, ok}) {
   const [ show, setShow ] = useState(false);
 
   const handleOpen = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const buttonLabel = label ? label : <div className='default-anchor'><sup>{QuestionEmoji()}</sup></div>;
+  const buttonLabel = <div className="button-label">{label}</div>;
 
   return (
     < >
-      <Tooltip title={tooltip} >
-        <Button sx={{fontSize: {fontSize}}} onClick={handleOpen}>{buttonLabel}</Button>
+      <Tooltip title={tooltip}>
+        <Button  onClick={handleOpen}>{buttonLabel}</Button>
       </Tooltip>
       <Dialog open={show} onClose={handleClose} onBackdropClick={handleClose} >
         <DialogContent>

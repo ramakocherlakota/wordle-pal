@@ -96,16 +96,18 @@ export default function App() {
   return (
     <div className='app'>
       <div className='header-row'>
-        <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> fontSize="60px">
-          <div>
-            How does Wordle Pal work?
-          </div>
-        </PopupDoc>
         <div className="header-row-cell">
-          Wordle Pal
+          <h3>
+            Wordle Pal
+          </h3>
         </div>
         <div className="header-row-cell">
-          <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> fontSize="60px">
+          <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> >
+            <div>
+              How does Wordle Pal work?
+            </div>
+          </PopupDoc>
+          <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
             <div>
               The first thing WordlePal will do for you is:
             </div>
