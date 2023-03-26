@@ -9,7 +9,7 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
   function onInputChange(evt, val) {
     const list = optionFunc(val);
     setOptionList(list);
-    if (list.length === 2) {
+    if (list.length === 2) {  // blank plus something else
       setValue(list[1]);
     } else {
       setValue('');

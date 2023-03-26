@@ -1,6 +1,5 @@
 export default function ScoreOptions() {
   return [
-    '',
     '-----',
     '----B',
     '----W',
