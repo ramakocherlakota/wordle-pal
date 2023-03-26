@@ -21,7 +21,7 @@ import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 
 import Settings from './Settings';
-import { listOfEmptyStrings } from './util/Util';
+import { listWithAdjustedLength, listOfEmptyStrings } from './util/Util';
 import Guess from './Guess';
 import Remaining from './Remaining';
 import Solve from './Solve';
@@ -39,12 +39,16 @@ export default function App() {
   const [ pane, setPane ] = useState("luck");
 
   useEffect(() => {
-    if (quordle) {
-      setGuesses(listOfEmptyStrings(9));
-      setTargets(listOfEmptyStrings(4));
+    const adjustLengths = (gCount, tCount) => {
+      setGuesses((g) => listWithAdjustedLength(g, gCount));
+      setTargets((t) => listWithAdjustedLength(t, tCount));
+      setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [[""]]));
+    }
+
+    if (!quordle) {
+      adjustLengths(6, 1);
     } else {
-      setGuesses(listOfEmptyStrings(6));
-      setTargets(listOfEmptyStrings(1));
+      adjustLengths(9, 4);
     }
   }, [quordle]);
 
