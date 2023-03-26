@@ -24,7 +24,6 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
         forcePopupIcon={false}
         size="small"
         openOnFocus
-        noOptionsText="Type..."
         disableClearable
         value={value}
         onChange={onChange}
