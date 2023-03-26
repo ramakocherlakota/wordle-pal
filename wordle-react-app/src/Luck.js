@@ -119,18 +119,13 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
 
   return (
     <>
+      Enter the target word(s) and your guesses to see how lucky you were.
       <div className="targets-guesses" >
-        <div className="label">
-          Targets
-        </div>
         <div className='fields'>
           {targetSelects()}
         </div>
       </div>
       <div className="targets-guesses" >
-        <div className="label">
-          Guesses
-        </div>
         <div className="fields">
           {guessSelects()}
         </div>
