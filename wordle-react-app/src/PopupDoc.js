@@ -18,9 +18,13 @@ export default function PopupDoc({children, label, tooltip, ok}) {
 
   return (
     < >
-      <Tooltip title={tooltip}>
-        <Button  onClick={handleOpen}>{buttonLabel}</Button>
-      </Tooltip>
+      {
+        tooltip
+          ? <Tooltip title={tooltip}>
+              <Button onClick={handleOpen}>{buttonLabel}</Button>
+            </Tooltip>
+        : <Button onClick={handleOpen}>{buttonLabel}</Button>
+      }
       <Dialog open={show} onClose={handleClose} onBackdropClick={handleClose} >
         <DialogContent>
           {children}

@@ -1,10 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { LuckEmoji, RemainingEmoji, GuessEmoji } from './util/Emojis';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 
-export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses, setGlobalGuessCount}) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses}) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {
@@ -73,7 +72,6 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
 
   function gotoPane(pane, n) {
     return function() {
-      setGlobalGuessCount(n);
       setGlobalGuesses(extractGuesses(n));
       setScoreLists(extractScoreLists(n));
       setPane(pane);
@@ -107,11 +105,20 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
           : row_data;
     const scoreCells = row_data_with_totals.map(cell => {
       if (cell) {
+        const cellLabel = (
+          <div className='cell-label'>
+            <div className='luck-score'>
+              {cell.score.toUpperCase()}
+            </div>
+            <div className='luck-bits'>
+              {formatLuck(cell.luck)}{LuckEmoji()}
+            </div>
+          </div>
+        );
         return 'score' in cell
           ? <td className='score-cell'>
-              <PopupDoc label=<div className='luck-bits'>{formatLuck(cell.luck)}{LuckEmoji()}</div>
-                doc={formatCell(cell)} >
-                <div>{cell.score.toUpperCase()}</div>
+              <PopupDoc label={cellLabel}>
+                <div>{formatCell(cell)}</div>
               </PopupDoc>
             </td>
            : <td/>;
@@ -133,17 +140,13 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     if (x === 'guess') {
       return <div/>;
     }
-      return (
-        <PopupDoc doc=
-          <div>
-            How lucky was your guess?  The number next to the four-leaf clover gives you an estimate (in bits) of just how lucky you were, measured by the actual amount of uncertainty after your guess compared to the expecte amount of uncertainty.  For more detail on how good your guess was click on the clover.
-          </div>
-        >{headerLabels[x]}</PopupDoc>
-        );
-      }
+    return (
+      headerLabels[x]
+      );
+    }
       
     const linksHeader =
-      <PopupDoc doc=
+      <PopupDoc tooltip=
         <div>
           Click on the crescent moon to see the list of remaining possible answers and the light bulb for a hint on good next guesses at that point in the puzzle.
         </div>

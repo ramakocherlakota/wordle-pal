@@ -8,8 +8,23 @@
     padding-right: 10px;
 }
 
+.cell-label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.luck-score {
+    align-self: flex-start;
+    font-family: monospace;
+    text-align: left;
+    padding-right: 10px;
+}
+
 .luck-bits {
-    margin-left: 40px;
+    align-self: flex-end;
+    text-align: right;
+    padding-left: 10px;
 }
 
 .luck-table {
