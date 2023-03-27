@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
 import Results from './Results';
 import GoButton from './GoButton';
@@ -18,7 +17,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   const [ request, setRequest ] = useState(undefined);
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
-  const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses}  />;
+  const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} globalGuessCount={globalGuessCount} targetCount={targetCount} />;
   const [ guesses, setGuesses ] = useState([""]);
   const [ showResults, setShowResults ] = useState(false);
 

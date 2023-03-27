@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { LuckEmoji, RemainingEmoji, GuessEmoji } from './util/Emojis';
 import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
+import { listWithAdjustedLength } from './util/Util';
 
-export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses}) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses, globalGuessCount, targetCount}) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {
@@ -53,9 +55,9 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   function extractGuesses(n) {
     const all_guesses = union_lists(Object.values(output.by_target).map(records => records.map(record=>record.guess)))
     if (n) {
-      return all_guesses.slice(0, n);
+      return listWithAdjustedLength(all_guesses.slice(0, n), globalGuessCount);
     } else {
-      return all_guesses;
+      return listWithAdjustedLength(all_guesses, globalGuessCount);
     }
   }
 
