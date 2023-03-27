@@ -80,7 +80,22 @@ export default function App() {
   const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} />;
   const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} />;
 
-  const tabPanels = (
+  const keyedTabPanels = {
+    luck: luckPanel,
+    remaining: remainingPanel,
+    guess: guessPanel,
+    solve: solvePanel
+  };
+
+  const tabPanels = Object.keys(keyedTabPanels).map((key) => {
+    return (
+      <div className={pane === key ? 'tab-panel' : 'tab-panel-hidden'}>
+        {keyedTabPanels[key]}
+      </div>
+    );
+  });
+
+  const tabContext = (
     <TabContext value={pane} >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <TabList value={pane} onChange={(evt, k)=>setPane(k)} >
@@ -90,10 +105,10 @@ export default function App() {
           <Tab label={solveLabel} value="solve" />
         </TabList>
       </Box>
-      <TabPanel value="luck">{luckPanel}</TabPanel>
-      <TabPanel value="remaining">{remainingPanel}</TabPanel>
-      <TabPanel value="guess">{guessPanel}</TabPanel>
-      <TabPanel value="solve">{solvePanel}</TabPanel>
+      <TabPanel value="luck"></TabPanel>
+      <TabPanel value="remaining"></TabPanel>
+      <TabPanel value="guess"></TabPanel>
+      <TabPanel value="solve"></TabPanel>
     </TabContext>
   );
 
@@ -124,6 +139,7 @@ export default function App() {
                    setAllGuesses={setAllGuesses}/>
         </div>
       </div>
+      {tabContext}
       {tabPanels}
     </div>
   );

@@ -3,8 +3,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import './go-button.scss'
 
-import PopupDoc from './PopupDoc';
-
 export default function GoButton({ showQueryButton, setShowQueryButton, showResults, setShowResults, loading, elapsedTime }) {
   function callQuery() {
     setShowResults(true);

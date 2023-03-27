@@ -4,7 +4,7 @@ import Results from './Results';
 import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import GuessSelect from './GuessSelect';
-import { listOfEmptyStrings, listWithAdjustedLength, replaceInList} from './util/Util';
+import { listWithAdjustedLength, replaceInList} from './util/Util';
 import './luck.scss';
 import LuckOutputFormat from './LuckOutputFormat';
 
@@ -14,13 +14,13 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
-  const [ guesses, setGuesses ] = useState(listOfEmptyStrings(globalGuessCount));
   const [ showQueryButton, setShowQueryButton ] = useState(false);
-  const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
   const [ headers, setHeaders ] = useState([]);
   const [ headerLabels, setHeaderLabels ] = useState({});
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses}  />;
+  const [ guesses, setGuesses ] = useState([""]);
+  const [ showResults, setShowResults ] = useState(false);
 
   useEffect(() => {
     const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`)];
