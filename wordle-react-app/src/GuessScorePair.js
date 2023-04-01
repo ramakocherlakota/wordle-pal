@@ -13,7 +13,8 @@ export default function GuessScorePair({allGuesses, scores, guess, setScores, se
 
   function setScoreHandler(idx) {
     return function(s) {
-      setScores(replaceInList(scores, s, idx));
+      const newScores = replaceInList(scores, s, idx);
+      setScores(newScores);
     }
   }
 

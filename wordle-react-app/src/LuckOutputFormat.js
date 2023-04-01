@@ -65,7 +65,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     const targets = Object.keys(output.by_target);
     const score_lists = targets.map(target => {
       const rows_for_target = output.by_target[target];
-      return rows_for_target.map((row) => {
+      return rows_for_target.slice(0, n).map((row) => {
         return row.score;
       });
     });

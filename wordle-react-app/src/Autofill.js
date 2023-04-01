@@ -5,7 +5,7 @@ import './Autofill.scss';
 
 export default function Autofill({ placeholder, value, setValue, optionFunc, initialOptions }) {
   const [ optionList, setOptionList ] = useState(initialOptions || []);
-  const [ inputValue, setInputValue ] = useState('');
+  const [ inputValue, setInputValue ] = useState(value || '');
 
   function onInputChange(evt, val) {
     setInputValue(val);

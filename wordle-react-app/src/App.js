@@ -42,7 +42,10 @@ export default function App() {
     const adjustLengths = (gCount, tCount) => {
       setGuesses((g) => listWithAdjustedLength(g, gCount));
       setTargets((t) => listWithAdjustedLength(t, tCount));
-      setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [[""]]));
+
+      // there should be tCount scoreLists, each with a length of gCount
+      const newScoreLists = listWithAdjustedLength([], tCount, () => [listOfEmptyStrings(gCount)]);
+      setScoreLists(newScoreLists)
     }
 
     if (!quordle) {
