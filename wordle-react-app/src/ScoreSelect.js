@@ -4,10 +4,8 @@ import ScoreOptions from './data/ScoreOptions';
 
 export default function ScoreSelect({ value, setValue }) {
   const scoreOptions = ScoreOptions();
-  const optionFunc = (input) => {
-    const matches = scoreOptions.filter(o => o.toLowerCase().startsWith(input.toLowerCase()));
-    return ["", ...matches];
-  }
+
+  const optionFunc = () => scoreOptions;
 
   return (
     <Autofill placeholder="Score..."
