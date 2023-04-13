@@ -12,21 +12,25 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
 
   useEffect(() => {
     setShowResults(false);
-    const guessesComplete = guesses.filter((guess) => (!guess || guess.length === 0)).length === 0;
-    const hasBlanks = (scoreList) => {
-      return (scoreList.filter((score) => {
-        return score?.length === 0;
-      }).length > 0);
-    };
-    const notSolved = (scoreList) => {
-      return (scoreList.filter((score) => {
-        return score?.match(/^B+$/i);
-      }).length === 0);
-    }
-    const scoreListsComplete = scoreLists.filter(scoreList =>
-      notSolved(scoreList) && hasBlanks(scoreList)).length === 0;
 
-    if (scoreListsComplete && guessesComplete) {
+    function filterCompleted(list) {
+      return list.map((it, i) => {
+        if (it?.length !== 0) {
+          return i;
+        } else {
+          return "";
+        }
+      }).filter(x => x !== "");      
+    }
+
+    const completedGuesses = filterCompleted(guesses);
+
+    const consistentScoreLists = scoreLists.filter((scoreList) => {
+      const completedScores = completedGuesses.filter(i => scoreList[i] !== '');
+      return completedScores.length === completedGuesses.length;
+    });
+
+    if (consistentScoreLists.length === targetCount) {
       setShowQueryButton(true);
       setRequest({
         operation: operation,
@@ -38,7 +42,7 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
     } else {
       setShowQueryButton(false);
     }
-  }, [allGuesses, guesses, scoreLists, bestGuessCount, operation, hardMode]);
+  }, [allGuesses, guesses, scoreLists, bestGuessCount, operation, hardMode, targetCount]);
 
   return (
     <>
