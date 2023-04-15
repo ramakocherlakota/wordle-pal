@@ -25,8 +25,10 @@ class Quordle:
 
     def guesses(self, count):
         all_guesses = self.rate_all_guesses()
-        return all_guesses['uncertainties'][0:count]
-        
+        if count:
+            return all_guesses['uncertainties'][0:count]
+        else:
+            return all_guesses['uncertainties']
 
     def rate_solution(self, targets, guesses):
         target_ratings = {}

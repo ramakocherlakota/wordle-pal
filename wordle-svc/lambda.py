@@ -46,7 +46,7 @@ def handler(event, context) :
                                   hard_mode = data.get('hard_mode', False))
     
                 targets = data.get("targets", [])
-                count = data.get("count", 1)
+                count = data.get("count", None)
                 guesses = data.get("guesses", [])
 
                 if data['operation'] == 'qrate_solution':

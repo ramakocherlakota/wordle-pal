@@ -6,7 +6,7 @@ hard_mode = False
 debug = False
 dbname = "wordle.sqlite"
 dbfolder = "../db"
-count = 1
+count = None
 
 for arg in sys.argv[1:]:
     if arg.startswith("-"):
