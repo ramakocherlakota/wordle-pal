@@ -9,7 +9,11 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
 
   function onInputChange(evt, val) {
     setInputValue(val);
-    setOptionList(optionFunc(val));
+    const optionList = optionFunc(val);
+    setOptionList(optionList);
+    if (optionList.length === 0) {
+      setValue(null);
+    }
   }
 
   function onBlur() {
