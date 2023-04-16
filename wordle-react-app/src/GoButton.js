@@ -10,16 +10,14 @@ export default function GoButton({ showQueryButton, setShowQueryButton, showResu
   }
 
   const label = loading ? 
-    <Button variant="primary" disabled  >
-      <div className="loading">
-        <div className='loading-spinner'>
-          <CircularProgress/>
-        </div>
-        <div className='elapsed'>
-          {(elapsedTime / 1000).toFixed(0)} sec.
-        </div>
+    <div className="loading">
+      <div className='loading-spinner'>
+        <CircularProgress/>
       </div>
-    </Button>
+      <div className='elapsed'>
+        {(elapsedTime / 1000).toFixed(0)} sec.
+      </div>
+    </div>
   : "Go";
 
 
