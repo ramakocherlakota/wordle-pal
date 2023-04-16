@@ -62,7 +62,7 @@ export default function Results({ allGuesses, headers, headerLabels, request, he
     <>
       {error && <div className="error">{error}</div>}
       {!error && output && handleOutput({output, headers, headerLabels, headerDocs}) }
-      {!loading && <div className='row footer'><div className='col' align='right'>Elapsed time: {(finalElapsedTime / 1000).toFixed(2)} sec.</div></div>}
+      {!loading && <div className='footer'><div align='right'>Elapsed time: {(finalElapsedTime / 1000).toFixed(2)} sec.</div></div>}
     </>
   );
 }

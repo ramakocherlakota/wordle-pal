@@ -1,4 +1,5 @@
 import React from 'react';
+import './remaining-output-format.scss';
 
 export default function RemainingOutputFormat(data) {
   const { output } = data;
@@ -6,13 +7,11 @@ export default function RemainingOutputFormat(data) {
   function dataRows(rows) {
     return (
       <div className='row'>
-        <div key="guesses" className="col"/>
         {rows && rows.map((lst, idx) => {
           return (
-            <div key={idx} className="col" align="left">{wordList(lst)}</div>
+            <div key={idx} className="col" >{wordList(lst)}</div>
           );
         })}
-        <div key="buttons" className="col"/>
       </div>
     );
   }
@@ -22,14 +21,14 @@ export default function RemainingOutputFormat(data) {
       return (
         list.map((it) => {
           return (
-            <>
-              {it}<br/>
-            </>
+            <div className='cell'>
+              {it}
+            </div>
           );
         })
       ); 
     } else {
-      return <em>No matches</em>
+      return <div className='cell'><em>No matches</em></div>
     }
   }
 
