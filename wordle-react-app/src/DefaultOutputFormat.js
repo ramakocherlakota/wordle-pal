@@ -6,7 +6,8 @@ export default function DefaultOutputFormat(data) {
   const { output, headers, headerLabels, headerDocs } = data;
   const headerRow = (headers && headers.map((x) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];
-    const label = doc ? <PopupDoc doc={doc}>{headerLabels[x]}</PopupDoc> : headerLabels[x];
+    const label = doc ? <PopupDoc label={headerLabels[x]} tooltip={doc} />
+          : headerLabels[x];
     return (
       <div className='cell col'>{label}</div>
     );

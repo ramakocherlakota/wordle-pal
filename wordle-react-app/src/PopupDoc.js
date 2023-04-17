@@ -15,15 +15,16 @@ export default function PopupDoc({children, label, tooltip, ok}) {
   const handleClose = () => setShow(false);
 
   const buttonLabel = <div className="button-label">{label}</div>;
+  const buttonOrLabel = children ? <Button onClick={handleOpen}>{buttonLabel}</Button> : <div>{label}</div>;
 
   return (
     < >
       {
         tooltip
           ? <Tooltip title={tooltip}>
-              <Button onClick={handleOpen}>{buttonLabel}</Button>
+              {buttonOrLabel}
             </Tooltip>
-        : <Button onClick={handleOpen}>{buttonLabel}</Button>
+        : buttonOrLabel
       }
       <Dialog open={show} onClose={handleClose} onBackdropClick={handleClose} >
         <DialogContent>

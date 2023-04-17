@@ -25,6 +25,8 @@ class Quordle:
 
     def guesses(self, count):
         all_guesses = self.rate_all_guesses()
+        if 'error' in all_guesses:
+            return all_guesses;
         if count:
             return all_guesses['uncertainties'][0:count]
         else:
