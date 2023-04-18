@@ -1,8 +1,8 @@
 import React from 'react';
 import PopupDoc from './PopupDoc';
-import './default-output-format.scss';
+import './guess-output-format.scss';
 
-export default function DefaultOutputFormat(data) {
+export default function GuessOutputFormat(data) {
   const { output, headers, headerLabels, headerDocs } = data;
   const headerRow = (headers && headers.map((x) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];

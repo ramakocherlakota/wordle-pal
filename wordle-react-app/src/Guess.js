@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import QueryGuessScores from './QueryGuessScores';
+import GuessOutputFormat from './GuessOutputFormat';
 
 export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setScoreLists, targetCount, hardMode}) {
   const headers = ["rank", "guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"];
@@ -17,8 +18,9 @@ export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setS
 
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
+  const formatGuessOutput = (data) => <GuessOutputFormat {...data} />
 
   return (
-    <QueryGuessScores allGuesses={allGuesses} operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} />
+    <QueryGuessScores allGuesses={allGuesses} operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatGuessOutput} />
   );
 }

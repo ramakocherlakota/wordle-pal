@@ -1,15 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import DefaultOutputFormat from './DefaultOutputFormat';
 import './results.scss';
 
-export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime, output, setOutput, error, setError, outputHandler }) {
+export default function Results({ allGuesses, headers, headerLabels, request, headerDocs, loading, setLoading, elapsedTime, setElapsedTime, output, setOutput, error, setError, handleOutput }) {
   const [ dbName, setDbName ] = useState("wordle.sqlite");
   const [ finalElapsedTime, setFinalElapsedTime ] = useState(0);
-
-  const handleOutput = outputHandler
-        ? outputHandler
-        : (data) => <DefaultOutputFormat {...data} />;
 
   useState(() => {
     setDbName(allGuesses ? "all-wordle.sqlite" : "wordle.sqlite");

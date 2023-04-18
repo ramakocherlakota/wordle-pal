@@ -31,3 +31,20 @@
 .tab-panel-hidden {
     display: none;
 }
+
+table {
+    margin-top: 20px;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+th {
+  background-color: #04AA6D;
+  color: white;
+}
+
+th, td {
+    border: 1px solid;
+    height: 140%;
+    padding: 10px;
+}
