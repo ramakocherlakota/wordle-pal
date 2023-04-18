@@ -1,15 +1,17 @@
-.header {
+table {
     margin-top: 20px;
+    border: 1px solid;
+    border-collapse: collapse;
 }
 
-.header-cell {
-    text-align: left;
-    padding-left: 10px;
-    padding-right: 0px;
+th {
+  background-color: #04AA6D;
+  color: white;
 }
 
-.date-cell {
-    text-align: left;
-    padding-left: 10px;
-    padding-right: 0px;
+th, td {
+    border: 1px solid;
+    height: 140%;
+    padding: 10px;
 }
+

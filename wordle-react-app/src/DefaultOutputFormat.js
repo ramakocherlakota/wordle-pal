@@ -9,7 +9,7 @@ export default function DefaultOutputFormat(data) {
     const label = doc ? <PopupDoc label={headerLabels[x]} tooltip={doc} />
           : headerLabels[x];
     return (
-      <div className='cell col'>{label}</div>
+      <th>{label}</th>
     );
   }));
 
@@ -28,17 +28,17 @@ export default function DefaultOutputFormat(data) {
   }
 
   function dataRow(row) {
-    return headers.map((x) => <div className='col cell'>{formatEntry(row[x], x)}</div>)
+    return headers.map((x) => <td>{formatEntry(row[x], x)}</td>)
   }
 
   function dataRows(rows) {
-    return rows.map((row, idx) => <div className='row' key={idx}>{dataRow(row)}</div>);
+    return rows.map((row, idx) => <tr key={idx}>{dataRow(row)}</tr>);
   }
 
   return (
-    <>
-      {headerRow && <div className='row header' key={-1}>{headerRow}</div>}
+    <table className="output" >
+      {output && output.length > 0 && headerRow && <tr  key={-1}>{headerRow}</tr>}
       {dataRows(output)}
-    </>
+    </table>
   );
 }
