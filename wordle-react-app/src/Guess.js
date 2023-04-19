@@ -9,11 +9,12 @@ export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setS
     guess : "Guess",
     uncertainty_before_guess : "Prior Uncertainty",
     expected_uncertainty_after_guess : "Expected Uncertainty",
-    compatible: "Hard Mode Compatible"
+    compatible: "Compatible"
   }
   const headerDocs = {
     uncertainty_before_guess: <div>Uncertainty (in bits) about the solution prior to this guess being made</div>,
-    expected_uncertainty_after_guess: <div>Expected value of the uncertainty after this guess is made and a score is returned.  Lower values indicate less uncertainty and are better!</div>
+    expected_uncertainty_after_guess: <div>Expected value of the uncertainty after this guess is made and a score is returned.  Lower values indicate less uncertainty and are better!</div>,
+    compatible: <div>Is the guess compatible with what is known so far (would it be a valid Hard Mode guess)?</div>
   };
 
   const [ output, setOutput ] = useState([]);

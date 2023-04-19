@@ -23,11 +23,7 @@ export default function Settings({ hardMode, setHardMode, quordle, setQuordle, a
     <PopupDoc label={SettingsEmoji()} tooltip={currentSettings} ok="OK" fontSize="60px">
       <FormGroup>
         <FormControlLabel control={<Switch checked={quordle} onChange={()=>setQuordle(!quordle)} />} label="Quordle Mode" />
-      </FormGroup>
-      <FormGroup>
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
-      </FormGroup>
-      <FormGroup>
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
       </FormGroup>
     </PopupDoc>
