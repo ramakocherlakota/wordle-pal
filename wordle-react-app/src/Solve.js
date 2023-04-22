@@ -1,18 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {useState, useEffect} from 'react';
 import Results from './Results';
-import StartWith from './StartWith';
 import GoButton from './GoButton';
 import AnswerSelect from './AnswerSelect';
 import {listWithAdjustedLength, replaceInList} from './util/Util';
 import './solve.scss';
 
-export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets}) {
+export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets, guesses, setGuesses}) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
-  const [ startWith, setStartWith ] = useState([""]);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
@@ -50,14 +48,14 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
         operation: "qsolve",
         targets,
         hard_mode: hardMode,
-        start_with: startWith.filter(x => x.length > 0)
+        start_with: guesses.filter(x => x.length > 0)
       });
       
       setShowQueryButton(true);
     } else {
       setShowQueryButton(false);
     }
-  }, [targets, startWith, hardMode, allGuesses]);
+  }, [targets, guesses, hardMode, allGuesses]);
 
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));
@@ -94,14 +92,6 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
         </div>
         <div className="col">
           {targetSelects()}
-        </div>
-      </div>
-      <div className="row start-with" >
-        <div className="col start-with-label">
-          Start With
-        </div>
-        <div className="col">
-          <StartWith allGuesses={allGuesses} startWith={startWith} setStartWith={setStartWith} />
         </div>
       </div>
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
