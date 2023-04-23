@@ -155,6 +155,7 @@ class Wordle :
                       self.sqlite_folder, self.sqlite_dbname)
 
     def __init__(self, guess_scores=[], hard_mode=False, debug=False,
+                 target=None,
                  sqlite_bucket=None,
                  sqlite_folder=None,
                  sqlite_dbname=None) :
@@ -164,6 +165,7 @@ class Wordle :
         self.guess_scores = guess_scores
         self.hard_mode = hard_mode
         self.debug = debug
+        self.target = target
 
     def connect(self):
         connect_to = f"{self.sqlite_folder}/{self.sqlite_dbname}"
