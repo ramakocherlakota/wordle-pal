@@ -4,7 +4,7 @@ import sys, json, math
 
 class Sequence:
 
-    # initialization code
+    # init and util functions
     def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
                  targets=None,
                  sqlite_folder=None,
@@ -62,7 +62,7 @@ class Sequence:
 
         target_ratings = {}
         for wordle in self.wordles:
-            target_ratings[target] = wordle.rate_solution()
+            target_ratings[wordle.target] = wordle.rate_solution()
         return {
             "by_target": target_ratings
         }

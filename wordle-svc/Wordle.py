@@ -4,39 +4,148 @@ import sqlite3, re, os, sys
 from datetime import datetime
 import boto3
 
+def from_args(args):
+    guess_scores = []
+    debug=False
+    dbname="wordle.sqlite"
+    dbfolder="../db"
+    target = None
+    guesses = []
+    hard_mode = False
+    
+    for arg in args:
+        if arg.startswith("-"):
+            if arg == "--debug":
+                debug = True
+            if arg.startswith("--hard"):
+                hard_mode = True
+            elif arg.startswith("--dbname"):
+                dbname = arg.split("=")[1]
+            elif arg.startswith("--dbfolder"):
+                dbfolder = arg.split("=")[1]
+            elif arg.startswith("--target"):
+                target = arg.split("=")[1]
+            elif arg.startswith("--guess"):
+                guess_scores_str = arg.split("=")[1]
+                guess_score_pairs = guess_scores_str.split(",")
+                guess_scores = list(map(lambda gsp: gsp.split(":"), guess_score_pairs))
+                guesses = list(map(lambda gs: gs[0], guess_scores))
+                
+    return Wordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, guess_scores = guess_scores, debug=debug, hard_mode=hard_mode, target=target, guesses=guesses)
+
 class Wordle :
+
+    # init and util functions
+    def __init__(self, guess_scores=[], hard_mode=False, debug=False,
+                 target=None,
+                 guesses=[],
+                 sqlite_bucket=None,
+                 sqlite_folder=None,
+                 sqlite_dbname=None) :
+        self.sqlite_dbname = sqlite_dbname
+        self.sqlite_folder = sqlite_folder
+        self.sqlite_bucket = sqlite_bucket
+        self.guess_scores = guess_scores
+        self.hard_mode = hard_mode
+        self.debug = debug
+        self.target = target
+        if target:
+            scores = self.score_guesses(target, guesses)
+            self.guess_scores = list(zip(guesses, scores))
+
+
+    def connect(self):
+        connect_to = f"{self.sqlite_folder}/{self.sqlite_dbname}"
+        if self.sqlite_bucket:
+            if not os.path.exists(connect_to):
+                client = boto3.client('s3')
+                print(f"{datetime.now()}: downloading {self.sqlite_dbname} from S3", file=sys.stderr)
+                client.download_file(self.sqlite_bucket, 
+                                     self.sqlite_dbname,
+                                     connect_to)
+                print(f"{datetime.now()}: download complete", file=sys.stderr)
+        if not os.path.exists(connect_to):
+            raise Exception(f"Unable to open database because path {connect_to} does not exist!")
+        connection = sqlite3.connect(connect_to)
+        return connection
+
+    def query(self, sql, title=None):
+        with closing(self.connect()) as connection:
+            cursor = connection.cursor()
+            if self.debug and title is not None:
+                print(f">> {title}: {sql}")
+            cursor.execute(sql)
+            return cursor.fetchall()
+
+    def score_guess(self, target, guess):
+        rows = self.query(f"select score from scores where guess = '{guess}' and answer = '{target}'", "score_guess")
+        for row in rows:
+            return row[0].lower()
+        raise Exception(f"Inconsistent data in score_guess (guess={guess} answer={target})")
+
+    def score_guesses(self, target, guesses):
+        scores = []
+        for guess in guesses:
+            scores.append(self.score_guess(target, guess))
+        return scores
+
+    def unpack(self, list_of_lists) :
+        return list(map(lambda y : y[0], list_of_lists))        
+
+    def list_all_guesses(self) :
+        return self.unpack(self.query("select guess from guesses order by 1"))
+
+    def list_all_answers(self) :
+        return self.unpack(self.query("select answer from answers order by 1"))
+
+    def list_all_scores(self) :
+        return self.unpack(self.query("select distinct score from scores order by 1"))
+
+    def first(self, n):
+         return Wordle(guess_scores = self.guess_scores[0:n],
+                       target = self.target,
+                       hard_mode = self.hard_mode,
+                       debug = self.debug,
+                       sqlite_dbname = self.sqlite_dbname,
+                       sqlite_folder = self.sqlite_folder,
+                       sqlite_bucket = self.sqlite_bucket)
+
+#     def scores(self, target, guesses):
+#         scores = []
+#         current = self
+#         for guess in guesses:
+#             if not current.is_solved():
+#                 score = self.score_guess(target, guess)
+#                 scores.append([guess, score])
+#                 current = current.extend(guess, score)
+#         return scores        
+
 
     # wordle api functions
 
-    def scores(self, target, guesses):
-        scores = []
-        current = self
-        for guess in guesses:
-            if not current.is_solved():
-                score = self.score_guess(target, guess)
-                scores.append([guess, score])
-                current = current.extend(guess, score)
-        return scores        
+    def rate_solution(self) :
+        if not self.target:
+            return {"error": "Rating requires a target."}
 
-
-    def rate_solution(self, target, guesses) :
         ratings = []
-        current = self
-        for guess in guesses:
-            if not current.is_solved():
-                ratings.append(current.rate_guess(target, guess))
-                score = self.score_guess(target, guess)
-                current = current.extend(guess, score)
+
+        for n in range(len(self.guess_scores)):
+            current = self.first(n)
+            next = self.first(n+1)
+            guess_score = self.guess_scores[n]
+            if guess and not current.is_solved:
+                ratings.append(self.rate_guess(current, next, guess_score))
+
         return ratings
 
-    def rate_guess(self, target, guess) :
-        score = self.score_guess(target, guess)
-        remaining_answers_prior = self.remaining_answers()
+    def rate_guess(self, prior, post, guess_score) :
+        target = self.target
+        [guess, score] = guess_score
+        remaining_answers_prior = prior.remaining_answers()
         if len(remaining_answers_prior) == 0:
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         uncertainty_prior = math.log(len(remaining_answers_prior), 2)
         exp_uncertainty_post = self.expected_uncertainty_by_guess(remaining_answers_prior, guess)[0]["expected_uncertainty_after_guess"]
-        post = self.extend(guess, score)
         remaining_answers_post = post.remaining_answers()
         if len(remaining_answers_post) == 0:
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
@@ -54,49 +163,49 @@ class Wordle :
             "exp_uncertainty_post": exp_uncertainty_post
         }
 
-    def rate_all_guesses(self) :
-        if self.is_solved():
-            return None
-        remaining_answers = self.remaining_answers()
-        if len(remaining_answers) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
-        info_map = {}
-        compatible = []
-        for g in exp_by_guess :
-            info_map[g['guess']] = g["expected_uncertainty_after_guess"]
-            if g['compatible'] :
-                compatible.append(g['guess'])
-        return {
-            "info_map" : info_map,
-            "compatible" : compatible
-        }
-
-
-    def rate_all_guesses_info(self) :
-        if self.is_solved():
-            return None
-        remaining_answers = self.remaining_answers()
-        if len(remaining_answers) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
-        prior_unc = exp_by_guess[0]['uncertainty_before_guess']
-        info_map = {}
-        min_exp_unc = prior_unc
-        compatible = []
-        for g in exp_by_guess :
-            info_map[g['guess']] = prior_unc - g["expected_uncertainty_after_guess"]
-            if g['compatible'] :
-                compatible.append(g['guess'])
-            if g["expected_uncertainty_after_guess"] < min_exp_unc:
-                min_exp_unc = g["expected_uncertainty_after_guess"]
-        max_exp_info = prior_unc - min_exp_unc
-        for h in info_map:
-            info_map[h] = info_map[h] / max_exp_info
-        return {
-            "info_map" : info_map,
-            "compatible" : compatible
-        }
+#    def rate_all_guesses(self) :
+#        if self.is_solved():
+#            return None
+#        remaining_answers = self.remaining_answers()
+#        if len(remaining_answers) == 0:
+#            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+#        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
+#        info_map = {}
+#        compatible = []
+#        for g in exp_by_guess :
+#            info_map[g['guess']] = g["expected_uncertainty_after_guess"]
+#            if g['compatible'] :
+#                compatible.append(g['guess'])
+#        return {
+#            "info_map" : info_map,
+#            "compatible" : compatible
+#        }
+#
+#
+#    def rate_all_guesses_info(self) :
+#        if self.is_solved():
+#            return None
+#        remaining_answers = self.remaining_answers()
+#        if len(remaining_answers) == 0:
+#            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+#        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
+#        prior_unc = exp_by_guess[0]['uncertainty_before_guess']
+#        info_map = {}
+#        min_exp_unc = prior_unc
+#        compatible = []
+#        for g in exp_by_guess :
+#            info_map[g['guess']] = prior_unc - g["expected_uncertainty_after_guess"]
+#            if g['compatible'] :
+#                compatible.append(g['guess'])
+#            if g["expected_uncertainty_after_guess"] < min_exp_unc:
+#                min_exp_unc = g["expected_uncertainty_after_guess"]
+#        max_exp_info = prior_unc - min_exp_unc
+#        for h in info_map:
+#            info_map[h] = info_map[h] / max_exp_info
+#        return {
+#            "info_map" : info_map,
+#            "compatible" : compatible
+#        }
 
     def guess(self):
         guesses = self.guesses(1);
@@ -148,71 +257,12 @@ class Wordle :
         return guesses            
 
 
-    def extend(self, guess, score):
-        new_guess_scores = self.guess_scores.copy()
-        new_guess_scores.extend([[guess, score]])
-        return Wordle(new_guess_scores, self.hard_mode, self.debug, self.sqlite_bucket,
-                      self.sqlite_folder, self.sqlite_dbname)
+#     def extend(self, guess, score):
+#         new_guess_scores = self.guess_scores.copy()
+#         new_guess_scores.extend([[guess, score]])
+#         return Wordle(new_guess_scores, self.hard_mode, self.debug, self.sqlite_bucket,
+#                       self.sqlite_folder, self.sqlite_dbname)
 
-    def __init__(self, guess_scores=[], hard_mode=False, debug=False,
-                 target=None,
-                 sqlite_bucket=None,
-                 sqlite_folder=None,
-                 sqlite_dbname=None) :
-        self.sqlite_dbname = sqlite_dbname
-        self.sqlite_folder = sqlite_folder
-        self.sqlite_bucket = sqlite_bucket
-        self.guess_scores = guess_scores
-        self.hard_mode = hard_mode
-        self.debug = debug
-        self.target = target
-
-    def connect(self):
-        connect_to = f"{self.sqlite_folder}/{self.sqlite_dbname}"
-        if self.sqlite_bucket:
-            if not os.path.exists(connect_to):
-                client = boto3.client('s3')
-                print(f"{datetime.now()}: downloading {self.sqlite_dbname} from S3", file=sys.stderr)
-                client.download_file(self.sqlite_bucket, 
-                                     self.sqlite_dbname,
-                                     connect_to)
-                print(f"{datetime.now()}: download complete", file=sys.stderr)
-        if not os.path.exists(connect_to):
-            raise Exception(f"Unable to open database because path {connect_to} does not exist!")
-        connection = sqlite3.connect(connect_to)
-        return connection
-
-    def query(self, sql, title=None):
-        with closing(self.connect()) as connection:
-            cursor = connection.cursor()
-            if self.debug and title is not None:
-                print(f">> {title}: {sql}")
-            cursor.execute(sql)
-            return cursor.fetchall()
-
-    def unpack(self, list_of_lists) :
-        return list(map(lambda y : y[0], list_of_lists))        
-
-    def list_all_guesses(self) :
-        return self.unpack(self.query("select guess from guesses order by 1"))
-
-    def list_all_answers(self) :
-        return self.unpack(self.query("select answer from answers order by 1"))
-
-    def list_all_scores(self) :
-        return self.unpack(self.query("select distinct score from scores order by 1"))
-
-    def score_guess(self, target, guess):
-        rows = self.query(f"select score from scores where guess = '{guess}' and answer = '{target}'", "score_guess")
-        for row in rows:
-            return row[0].lower()
-        raise Exception(f"Inconsistent data in score_guess (guess={guess} answer={target})")
-
-    def score_guesses(self, target, guesses):
-        scores = []
-        for guess in guesses:
-            scores.append(self.score_guess(target, guess))
-        return scores
 
     def is_solved(self):
         for [guess, score] in self.guess_scores:
