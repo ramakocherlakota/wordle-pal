@@ -121,7 +121,10 @@ class Wordle :
             }, remaining_answers))
         else:
             next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
-            return next_guesses[0:n]
+            if n:
+                return next_guesses[0:n]
+            else:
+                return next_guesses
 
     def solve(self, target, start_with=[]) :
         guesses = []
@@ -202,6 +205,12 @@ class Wordle :
         for row in rows:
             return row[0].lower()
         raise Exception(f"Inconsistent data in score_guess (guess={guess} answer={target})")
+
+    def score_guesses(self, target, guesses):
+        scores = []
+        for guess in guesses:
+            scores.append(self.score_guess(target, guess))
+        return scores
 
     def is_solved(self):
         for [guess, score] in self.guess_scores:
