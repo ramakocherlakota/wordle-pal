@@ -11,6 +11,7 @@ def from_args(args):
     dbfolder="../db"
     target = None
     guesses = []
+    scores = []
     hard_mode = False
     
     for arg in args:
@@ -26,33 +27,37 @@ def from_args(args):
             elif arg.startswith("--target"):
                 target = arg.split("=")[1]
             elif arg.startswith("--guess"):
-                guess_scores_str = arg.split("=")[1]
-                guess_score_pairs = guess_scores_str.split(",")
-                guess_scores = list(map(lambda gsp: gsp.split(":"), guess_score_pairs))
-                guesses = list(map(lambda gs: gs[0], guess_scores))
+                guess_str = arg.split("=")[1]
+                guesses = guess_str.split(",")
+            elif arg.startswith("--score"):
+                score_str = arg.split("=")[1]
+                scores = score_str.split(",")
                 
-    return Wordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, guess_scores = guess_scores, debug=debug, hard_mode=hard_mode, target=target, guesses=guesses)
+    return Wordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, scores = scores, debug=debug, hard_mode=hard_mode, target=target, guesses=guesses)
+
 
 class Wordle :
-
     # init and util functions
-    def __init__(self, guess_scores=[], hard_mode=False, debug=False,
+    def __init__(self,
+                 hard_mode=False,
+                 debug=False,
                  target=None,
                  guesses=[],
+                 scores=None,
                  sqlite_bucket=None,
                  sqlite_folder=None,
                  sqlite_dbname=None) :
         self.sqlite_dbname = sqlite_dbname
         self.sqlite_folder = sqlite_folder
         self.sqlite_bucket = sqlite_bucket
-        self.guess_scores = guess_scores
         self.hard_mode = hard_mode
         self.debug = debug
         self.target = target
-        if target:
-            scores = self.score_guesses(target, guesses)
-            self.guess_scores = list(zip(guesses, scores))
-
+        self.guesses = guesses
+        if scores:
+            self.scores = scores
+        else:
+            self.scores = self.score_guesses(target, guesses)
 
     def connect(self):
         connect_to = f"{self.sqlite_folder}/{self.sqlite_dbname}"
@@ -102,7 +107,8 @@ class Wordle :
         return self.unpack(self.query("select distinct score from scores order by 1"))
 
     def first(self, n):
-         return Wordle(guess_scores = self.guess_scores[0:n],
+         return Wordle(guesses = self.guesses[0:n],
+                       scores = self.scores[0:n],
                        target = self.target,
                        hard_mode = self.hard_mode,
                        debug = self.debug,
@@ -131,24 +137,28 @@ class Wordle :
 
         for n in range(len(self.guess_scores)):
             current = self.first(n)
-            next = self.first(n+1)
-            guess_score = self.guess_scores[n]
-            if guess and not current.is_solved:
-                ratings.append(self.rate_guess(current, next, guess_score))
+            guess = self.guess[n]
+            score = self.scores[n]
+            if not current.is_solved():
+                next = self.first(n+1)
+                ratings.append(self.rate_guess(current, next, guess, score))
 
         return ratings
 
-    def rate_guess(self, prior, post, guess_score) :
+    def rate_guess(self, prior, post, guess, score) :
         target = self.target
-        [guess, score] = guess_score
         remaining_answers_prior = prior.remaining_answers()
+        print(f"remining_answers_prior={len(remaining_answers_prior)}")
+        remaining_answers_post = post.remaining_answers()
+        print(f"remining_answers_post={len(remaining_answers_post)}")
+
+        if len(remaining_answers_post) == 0:
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+
         if len(remaining_answers_prior) == 0:
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         uncertainty_prior = math.log(len(remaining_answers_prior), 2)
         exp_uncertainty_post = self.expected_uncertainty_by_guess(remaining_answers_prior, guess)[0]["expected_uncertainty_after_guess"]
-        remaining_answers_post = post.remaining_answers()
-        if len(remaining_answers_post) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
         uncertainty_post = math.log(len(remaining_answers_post), 2)
         solved = post.is_solved()
         luck = uncertainty_prior if solved else exp_uncertainty_post - uncertainty_post
@@ -214,26 +224,26 @@ class Wordle :
         else:
             return None
 
-    def guesses(self, n) :
-        if self.is_solved():
-            return None
-        remaining_answers = self.remaining_answers()
-        if len(remaining_answers) == 0:
-            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-        answer_count = len(remaining_answers)
-        if answer_count <= 2:
-            return list(map(lambda a: {
-                'guess': a,
-                'expected_uncertainty_after_guess': 0,
-                'compatible' : 1,
-                'uncertainty_before_guess' : math.log(answer_count, 2)
-            }, remaining_answers))
-        else:
-            next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
-            if n:
-                return next_guesses[0:n]
-            else:
-                return next_guesses
+#     def guesses(self, n) :
+#         if self.is_solved():
+#             return None
+#         remaining_answers = self.remaining_answers()
+#         if len(remaining_answers) == 0:
+#             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+#         answer_count = len(remaining_answers)
+#         if answer_count <= 2:
+#             return list(map(lambda a: {
+#                 'guess': a,
+#                 'expected_uncertainty_after_guess': 0,
+#                 'compatible' : 1,
+#                 'uncertainty_before_guess' : math.log(answer_count, 2)
+#             }, remaining_answers))
+#         else:
+#             next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
+#             if n:
+#                 return next_guesses[0:n]
+#             else:
+#                 return next_guesses
 
     def solve(self, target, start_with=[]) :
         guesses = []
@@ -265,7 +275,7 @@ class Wordle :
 
 
     def is_solved(self):
-        for [guess, score] in self.guess_scores:
+        for score in self.scores:
             if self.solved(score):
                 return True
         return False
@@ -279,7 +289,10 @@ class Wordle :
         where_clauses = []
         where_clause = ""
         n = 0
-        for [guess, score] in self.guess_scores:
+
+        for k in range(len(self.guesses)):
+            score = self.scores[k]
+            guess = self.guesses[k]
             if len(score) > 0:
                 table = f"scores_{n}"
                 froms.append(f"scores as {table}")
