@@ -116,17 +116,6 @@ class Wordle :
                        sqlite_folder = self.sqlite_folder,
                        sqlite_bucket = self.sqlite_bucket)
 
-#     def scores(self, target, guesses):
-#         scores = []
-#         current = self
-#         for guess in guesses:
-#             if not current.is_solved():
-#                 score = self.score_guess(target, guess)
-#                 scores.append([guess, score])
-#                 current = current.extend(guess, score)
-#         return scores        
-
-
     # wordle api functions
 
     def rate_solution(self) :
@@ -171,115 +160,45 @@ class Wordle :
             "exp_uncertainty_post": exp_uncertainty_post
         }
 
-#    def rate_all_guesses(self) :
-#        if self.is_solved():
-#            return None
-#        remaining_answers = self.remaining_answers()
-#        if len(remaining_answers) == 0:
-#            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-#        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
-#        info_map = {}
-#        compatible = []
-#        for g in exp_by_guess :
-#            info_map[g['guess']] = g["expected_uncertainty_after_guess"]
-#            if g['compatible'] :
-#                compatible.append(g['guess'])
-#        return {
-#            "info_map" : info_map,
-#            "compatible" : compatible
-#        }
-#
-#
-#    def rate_all_guesses_info(self) :
-#        if self.is_solved():
-#            return None
-#        remaining_answers = self.remaining_answers()
-#        if len(remaining_answers) == 0:
-#            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-#        exp_by_guess = self.expected_uncertainty_by_guess(remaining_answers)
-#        prior_unc = exp_by_guess[0]['uncertainty_before_guess']
-#        info_map = {}
-#        min_exp_unc = prior_unc
-#        compatible = []
-#        for g in exp_by_guess :
-#            info_map[g['guess']] = prior_unc - g["expected_uncertainty_after_guess"]
-#            if g['compatible'] :
-#                compatible.append(g['guess'])
-#            if g["expected_uncertainty_after_guess"] < min_exp_unc:
-#                min_exp_unc = g["expected_uncertainty_after_guess"]
-#        max_exp_info = prior_unc - min_exp_unc
-#        for h in info_map:
-#            info_map[h] = info_map[h] / max_exp_info
-#        return {
-#            "info_map" : info_map,
-#            "compatible" : compatible
-#        }
-
-    def guess(self):
-        guesses = self.guesses(1);
-        if guesses and len(guesses) > 0:
-            return guesses[0]
-        else:
+    def guess(self, n) :
+        if self.is_solved():
             return None
+        remaining_answers = self.remaining_answers()
+        if len(remaining_answers) == 0:
+            return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+        answer_count = len(remaining_answers)
+        next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
+        if n:
+            return next_guesses[0:n]
+        else:
+            return next_guesses
 
-#     def guesses(self, n) :
-#         if self.is_solved():
-#             return None
-#         remaining_answers = self.remaining_answers()
-#         if len(remaining_answers) == 0:
-#             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-#         answer_count = len(remaining_answers)
-#         if answer_count <= 2:
-#             return list(map(lambda a: {
-#                 'guess': a,
-#                 'expected_uncertainty_after_guess': 0,
-#                 'compatible' : 1,
-#                 'uncertainty_before_guess' : math.log(answer_count, 2)
-#             }, remaining_answers))
-#         else:
-#             next_guesses = self.expected_uncertainty_by_guess(remaining_answers)
-#             if n:
-#                 return next_guesses[0:n]
-#             else:
-#                 return next_guesses
+    def solve(self) :
+        if not self.target:
+            return {"error": "Solve requires a target."}
 
-    def solve(self, target, start_with=[]) :
-        guesses = []
+        turns = []
         turn = 1
-        for guess in start_with:
-            score = self.score_guess(target, guess)
-            self.guess_scores.append([guess, score])
-            guesses.append({'guess' : guess,
-                            'score' : score,
-                            'turn' : turn})
+        for k in range(len(self.scores)):
+            score = self.scores[k]
+            guess = self.guesses[k]
+            turns.append({'guess' : guess,
+                          'score' : score,
+                          'turn' : turn})
             turn = turn + 1
+
         while not self.is_solved():
-            next_guess = self.guess()
+            next_guess = self.guess(1)[0]
             guess = next_guess['guess']
-            score = self.score_guess(target, guess)
-            self.guess_scores.append([guess, score])
+            score = self.score_guess(self.target, guess)
+            self.guesses.append(guess)
+            self.scores.append(score)
             next_guess['score'] = score
             next_guess['turn'] = turn
             turn = turn + 1
-            guesses.append(next_guess)
-        return guesses            
+            turns.append(next_guess)
+        return turns
 
-
-#     def extend(self, guess, score):
-#         new_guess_scores = self.guess_scores.copy()
-#         new_guess_scores.extend([[guess, score]])
-#         return Wordle(new_guess_scores, self.hard_mode, self.debug, self.sqlite_bucket,
-#                       self.sqlite_folder, self.sqlite_dbname)
-
-
-    def is_solved(self):
-        for score in self.scores:
-            if self.solved(score):
-                return True
-        return False
-
-    def solved(self, score):
-        return re.match("^B+$", score.upper())
 
     def remaining_answers(self):
         remaining_answers = []
@@ -303,6 +222,15 @@ class Wordle :
         from_clause = ", ".join(froms)
         sql = f"select a.answer from {from_clause} {where_clause}"
         return list(map(lambda x : x[0], self.query(sql, "remaining_answers")))
+
+    def is_solved(self):
+        for score in self.scores:
+            if self.solved(score):
+                return True
+        return False
+
+    def solved(self, score):
+        return re.match("^B+$", score.upper())
 
     def expected_uncertainty_by_guess(self, remaining_answers, for_guess=None) :
         answer_count = len(remaining_answers)
