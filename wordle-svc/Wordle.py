@@ -135,9 +135,9 @@ class Wordle :
 
         ratings = []
 
-        for n in range(len(self.guess_scores)):
+        for n in range(len(self.scores)):
             current = self.first(n)
-            guess = self.guess[n]
+            guess = self.guesses[n]
             score = self.scores[n]
             if not current.is_solved():
                 next = self.first(n+1)
@@ -148,9 +148,7 @@ class Wordle :
     def rate_guess(self, prior, post, guess, score) :
         target = self.target
         remaining_answers_prior = prior.remaining_answers()
-        print(f"remining_answers_prior={len(remaining_answers_prior)}")
         remaining_answers_post = post.remaining_answers()
-        print(f"remining_answers_post={len(remaining_answers_post)}")
 
         if len(remaining_answers_post) == 0:
             return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
