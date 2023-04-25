@@ -32,7 +32,12 @@ def from_args(args):
 
 class Quordle:
 
-    def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
+    def __init__(self, 
+                 guesses=[],
+                 targets=[],
+                 scores_list=[[]], 
+                 hard_mode=False, 
+                 debug=False,
                  sqlite_folder=None,
                  sqlite_dbname=None, 
                  sqlite_bucket=None) :
@@ -53,9 +58,9 @@ class Quordle:
         for n in range(len(self.scores_list)):
             target = self.targets[n] if self.targets else None
             scores = self.scores_list[n]
-            wordle = Wordle.Wordle(guesses: self.guesses,
-                                   target: target,
-                                   scores: scores,
+            wordle = Wordle.Wordle(guesses= self.guesses,
+                                   target= target,
+                                   scores= scores,
                                    hard_mode = False, # hard_mode is handled globally
                                    debug = self.debug,
                                    sqlite_bucket=self.sqlite_bucket,
@@ -84,7 +89,7 @@ class Quordle:
             target_ratings[wordle.target] = wordle.rate_solution()
 
         totals = []
-        for target in targets:
+        for target in self.targets:
             target_rating_list = target_ratings[target]
             for n in range(len(target_rating_list)):
                 rating = target_rating_list[n]
@@ -98,7 +103,7 @@ class Quordle:
                 totals[n]["exp_uncertainty_post"] += rating.get("exp_uncertainty_post", 0)
                 totals[n]['luck'] += rating.get("luck", 0)
         for n in range(len(totals)):
-            totals[n]['guess'] = guesses[n]
+            totals[n]['guess'] = self.guesses[n]
 
         return {
             "by_target": target_ratings,
