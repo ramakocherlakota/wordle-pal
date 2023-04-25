@@ -2,41 +2,86 @@ import Wordle
 from functools import reduce
 import sys, json, math
 
+def from_args(args):
+    debug=False
+    dbname="wordle.sqlite"
+    dbfolder="../db"
+    targets = None
+    guesses = []
+    scores_list = None
+    hard_mode = False
+    
+    for arg in args:
+        if arg == "--hard":
+            hard_mode = True
+        elif arg == "--debug":
+            debug = True
+        elif arg.startswith("--dbname"):
+            dbname = arg.split("=")[1]
+        elif arg.startswith("--dbfolder"):
+            dbfolder = arg.split("=")[1]
+        elif arg.startswith("--guess"):
+            guesses = arg.split("=")[1].split(",")
+        elif arg.startswith("--target"):
+            targets = arg.split("=")[1].split(",")
+        elif arg.startswith("--score"):
+            for scores in arg.split("=")[1].split(";"):
+                scores_list.append(scores.split(","))
+                
+    return Quordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, targets=targets, guesses=guesses, scores_list=[], hard_mode=hard_mode, debug=debug)
+
 class Quordle:
 
-    def scores(self, targets, guesses):
-        score_lists = []
-        for t in targets:
-            scores = []
-            for g in guesses:
-                score = self.common_wordle.score_guess(t, g)
-                scores.append(score)
-                if self.common_wordle.solved(score):
-                    break
-            score_lists.append(scores)
-        return score_lists
+    def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
+                 sqlite_folder=None,
+                 sqlite_dbname=None, 
+                 sqlite_bucket=None) :
+        self.sqlite_dbname = sqlite_dbname
+        self.sqlite_folder = sqlite_folder
+        self.sqlite_bucket = sqlite_bucket
+        self.common_wordle = Wordle.Wordle(sqlite_folder=sqlite_folder, sqlite_dbname = sqlite_dbname, sqlite_bucket = sqlite_bucket)
+        self.hard_mode = hard_mode
+        self.debug = debug
+        self.targets = targets
+        self.guesses = guesses
+        if scores_list:
+            self.scores_list = scores_list;
+        else:
+            self.scores_list = list(map(lambda target: self.common_wordle.score_guesses(target, guesses), targets))
+
+        self.wordles = []
+        for n in range(len(self.scores_list)):
+            target = self.targets[n] if self.targets else None
+            scores = self.scores_list[n]
+            wordle = Wordle.Wordle(guesses: self.guesses,
+                                   target: target,
+                                   scores: scores,
+                                   hard_mode = False, # hard_mode is handled globally
+                                   debug = self.debug,
+                                   sqlite_bucket=self.sqlite_bucket,
+                                   sqlite_folder=self.sqlite_folder,
+                                   sqlite_dbname = self.sqlite_dbname)
+            self.wordles.append(wordle)
+
+#    def scores(self, targets, guesses):
+#        score_lists = []
+#        for t in targets:
+#            scores = []
+#            for g in guesses:
+#                score = self.common_wordle.score_guess(t, g)
+#                scores.append(score)
+#                if self.common_wordle.solved(score):
+#                    break
+#            score_lists.append(scores)
+#        return score_lists
             
-    def guess(self):
-        guesses = self.guesses(1);
-        if guesses and len(guesses) > 0:
-            return guesses[0]
-        else:
-            return None
+    def rate_solution(self):
+        if not self.targets:
+            return {"error": "Rating requires targets."}
 
-    def guesses(self, count):
-        all_guesses = self.rate_all_guesses()
-        if 'error' in all_guesses:
-            return all_guesses;
-        if count:
-            return all_guesses['uncertainties'][0:count]
-        else:
-            return all_guesses['uncertainties']
-
-    def rate_solution(self, targets, guesses):
         target_ratings = {}
-        for target in targets:
-            wordle = Wordle.Wordle(guess_scores=[], hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)
-            target_ratings[target] = wordle.rate_solution(target, guesses)
+        for wordle in self.wordles:
+            target_ratings[wordle.target] = wordle.rate_solution()
 
         totals = []
         for target in targets:
@@ -60,41 +105,17 @@ class Quordle:
             "totals" : totals
         }
 
-    def rate_guess(self, guesses, targets, guess):
-        score_lists = []
-        for t in targets:
-            scores = []
-            for g in guesses:
-                score = self.common_wordle.score_guess(t, g)
-                scores.append(score)
-            score_lists.append(scores)
-        self.set_scores_list(guesses, score_lists);
-        all_guesses = self.rate_all_guesses()
-        top_guesses = all_guesses['uncertainties'][0:count]
-        remaining_answer_lists = all_guesses['remaining_answers']
-        uncertainty_after_guess = sum(map(lambda x: math.log(len(x), 2),
-                                          remaining_answer_lists))
-        guess_records = list(filter(lambda x: x['guess'] == guess, all_guesses['uncertainties']))
-        if len(guess_records) == 1:
-            guess_record = guess_records[0]
-            rank = guess_record['rank']
-            guess_info = guess_record['uncertainty_before_guess'] - guess_record['expected_uncertainty_after_guess'] 
-            best_info = top_guesses[0]['uncertainty_before_guess'] - top_guesses[0]['expected_uncertainty_after_guess'] 
-            info_ratio = guess_info / best_info if (best_info > 0 or guess_info > 0) else 1
-            compatible_targets_iter = map(lambda c, t: (guess in c) and t,
-                                          remaining_answer_lists,
-                                          targets)
-            compatible_targets = list(filter(None, compatible_targets_iter))
-            return {
-                "uncertainty_after_guess" : uncertainty_after_guess,
-                "info_ratio": info_ratio,
-                "guess_record" : guess_record,
-                "top_guesses" : top_guesses,
-                "solves_a_quordle" : guess in targets,
-                "is_compatible_with" : compatible_targets
-            }
-        else:
+    def guess(self, count):
+        if self.is_solved():
             return None
+
+        all_guesses = self.rate_all_guesses()
+        if 'error' in all_guesses:
+            return all_guesses;
+        if count:
+            return all_guesses['uncertainties'][0:count]
+        else:
+            return all_guesses['uncertainties']
 
     def rate_all_guesses(self):
         found_guess = None
@@ -179,23 +200,6 @@ class Quordle:
             remaining_answers.append(wordle.remaining_answers());
         return remaining_answers
 
-    def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
-                 sqlite_folder=None,
-                 sqlite_dbname=None, 
-                 sqlite_bucket=None) :
-        self.sqlite_dbname = sqlite_dbname
-        self.sqlite_folder = sqlite_folder
-        self.sqlite_bucket = sqlite_bucket
-        self.common_wordle = Wordle.Wordle(sqlite_folder=sqlite_folder, sqlite_dbname = sqlite_dbname, sqlite_bucket = sqlite_bucket)
-        self.hard_mode = hard_mode
-        self.debug = debug
-        self.set_scores_list(guesses, scores_list);
-
-    def set_scores_list(self, guesses, scores_list):
-        self.wordles = []
-        for scores in scores_list:
-            guess_scores = self.create_guess_scores(guesses, scores)
-            self.wordles.append(Wordle.Wordle(guess_scores=guess_scores, hard_mode = False, debug = self.debug, sqlite_dbname=self.sqlite_dbname, sqlite_folder=self.sqlite_folder, sqlite_bucket=self.sqlite_bucket))
 
     def create_guess_scores(self, guesses, scores):
         guess_scores = []

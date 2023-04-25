@@ -5,7 +5,6 @@ from datetime import datetime
 import boto3
 
 def from_args(args):
-    guess_scores = []
     debug=False
     dbname="wordle.sqlite"
     dbfolder="../db"
@@ -15,23 +14,22 @@ def from_args(args):
     hard_mode = False
     
     for arg in args:
-        if arg.startswith("-"):
-            if arg == "--debug":
-                debug = True
-            if arg.startswith("--hard"):
-                hard_mode = True
-            elif arg.startswith("--dbname"):
-                dbname = arg.split("=")[1]
-            elif arg.startswith("--dbfolder"):
-                dbfolder = arg.split("=")[1]
-            elif arg.startswith("--target"):
-                target = arg.split("=")[1]
-            elif arg.startswith("--guess"):
-                guess_str = arg.split("=")[1]
-                guesses = guess_str.split(",")
-            elif arg.startswith("--score"):
-                score_str = arg.split("=")[1]
-                scores = score_str.split(",")
+        if arg == "--debug":
+            debug = True
+        if arg.startswith("--hard"):
+            hard_mode = True
+        elif arg.startswith("--dbname"):
+            dbname = arg.split("=")[1]
+        elif arg.startswith("--dbfolder"):
+            dbfolder = arg.split("=")[1]
+        elif arg.startswith("--target"):
+            target = arg.split("=")[1]
+        elif arg.startswith("--guess"):
+            guess_str = arg.split("=")[1]
+            guesses = guess_str.split(",")
+        elif arg.startswith("--score"):
+            score_str = arg.split("=")[1]
+            scores = score_str.split(",")
                 
     return Wordle(sqlite_folder=dbfolder, sqlite_dbname=dbname, scores = scores, debug=debug, hard_mode=hard_mode, target=target, guesses=guesses)
 
