@@ -130,17 +130,16 @@ class Quordle:
             wordle = self.wordles[n]
             if not wordle.is_solved():
                 still_unsolved.append(n)
-            remaining_answers = wordle.remaining_answers()
-            if len(remaining_answers) == 0:
-                return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
-            if len(remaining_answers) == 1:
-                found_guess = remaining_answers[0]
-            remaining_answers_list.append(remaining_answers)
+                remaining_answers = wordle.remaining_answers()
+                if len(remaining_answers) == 0:
+                    return {"error": "There seems to be a problem somewhere - the inputs are inconsistent."}
+                if len(remaining_answers) == 1:
+                    found_guess = remaining_answers[0]
+                remaining_answers_list.append(remaining_answers)
         if len(still_unsolved) == 0:
             return {"error": "Already solved!"}
         wordle_expected_uncertainties = []
-        for n in range(len(self.wordles)):
-            wordle = self.wordles[n]
+        for n in range(len(still_unsolved)):
             remaining_answers = remaining_answers_list[n]
             exp_unc_by_guess = wordle.expected_uncertainty_by_guess(remaining_answers)
             if not type(exp_unc_by_guess) is list:
@@ -167,36 +166,32 @@ class Quordle:
             "remaining_answers": remaining_answers_list
         }
 
-    def solve(self, targets, start_with=[]):
-        guesses = []
+    def solve(self):
+        if not self.targets:
+            return {"error": "Solve requires targets."}
+
+        turns = []
         turn = 1
-        for t in start_with:
-            guesses.append({"guess": t, "turn" : turn})
+        for k in range(len(self.guesses)):
+            guess = self.guesses[k]
+            turns.append({"guess": guess,
+                          "turn": turn})
             turn = turn + 1
-        self.wordles = []
-        for n in range(len(targets)):
-            target = targets[n]
-            scores = []
-            for guess in start_with:
-                score = self.common_wordle.score_guess(target, guess)
-                scores.append(score)
-            guess_scores = self.create_guess_scores(start_with, scores)
-            wordle = Wordle.Wordle(guess_scores=guess_scores, hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)
-            self.wordles.append(wordle)
 
         while not self.is_solved():
-            next_guess = self.guess()
+            next_guess = self.guess(1)[0]
             guess = next_guess['guess']
+            self.guesses.append(guess)
             for k in range(len(self.wordles)):
                 wordle = self.wordles[k]
-                target = targets[k]
+                target = self.targets[k]
                 if not wordle.is_solved():
                     score = wordle.score_guess(target, guess)
-                    wordle.guess_scores.append([guess, score])
+                    wordle.scores.append(score)
             next_guess['turn'] = turn
             turn = turn + 1
-            guesses.append(next_guess)
-        return guesses
+            turns.append(next_guess)
+        return turns
 
     def remaining_answers(self): 
         remaining_answers = []
