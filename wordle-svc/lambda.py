@@ -37,64 +37,27 @@ def handler(event, context) :
             except:
                 return error("Unable to parse JSON - did you forget to specify Content-type=application/json on your request?")
     
-            if data['operation'].startswith("q"):
-                quordle = Quordle(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
-                                  sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
-                                  debug = data.get("debug", False),
-                                  scores_list = data.get("scores_list", []),
-                                  guesses = data.get("guesses", []),
-                                  hard_mode = data.get('hard_mode', False))
-    
-                targets = data.get("targets", [])
-                count = data.get("count", None)
-                guesses = data.get("guesses", [])
-
-                if data['operation'] == 'qrate_solution':
-                    return ok(quordle.rate_solution(targets, guesses));
-
-                if data['operation'] == 'qrate_guess':
-                    return ok(quordle.rate_guess(guesses, targets, guess, count));
-
-                if data['operation'] == "qguess":
-                    return ok(quordle.guesses(count))
-    
-                if data['operation'] == "qremaining_answers":
-                    return ok(quordle.remaining_answers())
-
-                if data['operation'] == "qsolve":
-                    return ok(quordle.solve(data['targets'], data.get("start_with", [])))
-    
-            else:
-                wordle = Wordle(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
-                                sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
-                                debug = data.get("debug", False),
-                                hard_mode = data.get('hard_mode', False),
-                                guess_scores = data.get('guess_scores', []))
-    
-                if data['operation'] == "remaining_answers":
-                    remaining = wordle.remaining_answers()
-                    return ok(list(map(lambda x: {"word" : x}, remaining)))
-    
-                if data['operation'] == "guess":
-                    return ok(wordle.guesses(data.get("count", 1)))
-
-                if data['operation'] == "rate_guess":
-                    return ok(wordle.guess(data.get("guess", None)))
-    
-                if data['operation'] == "rate_all_guesses":
-                    return ok(wordle.rate_all_guesses())
-    
-                if data['operation'] == "solve":
-                    return ok(wordle.solve(data['target'], data.get("start_with", [])))
-    
-                if data['operation'] == "list_guesses":
-                    return ok(wordle.list_all_guesses())
-    
-                if data['operation'] == "list_answers":
-                    return ok(wordle.list_all_answers())
-
-                if data['operation'] == "list_scores":
-                    return ok(wordle.list_all_scores())
+            quordle = Quordle(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
+                              sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
+                              debug = data.get("debug", False),
+                              scores_list = data.get("scores_list", []),
+                              guesses = data.get("guesses", data.get("start_with", [])),
+                              targets = data.get("targets", []),
+                              hard_mode = data.get('hard_mode', False))
+            
+            count = data.get("count", None)
+            
+            if data['operation'] == 'qrate_solution':
+                return ok(quordle.rate_solution());
+            
+            if data['operation'] == "qguess":
+                return ok(quordle.guess(count))
+            
+            if data['operation'] == "qremaining_answers":
+                return ok(quordle.remaining_answers())
+            
+            if data['operation'] == "qsolve":
+                return ok(quordle.solve());
                 
     except Exception as e:
         return error(e.args)
