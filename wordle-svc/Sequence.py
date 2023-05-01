@@ -1,49 +1,70 @@
 import Wordle
 from functools import reduce
-import sys, json, math
+
+def from_args(args):
+    debug=False
+    dbname="wordle.sqlite"
+    dbfolder="../db"
+    targets = None
+    guesses = []
+    scores_list = None
+    hard_mode = False
+    
+    for arg in args:
+        if arg == "--hard":
+            hard_mode = True
+        elif arg == "--debug":
+            debug = True
+        elif arg.startswith("--dbname"):
+            dbname = arg.split("=")[1]
+        elif arg.startswith("--dbfolder"):
+            dbfolder = arg.split("=")[1]
+        elif arg.startswith("--guess"):
+            guesses = arg.split("=")[1].split(",")
+        elif arg.startswith("--target"):
+            targets = arg.split("=")[1].split(",")
+        elif arg.startswith("--score"):
+            for scores in arg.split("=")[1].split(";"):
+                scores_list.append(scores.split(","))
+                
+    return Sequence(sqlite_folder=dbfolder, sqlite_dbname=dbname, targets=targets, guesses=guesses, scores_list=[], hard_mode=hard_mode, debug=debug)
 
 class Sequence:
-
-    # init and util functions
-    def __init__(self, guesses=[], scores_list=[[]], hard_mode=False, debug=False,
-                 targets=None,
+    def __init__(self, 
+                 guesses=[],
+                 targets=[],
+                 scores_list=[[]], 
+                 hard_mode=False, 
+                 debug=False,
                  sqlite_folder=None,
                  sqlite_dbname=None, 
                  sqlite_bucket=None) :
-        self.guesses = guesses
-        self.targets = targets
-        self.hard_mode = hard_mode
-        self.debug = debug
         self.sqlite_dbname = sqlite_dbname
         self.sqlite_folder = sqlite_folder
         self.sqlite_bucket = sqlite_bucket
-
-        self.common_wordle = Wordle.Wordle(guess_scores=[], hard_mode = False, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname)  
-
-        if targets:
-            self.scores_list = self.scores_from_targets(guesses, targets)
+        self.common_wordle = Wordle.Wordle(sqlite_folder=sqlite_folder, sqlite_dbname = sqlite_dbname, sqlite_bucket = sqlite_bucket)
+        self.hard_mode = hard_mode
+        self.debug = debug
+        self.targets = targets
+        self.guesses = guesses
+        if scores_list:
+            self.scores_list = scores_list;
         else:
-            self.score_lists = score_lists
+            self.scores_list = list(map(lambda target: self.common_wordle.score_guesses(target, guesses), targets))
+
         self.wordles = []
         for n in range(len(self.scores_list)):
+            target = self.targets[n] if self.targets else None
             scores = self.scores_list[n]
-            target = targets[n] if targets else None
-            guess_scores = self.create_guess_scores(self.guesses, scores)
-            self.wordles.append(Wordle.Wordle(guess_scores=guess_scores, target=target, hard_mode = self.hard_mode, debug = self.debug, sqlite_bucket=self.sqlite_bucket, sqlite_folder=self.sqlite_folder, sqlite_dbname = self.sqlite_dbname))
-
-    def create_guess_scores(self, guesses, scores):
-        guess_scores = []
-        for n in range(len(guesses)):
-            if n < len(scores):
-                guess_scores.append([guesses[n], scores[n]])
-        return guess_scores
-
-    def scores_from_targets(self, guesses, targets):
-        scores_list = []
-        for target in targets:
-            scores = self.common_wordle.score_guesses(target, guesses)
-            scores_list.append(scores)
-        return scores_list
+            wordle = Wordle.Wordle(guesses= self.guesses,
+                                   target= target,
+                                   scores= scores,
+                                   hard_mode = False, # hard_mode is handled globally
+                                   debug = self.debug,
+                                   sqlite_bucket=self.sqlite_bucket,
+                                   sqlite_folder=self.sqlite_folder,
+                                   sqlite_dbname = self.sqlite_dbname)
+            self.wordles.append(wordle)
 
     def current_wordle(self):
         for wordle in self.wordles:
@@ -74,34 +95,36 @@ class Sequence:
         else:
             return current.remaining_answers()
 
-    def guess(self):
-        return self.guesses(1)
-
-    def guesses(self, count):
-        return self.current_wordle().guesses(count)
+    def guess(self, count):
+        return self.current_wordle().guess(count)
 
     def solve(self):
         if not self.targets:
             return {"error": "Solve requires targets."}
         
-        guesses = []
+        turns = []
         turn = 1
 
-        for guess in self.guesses:
-            guesses.append({"guess": guess, "turn" : turn})
+        for k in range(len(self.guesses)):
+            guess = self.guesses[k]
+            turns.append({"guess": guess,
+                          "turn": turn})
             turn = turn + 1
-
-        guess_scores = self.create_guess_scores(start_with, score_lists)
-        self.guess_scores = guess_scores
 
         while not self.is_solved():
-            next_guess = self.guess()
+            next_guess = self.guess(1)[0]
+            guess = next_guess['guess']
+            next_guess['turn'] = turn
+
+            self.guesses.append(next_guess['guess'])
+            for k in range(len(self.wordles)):
+                wordle = self.wordles[k]
+                target = self.targets[k]
+                if not wordle.is_solved():
+                    score = wordle.score_guess(target, guess)
+                    wordle.scores.append(score)
             next_guess['turn'] = turn
             turn = turn + 1
-            guesses.append(next_guess)
+            turns.append(next_guess)
 
-            self.guesses.append(next_guess.guess)
-#             for n in range(len(self.targets)):
-#                 score = 
-#             self.score_lists.append(
-            
+        return turns

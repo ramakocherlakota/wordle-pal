@@ -67,18 +67,6 @@ class Quordle:
                                    sqlite_folder=self.sqlite_folder,
                                    sqlite_dbname = self.sqlite_dbname)
             self.wordles.append(wordle)
-
-#    def scores(self, targets, guesses):
-#        score_lists = []
-#        for t in targets:
-#            scores = []
-#            for g in guesses:
-#                score = self.common_wordle.score_guess(t, g)
-#                scores.append(score)
-#                if self.common_wordle.solved(score):
-#                    break
-#            score_lists.append(scores)
-#        return score_lists
             
     def rate_solution(self):
         if not self.targets:
@@ -199,7 +187,6 @@ class Quordle:
             wordle = self.wordles[n]
             remaining_answers.append(wordle.remaining_answers());
         return remaining_answers
-
 
     def create_guess_scores(self, guesses, scores):
         guess_scores = []

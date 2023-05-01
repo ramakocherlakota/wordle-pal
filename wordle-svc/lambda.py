@@ -1,6 +1,6 @@
 import json, sys, os
-from Wordle import Wordle
 from Quordle import Quordle
+from Sequence import Sequence
 
 def respond(output, status) :
     headers = {}
@@ -37,27 +37,37 @@ def handler(event, context) :
             except:
                 return error("Unable to parse JSON - did you forget to specify Content-type=application/json on your request?")
     
-            quordle = Quordle(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
-                              sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
-                              debug = data.get("debug", False),
-                              scores_list = data.get("scores_list", []),
-                              guesses = data.get("guesses", data.get("start_with", [])),
-                              targets = data.get("targets", []),
-                              hard_mode = data.get('hard_mode', False))
+            puzzle = None
+            if data.get("sequence", False):
+                puzzle = Sequence(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
+                                  sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
+                                  debug = data.get("debug", False),
+                                  scores_list = data.get("scores_list", []),
+                                  guesses = data.get("guesses", data.get("start_with", [])),
+                                  targets = data.get("targets", []),
+                                  hard_mode = data.get('hard_mode', False))
+            else:
+                puzzle = Quordle(sqlite_dbname = data.get('sqlite_dbname', os.environ.get('SQLITE_DBNAME')),
+                                  sqlite_folder = data.get('sqlite_folder', os.environ.get('SQLITE_FOLDER')),
+                                  debug = data.get("debug", False),
+                                  scores_list = data.get("scores_list", []),
+                                  guesses = data.get("guesses", data.get("start_with", [])),
+                                  targets = data.get("targets", []),
+                                  hard_mode = data.get('hard_mode', False))
             
             count = data.get("count", None)
             
-            if data['operation'] == 'qrate_solution':
-                return ok(quordle.rate_solution());
+            if data['operation'] == "rate_solution":
+                return ok(puzzle.rate_solution());
             
-            if data['operation'] == "qguess":
-                return ok(quordle.guess(count))
+            if data['operation'] == "guess":
+                return ok(puzzle.guess(count))
             
-            if data['operation'] == "qremaining_answers":
-                return ok(quordle.remaining_answers())
+            if data['operation'] == "remaining_answers":
+                return ok(puzzle.remaining_answers())
             
-            if data['operation'] == "qsolve":
-                return ok(quordle.solve());
+            if data['operation'] == "solve":
+                return ok(puzzle.solve());
                 
     except Exception as e:
         return error(e.args)
