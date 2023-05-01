@@ -45,7 +45,7 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
     setShowResults(false);
     if (allTargetsChosen()) {
       setRequest({
-        operation: "qsolve",
+        operation: "solve",
         targets,
         hard_mode: hardMode,
         start_with: guesses.filter(x => x.length > 0)

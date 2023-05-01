@@ -22,6 +22,6 @@ export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setS
   const formatGuessOutput = (data) => <GuessOutputFormat {...data} />
 
   return (
-    <QueryGuessScores allGuesses={allGuesses} operation="qguess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatGuessOutput} />
+    <QueryGuessScores allGuesses={allGuesses} operation="guess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatGuessOutput} />
   );
 }

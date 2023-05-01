@@ -62,7 +62,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
     setShowResults(false);
     if (allChosen()) {
       setRequest({
-        operation: "qrate_solution",
+        operation: "rate_solution",
         targets: targets.filter(t => t && t.length > 0),
         guesses: guesses.filter(g => g && g.length > 0),
         hard_mode: hardMode,
