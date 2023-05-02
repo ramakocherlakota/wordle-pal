@@ -6,7 +6,7 @@ import AnswerSelect from './AnswerSelect';
 import {listWithAdjustedLength, replaceInList} from './util/Util';
 import './solve.scss';
 
-export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets, guesses, setGuesses}) {
+export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets, guesses, setGuesses, sequence}) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
@@ -48,6 +48,7 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
         operation: "solve",
         targets,
         hard_mode: hardMode,
+        sequence: sequence,
         start_with: guesses.filter(x => x.length > 0)
       });
       
@@ -55,7 +56,7 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
     } else {
       setShowQueryButton(false);
     }
-  }, [targets, guesses, hardMode, allGuesses]);
+  }, [targets, guesses, hardMode, allGuesses, sequence]);
 
   function setTarget(i, newval) {
     setTargets((ts) => replaceInList(ts, newval, i));

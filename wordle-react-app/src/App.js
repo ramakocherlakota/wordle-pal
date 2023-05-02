@@ -30,6 +30,7 @@ import Luck from './Luck';
 export default function App() {
   const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
   const [ quordle, setQuordle ] = useState(false);
+  const [ sequence, setSequence ] = useState(false);
   const [ scoreLists, setScoreLists ] = useState([[""]]);
   const [ hardMode, setHardMode ] = useState(false)
 
@@ -51,9 +52,9 @@ export default function App() {
     if (!quordle) {
       adjustLengths(6, 1);
     } else {
-      adjustLengths(9, 4);
+      adjustLengths(9 + (sequence ? 1 : 0), 4);
     }
-  }, [quordle]);
+  }, [quordle, sequence]);
 
   function tabLabelWithIcon(label, icon, tooltip) {
     return (
@@ -78,10 +79,10 @@ export default function App() {
   const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
 
 
-  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  />;
-  const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} />;
-  const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length}  />;
-  const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} targetCount={targets.length} guesses={guesses} setGuesses={setGuesses} />;
+  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  sequence={sequence} />;
+  const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={sequence} />;
+  const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={sequence} />;
+  const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} targetCount={targets.length} guesses={guesses} setGuesses={setGuesses} sequence={sequence} />;
 
   const keyedTabPanels = {
     luck: luckPanel,
@@ -138,6 +139,8 @@ export default function App() {
                    setHardMode={setHardMode}
                    quordle={quordle}
                    setQuordle={setQuordle}
+                   sequence={sequence}
+                   setSequence={setSequence}
                    allGuesses={allGuesses}
                    setAllGuesses={setAllGuesses}/>
         </div>

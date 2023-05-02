@@ -3,7 +3,7 @@ import GuessScores from './GuessScores';
 import GoButton from './GoButton';
 import Results from './Results';
 
-export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, headerDocs, bestGuessCount, targetCount, children, hardMode, output, setOutput, error, setError, handleOutput }) {
+export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setGuessCount, scoreLists, setScoreLists, operation, headers, headerLabels, headerDocs, bestGuessCount, targetCount, children, hardMode, output, setOutput, error, setError, handleOutput, sequence }) {
   const [ loading, setLoading ] = useState(false);
   const [ elapsedTime, setElapsedTime ] = useState(0);
   const [ showQueryButton, setShowQueryButton ] = useState(false);
@@ -35,6 +35,7 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
       setRequest({
         operation: operation,
         count: bestGuessCount,
+        sequence: sequence,
         hard_mode: hardMode,
         guesses,
         scores_list: scoreLists
@@ -42,7 +43,7 @@ export default function QueryGuessScores({ allGuesses, guesses, setGuesses, setG
     } else {
       setShowQueryButton(false);
     }
-  }, [allGuesses, guesses, scoreLists, bestGuessCount, operation, hardMode, targetCount]);
+  }, [allGuesses, guesses, scoreLists, bestGuessCount, operation, hardMode, targetCount, sequence]);
 
   return (
     <>

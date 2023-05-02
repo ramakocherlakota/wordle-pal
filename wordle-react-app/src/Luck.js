@@ -1,14 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import Results from './Results';
 import GoButton from './GoButton';
-import AnswerSelect from './AnswerSelect';
-import GuessSelect from './GuessSelect';
-import { listWithAdjustedLength, replaceInList} from './util/Util';
-import './luck.scss';
+import QueryTargetGuess from './QueryTargetGuess';
 import LuckOutputFormat from './LuckOutputFormat';
 
 export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
-                               hardMode, targetCount, setPane, setGlobalGuesses, globalGuessCount }) {
+                               hardMode, targetCount, setPane, setGlobalGuesses, globalGuessCount, sequence }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);
@@ -35,14 +32,6 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   }, [targets]);
 
   useEffect(() => {
-    setTargets((t) => listWithAdjustedLength(t, targetCount));
-  }, [targetCount, setTargets]);
-
-  useEffect(() => {
-    setGuesses((g) => listWithAdjustedLength(g, globalGuessCount));
-  }, [globalGuessCount, setGuesses]);
-
-  useEffect(() => {
     function allChosen() {
       for (let i=0; i<targets.length; i++) {
         if (!targets[i] || targets[i].length === 0) {
@@ -65,6 +54,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
         operation: "rate_solution",
         targets: targets.filter(t => t && t.length > 0),
         guesses: guesses.filter(g => g && g.length > 0),
+        sequence: sequence,
         hard_mode: hardMode,
         count: 1
       });
@@ -73,62 +63,13 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
     } else {
       setShowQueryButton(false);
     }
-  }, [guesses, targets, hardMode, allGuesses]);
+  }, [guesses, targets, hardMode, allGuesses, sequence]);
 
-  function setTarget(i, newval) {
-    setTargets((ts) => replaceInList(ts, newval, i));
-  }
-
-  function setTargetHandler(i) {
-    return function(a) {
-      setTarget(i, a);
-    }
-  }
-
-  function targetSelects() {
-    return targets.map((target, idx) => {
-      return (
-        <div className='select' key={idx}>
-          <AnswerSelect onChange={setTargetHandler(idx)} value={target} placeholder="Target..." />
-        </div>
-      );
-    });
-  }
-
-  function setGuess(i, newval) {
-    setGuesses((ts) => replaceInList(ts, newval, i));
-  }
-
-  function setGuessHandler(i) {
-    return function(a) {
-      setGuess(i, a);
-    }
-  }
-
-  function guessSelects() {
-    return guesses.map((guess, idx) => {
-      return (
-        <div className='select' key={idx} >
-          <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)}
-                       value={guess} placeholder="Guess..." /> 
-        </div>
-      );
-    });
-  }
 
   return (
     <>
       Enter the target word(s) and your guesses to see how lucky you were.
-      <div className="targets-guesses" >
-        <div className='fields'>
-          {targetSelects()}
-        </div>
-      </div>
-      <div className="targets-guesses" >
-        <div className="fields">
-          {guessSelects()}
-        </div>
-      </div>
+      <QueryTargetGuess allGuesses={allGuesses} targets={targets} setTargets={setTargets} targetCount={targetCount} guessCount={globalGuessCount} guesses={guesses} setGuesses={setGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
       {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={luckOutputFormat} /></>}
     </>

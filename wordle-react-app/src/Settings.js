@@ -7,7 +7,7 @@ import PopupDoc from './PopupDoc';
 import { SettingsEmoji } from './util/Emojis.js';
 import './Settings.scss';
 
-export default function Settings({ hardMode, setHardMode, quordle, setQuordle, allGuesses, setAllGuesses }) {
+export default function Settings({ hardMode, setHardMode, quordle, setQuordle, sequence, setSequence, allGuesses, setAllGuesses }) {
   const onOff = (label, flag) => {
     return <div>{label}: {flag ? "on" : "off"}</div>;
   }
@@ -15,6 +15,7 @@ export default function Settings({ hardMode, setHardMode, quordle, setQuordle, a
   const currentSettings =
     <div className='tooltip-text'>
       {onOff("Quordle", quordle)}
+      {onOff("Sequence", sequence)}
       {onOff("Hard Mode", hardMode)}
       {onOff("All Guesses", allGuesses)}
     </div>;
@@ -23,6 +24,7 @@ export default function Settings({ hardMode, setHardMode, quordle, setQuordle, a
     <PopupDoc label={SettingsEmoji()} tooltip={currentSettings} ok="OK" fontSize="60px">
       <FormGroup>
         <FormControlLabel control={<Switch checked={quordle} onChange={()=>setQuordle(!quordle)} />} label="Quordle Mode" />
+        <FormControlLabel control={<Switch checked={sequence} onChange={()=>setSequence(!sequence)} />} label="Sequence Mode" />
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
       </FormGroup>
