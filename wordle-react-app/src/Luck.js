@@ -68,7 +68,9 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
 
   return (
     <>
-      Enter the target word(s) and your guesses to see how lucky you were.
+      <p>
+        Enter the target word(s) and your guesses to see how lucky you were.
+      </p>
       <QueryTargetGuess allGuesses={allGuesses} targets={targets} setTargets={setTargets} targetCount={targetCount} guessCount={globalGuessCount} guesses={guesses} setGuesses={setGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
       {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={luckOutputFormat} /></>}
