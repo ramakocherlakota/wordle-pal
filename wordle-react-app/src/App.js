@@ -93,7 +93,7 @@ export default function App() {
 
   const tabPanels = Object.keys(keyedTabPanels).map((key) => {
     return (
-      <div className={pane === key ? 'tab-panel' : 'tab-panel-hidden'}>
+      <div key={key} className={pane === key ? 'tab-panel' : 'tab-panel-hidden'}>
         {keyedTabPanels[key]}
       </div>
     );
@@ -119,12 +119,12 @@ export default function App() {
   return (
     <div className='app'>
       <div className='header-row'>
-        <div className="header-row-cell">
+        <div key="title" className="header-row-cell">
           <h3>
             Wordle Pal
           </h3>
         </div>
-        <div className="header-row-cell">
+        <div key="pal" className="header-row-cell">
           <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> >
             <div>
               How does Wordle Pal work?
@@ -135,14 +135,14 @@ export default function App() {
               The first thing WordlePal will do for you is:
             </div>
           </PopupDoc>
-        <Settings  hardMode={hardMode}
-                   setHardMode={setHardMode}
-                   quordle={quordle}
-                   setQuordle={setQuordle}
-                   sequence={sequence}
-                   setSequence={setSequence}
-                   allGuesses={allGuesses}
-                   setAllGuesses={setAllGuesses}/>
+          <Settings  hardMode={hardMode}
+                     setHardMode={setHardMode}
+                     quordle={quordle}
+                     setQuordle={setQuordle}
+                     sequence={sequence}
+                     setSequence={setSequence}
+                     allGuesses={allGuesses}
+                     setAllGuesses={setAllGuesses}/>
         </div>
       </div>
       {tabContext}
@@ -150,4 +150,6 @@ export default function App() {
     </div>
   );
 }
+
+
 

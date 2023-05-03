@@ -98,6 +98,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
         return null;
       }
     })
+
     const row_data_with_totals = targets.length > 1
           ? row_data.concat(totals.filter(record => record.guess === guess)
                             .map(record => {
@@ -106,7 +107,8 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
                               return record;
                             }))
           : row_data;
-    const scoreCells = row_data_with_totals.map(cell => {
+
+    const scoreCells = row_data_with_totals.map((cell, k) => {
       if (cell) {
         const cellLabel = (
           <div className='cell-label'>
@@ -118,13 +120,14 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
             </div>
           </div>
         );
+        const key = k;
         return 'score' in cell
-          ? <td className='score-cell'>
+          ? <td key={key} className='score-cell'>
               <PopupDoc label={cellLabel}>
                 <div>{formatCell(cell)}</div>
               </PopupDoc>
             </td>
-           : <td/>;
+           : <td key={key} />;
         } else {
           return <td/>;
         }
