@@ -170,8 +170,12 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     return (
       <center>
       <table className='luck-table'>
-        <tr>{headerRowWithLinks}</tr>
-        {rows}
+        <thead>
+          <tr>{headerRowWithLinks}</tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
       </table>
       </center>
     );

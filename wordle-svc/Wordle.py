@@ -51,11 +51,13 @@ class Wordle :
         self.hard_mode = hard_mode
         self.debug = debug
         self.target = target
-        self.guesses = guesses
+        
+        valid_indexes = list(filter(lambda x: len(guesses[x]) != 0, range(len(guesses))))
+        self.guesses = list(map(lambda n: guesses[n], valid_indexes))
         if scores:
-            self.scores = scores
+            self.scores = list(map(lambda n: scores[n], valid_indexes))
         else:
-            self.scores = self.score_guesses(target, guesses)
+            self.scores = self.score_guesses(target, self.guesses)
 
     def connect(self):
         connect_to = f"{self.sqlite_folder}/{self.sqlite_dbname}"

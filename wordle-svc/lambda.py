@@ -1,4 +1,5 @@
 import json, sys, os
+import traceback
 from Quordle import Quordle
 from Sequence import Sequence
 
@@ -69,8 +70,8 @@ def handler(event, context) :
             if data['operation'] == "solve":
                 return ok(puzzle.solve());
                 
-    except Exception as e:
-        return error(e.args)
+    except Exception:
+        return error(traceback.format_exc())
 
 if __name__ == "__main__":
     with open(sys.argv[1]) as file:
