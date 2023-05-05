@@ -19,9 +19,9 @@ export default function RemainingOutputFormat(data) {
   function wordList(list) {
     if (list.length > 0) {
       return (
-        list.map((it) => {
+        list.map((it, n) => {
           return (
-            <div className='cell'>
+            <div key={n} className='cell'>
               {it}
             </div>
           );

@@ -44,7 +44,7 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
         targets,
         hard_mode: hardMode,
         sequence: sequence,
-        guesses: guesses.filter(x => x.length > 0)
+        guesses: guesses.filter(x => x && x.length > 0)
       });
       
       setShowQueryButton(true);

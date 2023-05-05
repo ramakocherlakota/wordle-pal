@@ -109,6 +109,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
           : row_data;
 
     const scoreCells = row_data_with_totals.map((cell, k) => {
+      const key = k;
       if (cell) {
         const cellLabel = (
           <div className='cell-label'>
@@ -120,7 +121,6 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
             </div>
           </div>
         );
-        const key = k;
         return 'score' in cell
           ? <td key={key} className='score-cell'>
               <PopupDoc label={cellLabel}>
@@ -134,7 +134,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     });
 
     return (
-      <tr>
+      <tr key={n} >
         <td>{guess}</td>
         {scoreCells}
         <td>{links(n+1)}</td>
