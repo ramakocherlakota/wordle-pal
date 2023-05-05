@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import Results from './Results';
 import GoButton from './GoButton';
+import SolveOutputFormat from './SolveOutputFormat';
 import QueryTargetGuess from './QueryTargetGuess';
 import './solve.scss';
 
@@ -13,6 +14,8 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
   const [ showQueryButton, setShowQueryButton ] = useState(false);
   const [ showResults, setShowResults ] = useState(false);
   const [ request, setRequest ] = useState(undefined);
+
+  const solveOutputFormat = (data) => <SolveOutputFormat {...data}  />;
 
   const headers = ["turn", "guess", "uncertainty_before_guess", "expected_uncertainty_after_guess", "compatible"] 
   const headerLabels = {
@@ -60,7 +63,7 @@ export default function Solve({allGuesses, hardMode, targetCount, targets, setTa
       </p>
       <QueryTargetGuess allGuesses={allGuesses} targets={targets} setTargets={setTargets} targetCount={targetCount} guessCount={guessCount} guesses={guesses} setGuesses={setGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
-      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} /></>}
+      {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headerDocs={headerDocs} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={solveOutputFormat} /></>}
     </>
   )
 }

@@ -23,12 +23,12 @@ export default function GuessOutputFormat(data) {
     }
   }, [compatibleFilter, guessFilter, output]);
 
-  const headerRow = (headers && headers.map((x) => {
+  const headerRow = (headers && headers.map((x,n) => {
     const doc = headerDocs && (x in headerDocs) && headerDocs[x];
     const label = doc ? <PopupDoc label={headerLabels[x]} tooltip={doc} />
           : headerLabels[x];
     return (
-      <th>{label}</th>
+      <th key={n}>{label}</th>
     );
   }));
 
@@ -47,7 +47,8 @@ export default function GuessOutputFormat(data) {
   }
 
   function dataRow(row) {
-    return headers.map((x) => <td>{formatEntry(row[x], x)}</td>)
+    const className = row['compatible']  ? "highlight" : "";
+    return headers.map((x, n) => <td key={n} className={className} >{formatEntry(row[x], x)}</td>)
   }
 
   function dataRows(rows) {
@@ -79,10 +80,14 @@ export default function GuessOutputFormat(data) {
 
   return (
     <>
-      {hasOutput && filterBox}
+      {output && output.length > 0 && filterBox}
       <table className="output" >
-        {hasOutput && headerRow && <tr  key={-1}>{headerRow}</tr>}
-        {dataRows(filteredOutput)}
+        <thead>
+          {hasOutput && headerRow && <tr  key={-1}>{headerRow}</tr>}
+        </thead>
+        <tbody>
+          {dataRows(filteredOutput)}
+        </tbody>
       </table>
     </>
   );
