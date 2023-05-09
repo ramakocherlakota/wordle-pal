@@ -123,6 +123,7 @@ class Sequence:
                 if not wordle.is_solved():
                     score = wordle.score_guess(target, guess)
                     wordle.scores.append(score)
+                    wordle.guesses.append(guess)
             next_guess['turn'] = turn
             turn = turn + 1
             turns.append(next_guess)
