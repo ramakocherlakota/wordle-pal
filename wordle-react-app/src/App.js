@@ -115,6 +115,24 @@ export default function App() {
     </TabContext>
   );
 
+  const helpText = (
+    <div>
+      Wordle Pal has four panels: Luck, Remaining, Guess and Solve.  
+      <ul>
+        <li><strong>Luck</strong>: Enter the target word and the guesses you made along the way to get there and Wordle Pal will give you its estimate of how lucky each guess was.  There are also links to the other panels so that you can see how things stood at each stage of your progress.</li>
+        <li><strong>Remaining</strong>: Enter your guesses and the scores up to that point to find out what words are still possible answers.</li>
+        <li><strong>Guess</strong>: Like Remaining, enter guesses and scores but this time you'll get a ranked list of the possible next guesses.  You can filter the results by typing partial words or only showing the guesses that actually might be solutions.</li>
+        <li><strong>Solve</strong>: Enter the target word and a few guesses and let Wordle Pal take it from there, optimizing its guesses to solve the puzzle for you.</li>
+      </ul>
+      <p>
+        <strong>Scores</strong> are entered using the MasterMind code of B (black peg) means a letter correct and in the correct place, W (white peg) is a letter correct but in the wrong place.
+      </p>
+      <p>
+        Wordle Pal also knows how to play Quordle and Sequence - click on the Settings icon in the upper right corner of the screen to select the puzzle mode and also whether you want to play in Hard Mode (where all your guesses must be possible solutions) and also if you want to allow all possible guesses (of which there are about 12000) or only the guesses that are actually allowed Wordle solutions (of which there are 2315).
+      </p>
+    </div>
+  );
+
   return (
     <div className='app'>
       <div className='header-row'>
@@ -124,15 +142,8 @@ export default function App() {
           </h3>
         </div>
         <div key="pal" className="header-row-cell">
-          <PopupDoc label={PalEmoji()} tooltip=<div className='tooltip-text'>How does it work?</div> >
-            <div>
-              How does Wordle Pal work?
-            </div>
-          </PopupDoc>
           <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
-            <div>
-              The first thing WordlePal will do for you is:
-            </div>
+            {helpText}
           </PopupDoc>
           <Settings  hardMode={hardMode}
                      setHardMode={setHardMode}

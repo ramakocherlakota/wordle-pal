@@ -136,7 +136,7 @@ class Quordle:
         expected_uncertainties = list(self.merge_by_guess(wordle_expected_uncertainties).values())
         if self.hard_mode:
             expected_uncertainties = list(filter(lambda x : x['compatible'], expected_uncertainties))
-        expected_uncertainties.sort(key=lambda x: x['expected_uncertainty_after_guess'])
+        expected_uncertainties.sort(key=lambda x: -1 if x['guess'] == found_guess else x['expected_uncertainty_after_guess'])
 
         # need to re-rank for ties
         rank = 1

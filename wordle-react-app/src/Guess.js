@@ -24,7 +24,7 @@ export default function Guess({allGuesses, guesses, setGuesses, scoreLists, setS
   return (
     <>
       <p>
-        Enter your guesses and the scores that came back from Wordle to get suggestions for your enxt guess.
+        Enter your guesses and the scores that came back from Wordle to get suggestions for your next guess.
       </p>
       <QueryGuessScores allGuesses={allGuesses} operation="guess" headers={ headers } headerLabels={headerLabels} headerDocs={headerDocs} guesses={guesses} setGuesses={setGuesses}  scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatGuessOutput} />
     </>

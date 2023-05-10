@@ -99,7 +99,7 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
       }
     })
 
-    const row_data_with_totals = targets.length > 1
+    const row_data_with_totals = totals && targets.length > 1
           ? row_data.concat(totals.filter(record => record.guess === guess)
                             .map(record => {
                               record.score = "";
@@ -152,17 +152,17 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     }
       
     const linksHeader =
-      <PopupDoc tooltip=
+      <PopupDoc label="Links">
         <div>
-          Click on the crescent moon to see the list of remaining possible answers and the light bulb for a hint on good next guesses at that point in the puzzle.
+          Click on the crescent moon to see the list of remaining possible answers. Click on the light bulb for a hint on good next guesses at that point in the puzzle.  Click on the flag to see how Wordle Pal would solve the puzzle.
         </div>
-      >Links</PopupDoc>;
+      </PopupDoc>;
 
   if (output && typeof output === 'object' && 'by_target' in output ) {
     const targets = Object.keys(output.by_target);
     const guesses = extractGuesses();
     const headerRow = headers.map(x => <th className='luck-header'>{headerLabelsWithDocs(x)}</th>);
-    const headerRowWithTotals = targets.length > 1
+    const headerRowWithTotals = ('totals' in output) && (targets.length > 1)
           ? headerRow.concat(<th className='luck-header'>Totals</th>)
           : headerRow;
     const headerRowWithLinks = headerRowWithTotals.concat(<th className='luck-header'>{linksHeader}</th>);
