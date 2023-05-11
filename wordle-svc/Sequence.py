@@ -1,5 +1,4 @@
 import Wordle
-from functools import reduce
 
 def from_args(args):
     debug=False
@@ -46,19 +45,22 @@ class Sequence:
         self.hard_mode = hard_mode
         self.debug = debug
         self.targets = targets
-        self.guesses = guesses
+        
+        good_indexes = list(filter(lambda k : guesses[k] and guesses[k] != '', range(len(guesses))))
+        
+        self.guesses = list(map(lambda k: guesses[k], good_indexes))
         if scores_list:
             self.scores_list = scores_list;
         else:
-            self.scores_list = list(map(lambda target: self.common_wordle.score_guesses(target, guesses), targets))
+            self.scores_list = list(map(lambda target: self.common_wordle.score_guesses(target, self.guesses), targets))
 
         self.wordles = []
         for n in range(len(self.scores_list)):
             target = self.targets[n] if self.targets else None
             scores = self.scores_list[n]
-            wordle = Wordle.Wordle(guesses= self.guesses,
-                                   target= target,
-                                   scores= scores,
+            wordle = Wordle.Wordle(guesses=self.guesses,
+                                   target=target,
+                                   scores=scores,
                                    hard_mode = False, # hard_mode is handled globally
                                    debug = self.debug,
                                    sqlite_bucket=self.sqlite_bucket,
@@ -91,9 +93,9 @@ class Sequence:
     def remaining_answers(self):
         current = self.current_wordle()
         if not current:
-            return []
+            return [[]]
         else:
-            return current.remaining_answers()
+            return [current.remaining_answers()]
 
     def guess(self, count):
         return self.current_wordle().guess(count)

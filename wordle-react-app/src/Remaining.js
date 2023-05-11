@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import QueryGuessScores from './QueryGuessScores';
 import RemainingOutputFormat from './RemainingOutputFormat';
 
-export default function Remaining({ allGuesses, guesses, setGuesses, scoreLists, setScoreLists, hardMode, targetCount }) {
+export default function Remaining({ allGuesses, guesses, setGuesses, scoreLists, setScoreLists, hardMode, targetCount, sequence }) {
 
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
@@ -13,7 +13,7 @@ export default function Remaining({ allGuesses, guesses, setGuesses, scoreLists,
       <p>
         Enter your guesses and the scores that came back from Wordle to get a list of remaining possible answers.
       </p>
-      <QueryGuessScores allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} operation="remaining_answers" targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatRemainingOutput} />
+      <QueryGuessScores allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} operation="remaining_answers" targetCount={targetCount} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={formatRemainingOutput} sequence={sequence} />
     </>
   );
 }

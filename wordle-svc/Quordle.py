@@ -48,7 +48,9 @@ class Quordle:
         self.hard_mode = hard_mode
         self.debug = debug
         self.targets = targets
-        self.guesses = guesses
+        good_indexes = list(filter(lambda k : guesses[k] and guesses[k] != '', range(len(guesses))))
+
+        self.guesses = list(map(lambda k: guesses[k], good_indexes))
         if scores_list:
             self.scores_list = scores_list;
         else:
