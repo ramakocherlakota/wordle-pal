@@ -4,6 +4,20 @@ import sqlite3, re, os, sys
 from datetime import datetime
 import boto3
 
+def non_empty_indexes_helper(ls, indexes):
+    if not ls:
+        return indexes
+    if not indexes:
+        indexes = range(len(ls))
+    return list(filter(lambda i: i<len(ls) and  ls[i] and len(ls[i]) > 0, indexes))
+
+def non_empty_indexes(lists, indexes=None) :
+    if len(lists) == 0:
+        return indexes
+    else:
+        new_indexes = non_empty_indexes_helper(lists[0], indexes)
+        return non_empty_indexes(lists[1:], new_indexes)
+
 def from_args(args):
     debug=False
     dbname="wordle.sqlite"
@@ -52,10 +66,11 @@ class Wordle :
         self.debug = debug
         self.target = target
         
-        valid_indexes = list(filter(lambda x: len(guesses[x]) != 0, range(len(guesses))))
-        self.guesses = list(map(lambda n: guesses[n], valid_indexes))
+        valid_indexes = non_empty_indexes([guesses, scores])
+
+        self.guesses = list(map(lambda n: guesses[n], valid_indexes)) if guesses else []
         if scores:
-            self.scores = list(map(lambda n: scores[n], valid_indexes))
+            self.scores = list(map(lambda n: scores[n], valid_indexes)) if scores else []
         else:
             self.scores = self.score_guesses(target, self.guesses)
 
