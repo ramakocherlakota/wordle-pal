@@ -51,3 +51,16 @@ export function ifDesktop(str) {
   }
 }
 
+export function jsonFromLS(key, defaultValue) {
+  let inLS = null
+  try {
+    inLS = window.localStorage.getItem(key);
+    if (inLS) {
+      return JSON.parse(inLS);
+    } 
+  } catch {
+    console.log("Malformed JSON in localStorage for key " + key);
+    console.log(inLS);
+  }
+  return defaultValue;
+}

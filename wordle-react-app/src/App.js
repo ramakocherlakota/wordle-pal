@@ -4,7 +4,6 @@ import React, {useState, useEffect} from 'react';
 import './App.scss';
 
 import {
-  PalEmoji,
   LuckEmoji,
   RemainingEmoji,
   GuessEmoji,
@@ -21,22 +20,63 @@ import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 
 import Settings from './Settings';
-import { listWithAdjustedLength, listOfEmptyStrings } from './util/Util';
+import { jsonFromLS, listWithAdjustedLength, listOfEmptyStrings } from './util/Util';
 import Guess from './Guess';
 import Remaining from './Remaining';
 import Solve from './Solve';
 import Luck from './Luck';
 
 export default function App() {
-  const [ allGuesses, setAllGuesses ] = useState(false); // include all Wordle guesses or just the answers in guess lists?
-  const [ puzzleMode, setPuzzleMode ] = useState("Wordle");
-  const [ scoreLists, setScoreLists ] = useState([[""]]);
-  const [ hardMode, setHardMode ] = useState(false)
+  /* from react-local-storage allGuesses */
+  const [ allGuesses, setAllGuesses ] = useState(window.localStorage.getItem("allGuesses") === "true");
+  useEffect(() => {
+    window.localStorage.setItem("allGuesses", allGuesses);
+  }, [allGuesses]);
+  /* end from react-local-storage allGuesses */
 
-  const [ targets, setTargets ] = useState(listOfEmptyStrings(1));
-  const [ guesses, setGuesses ] = useState([""]);
+  /* from react-local-storage hardMode */
+  const [ hardMode, setHardMode ] = useState(window.localStorage.getItem("hardMode") === "true");
+  useEffect(() => {
+    window.localStorage.setItem("hardMode", hardMode);
+  }, [hardMode]);
+  /* end from react-local-storage hardMode */
 
-  const [ pane, setPane ] = useState("luck");
+  /* from react-local-storage puzzleMode */
+  const [ puzzleMode, setPuzzleMode ] = useState(window.localStorage.getItem("puzzleMode") || "Wordle");
+  useEffect(() => {
+    window.localStorage.setItem("puzzleMode", puzzleMode);
+  }, [puzzleMode]);
+  /* end from react-local-storage puzzleMode */
+
+  /* from react-local-storage pane */
+  const [ pane, setPane ] = useState(window.localStorage.getItem("pane") || "luck");
+  useEffect(() => {
+    window.localStorage.setItem("pane", pane);
+  }, [pane]);
+  /* end from react-local-storage pane */
+
+  /* from react-local-storage scoreLists */
+  const [ scoreLists, setScoreLists ] = useState(jsonFromLS("scoreLists", [[""]]));
+  useEffect(() => {
+    window.localStorage.setItem("scoreLists", JSON.stringify(scoreLists));
+  }, [scoreLists]);
+  /* end from react-local-storage scoreLists */
+
+  /* from react-local-storage targets */
+  const [ targets, setTargets ] = useState(jsonFromLS("targets", [""]));
+  useEffect(() => {
+    window.localStorage.setItem("targets", JSON.stringify(targets));
+  }, [targets]);
+  /* end from react-local-storage targets */
+//  const [ targets, setTargets ] = useState(listOfEmptyStrings(1));
+  
+  /* from react-local-storage guesses */
+  const [ guesses, setGuesses ] = useState(jsonFromLS("guesses", [""]));
+  useEffect(() => {
+    window.localStorage.setItem("guesses", JSON.stringify(guesses));
+  }, [guesses]);
+  /* end from react-local-storage guesses */
+//  const [ guesses, setGuesses ] = useState([""]);
 
   useEffect(() => {
     const adjustLengths = (gCount, tCount) => {
