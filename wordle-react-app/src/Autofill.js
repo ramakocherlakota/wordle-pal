@@ -7,12 +7,14 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
   const [ optionList, setOptionList ] = useState(initialOptions || []);
   const [ inputValue, setInputValue ] = useState(value || '');
 
-  function onInputChange(evt, val) {
-    setInputValue(val);
-    const optionList = optionFunc(val);
-    setOptionList(optionList);
-    if (optionList.length === 0) {
-      setValue(null);
+  function onInputChange(evt, val, reason) {
+    if (reason !== 'reset') {
+      setInputValue(val);
+      const optionList = optionFunc(val);
+      setOptionList(optionList);
+      if (optionList.length === 0) {
+        setValue(null);
+      }
     }
   }
 
