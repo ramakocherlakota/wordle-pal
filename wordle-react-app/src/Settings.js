@@ -7,6 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import Button from '@mui/material/Button';
 import PopupDoc from './PopupDoc';
 import { SettingsEmoji } from './util/Emojis.js';
 import './Settings.scss';
@@ -14,6 +15,11 @@ import './Settings.scss';
 export default function Settings({ hardMode, setHardMode, puzzleMode, setPuzzleMode , allGuesses, setAllGuesses }) {
   const onOff = (label, flag) => {
     return <div>{label}: {flag ? "on" : "off"}</div>;
+  }
+
+  const reset = () => {
+    window.localStorage.clear();
+    window.location.reload();
   }
 
   const currentSettings =
@@ -44,6 +50,9 @@ export default function Settings({ hardMode, setHardMode, puzzleMode, setPuzzleM
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
       </FormGroup>
+      <div className="reset-button">
+        <Button onClick={reset} variant='outlined'>Reset All</Button>
+      </div>
     </PopupDoc>
   );  
 }
