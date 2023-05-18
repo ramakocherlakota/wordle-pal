@@ -18,13 +18,13 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} globalGuessCount={globalGuessCount} targetCount={targetCount} />;
   const [ showResults, setShowResults ] = useState(false);
 
-  /* from react-local-storage guesses */
-  const [ guesses, setGuesses ] = useState(jsonFromLS("luckGuesses", [""]
+  /* from react-local-storage luckGuesses */
+  const [ luckGuesses, setLuckGuesses ] = useState(jsonFromLS("luckGuesses", [""]
 ));
   useEffect(() => {
-    window.localStorage.setItem("luckGuesses", JSON.stringify(guesses));
-  }, [guesses]);
-  /* end from react-local-storage guesses */
+    window.localStorage.setItem("luckGuesses", JSON.stringify(luckGuesses));
+  }, [luckGuesses]);
+  /* end from react-local-storage luckGuesses */
 
   useEffect(() => {
     const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`)];
@@ -47,8 +47,8 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
         }
       }
 
-      for (let j=0; j<guesses.length; j++) {
-        if (guesses[j] && guesses[j].length > 0) {
+      for (let j=0; j<luckGuesses.length; j++) {
+        if (luckGuesses[j] && luckGuesses[j].length > 0) {
           return true;
         }
       }
@@ -61,7 +61,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
       setRequest({
         operation: "rate_solution",
         targets: targets.filter(t => t && t.length > 0),
-        guesses: guesses.filter(g => g && g.length > 0),
+        guesses: luckGuesses.filter(g => g && g.length > 0),
         sequence: sequence,
         hard_mode: hardMode,
         count: 1
@@ -71,7 +71,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
     } else {
       setShowQueryButton(false);
     }
-  }, [guesses, targets, hardMode, allGuesses, sequence]);
+  }, [luckGuesses, targets, hardMode, allGuesses, sequence]);
 
 
   return (
@@ -79,7 +79,7 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
       <p>
         Enter the target word(s) and your guesses to see how lucky you were.
       </p>
-      <QueryTargetGuess allGuesses={allGuesses} targets={targets} setTargets={setTargets} targetCount={targetCount} guessCount={globalGuessCount} guesses={guesses} setGuesses={setGuesses} />
+      <QueryTargetGuess allGuesses={allGuesses} targets={targets} setTargets={setTargets} targetCount={targetCount} guessCount={globalGuessCount} guesses={luckGuesses} setGuesses={setLuckGuesses} />
       <GoButton showQueryButton={showQueryButton} showResults={showResults} setShowQueryButton={setShowQueryButton} setShowResults={setShowResults} loading={loading} elapsedTime={elapsedTime} />
       {showResults && <><Results allGuesses={allGuesses} request={request} headerLabels={headerLabels} headers={headers} loading={loading} setLoading={setLoading} elapsedTime={elapsedTime} setElapsedTime={setElapsedTime} output={output} setOutput={setOutput} error={error} setError={setError} handleOutput={luckOutputFormat} /></>}
     </>

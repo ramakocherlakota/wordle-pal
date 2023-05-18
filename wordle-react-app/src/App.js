@@ -84,8 +84,7 @@ export default function App() {
       setTargets((t) => listWithAdjustedLength(t, tCount));
 
       // there should be tCount scoreLists, each with a length of gCount
-      const newScoreLists = listWithAdjustedLength([], tCount, () => [listOfEmptyStrings(gCount)]);
-      setScoreLists(newScoreLists)
+      setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [listOfEmptyStrings(gCount)]));
     }
 
     if (puzzleMode === "Wordle") {
