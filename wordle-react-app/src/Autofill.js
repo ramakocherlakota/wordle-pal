@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import './Autofill.scss';
@@ -7,23 +7,22 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
   const [ optionList, setOptionList ] = useState(initialOptions || []);
   const [ inputValue, setInputValue ] = useState(value || '');
 
-  function onInputChange(evt, val, reason) {
-    if (reason !== 'reset') {
-      setInputValue(val);
-      const optionList = optionFunc(val);
-      setOptionList(optionList);
-      if (optionList.length === 0) {
-        setValue(null);
-      }
-    }
+  useEffect(() => {
+    setOptionList(optionFunc(inputValue));
+  }, [inputValue, optionFunc]);
+
+  function onInputChange(evt, val) {
+    setInputValue(val);
   }
 
   function onBlur() {
-    const filteredOptions = optionList.filter(o => isOptionEqualToValue(o, inputValue));
+    const filteredOptions = optionList.filter(o => o.toLowerCase().startsWith(inputValue.toLowerCase().trim()));
     if (filteredOptions.length === 1) {  
       setValue(filteredOptions[0]);
+      setInputValue(filteredOptions[0]);
     } else {
       setValue('');
+      setInputValue('');
     }
   }
 

@@ -1,6 +1,6 @@
 export default function AnswerOptions() {
   return {
-    ab: [
+    a: [
       'aback',
       'abase',
       'abate',
@@ -14,15 +14,11 @@ export default function AnswerOptions() {
       'about',
       'above',
       'abuse',
-      'abyss'
-    ],
-    ac: [
+      'abyss',
       'acorn',
       'acrid',
       'actor',
-      'acute'
-    ],
-    ad: [
+      'acute',
       'adage',
       'adapt',
       'adept',
@@ -32,16 +28,12 @@ export default function AnswerOptions() {
       'adopt',
       'adore',
       'adorn',
-      'adult'
-    ],
-    af: [
+      'adult',
       'affix',
       'afire',
       'afoot',
       'afoul',
-      'after'
-    ],
-    ag: [
+      'after',
       'again',
       'agape',
       'agate',
@@ -51,16 +43,10 @@ export default function AnswerOptions() {
       'aglow',
       'agony',
       'agora',
-      'agree'
-    ],
-    ah: [
-      'ahead'
-    ],
-    ai: [
+      'agree',
+      'ahead',
       'aider',
-      'aisle'
-    ],
-    al: [
+      'aisle',
       'alarm',
       'album',
       'alert',
@@ -82,9 +68,7 @@ export default function AnswerOptions() {
       'aloud',
       'alpha',
       'altar',
-      'alter'
-    ],
-    am: [
+      'alter',
       'amass',
       'amaze',
       'amber',
@@ -95,9 +79,7 @@ export default function AnswerOptions() {
       'among',
       'ample',
       'amply',
-      'amuse'
-    ],
-    an: [
+      'amuse',
       'angel',
       'anger',
       'angle',
@@ -110,12 +92,8 @@ export default function AnswerOptions() {
       'annul',
       'anode',
       'antic',
-      'anvil'
-    ],
-    ao: [
-      'aorta'
-    ],
-    ap: [
+      'anvil',
+      'aorta',
       'apart',
       'aphid',
       'aping',
@@ -123,9 +101,7 @@ export default function AnswerOptions() {
       'apple',
       'apply',
       'apron',
-      'aptly'
-    ],
-    ar: [
+      'aptly',
       'arbor',
       'ardor',
       'arena',
@@ -137,51 +113,37 @@ export default function AnswerOptions() {
       'array',
       'arrow',
       'arson',
-      'artsy'
-    ],
-    as: [
+      'artsy',
       'ascot',
       'ashen',
       'aside',
       'askew',
       'assay',
-      'asset'
-    ],
-    at: [
+      'asset',
       'atoll',
       'atone',
-      'attic'
-    ],
-    au: [
+      'attic',
       'audio',
       'audit',
       'augur',
-      'aunty'
-    ],
-    av: [
+      'aunty',
       'avail',
       'avert',
       'avian',
-      'avoid'
-    ],
-    aw: [
+      'avoid',
       'await',
       'awake',
       'award',
       'aware',
       'awash',
       'awful',
-      'awoke'
-    ],
-    ax: [
+      'awoke',
       'axial',
       'axiom',
-      'axion'
+      'axion',
+      'azure',
     ],
-    az: [
-      'azure'
-    ],
-    ba: [
+    b: [
       'bacon',
       'badge',
       'badly',
@@ -205,9 +167,7 @@ export default function AnswerOptions() {
       'baton',
       'batty',
       'bawdy',
-      'bayou'
-    ],
-    be: [
+      'bayou',
       'beach',
       'beady',
       'beard',
@@ -233,9 +193,7 @@ export default function AnswerOptions() {
       'beset',
       'betel',
       'bevel',
-      'bezel'
-    ],
-    bi: [
+      'bezel',
       'bible',
       'bicep',
       'biddy',
@@ -248,9 +206,7 @@ export default function AnswerOptions() {
       'birch',
       'birth',
       'bison',
-      'bitty'
-    ],
-    bl: [
+      'bitty',
       'black',
       'blade',
       'blame',
@@ -282,9 +238,7 @@ export default function AnswerOptions() {
       'blunt',
       'blurb',
       'blurt',
-      'blush'
-    ],
-    bo: [
+      'blush',
       'board',
       'boast',
       'bobby',
@@ -306,9 +260,7 @@ export default function AnswerOptions() {
       'boule',
       'bound',
       'bowel',
-      'boxer'
-    ],
-    br: [
+      'boxer',
       'brace',
       'braid',
       'brain',
@@ -343,9 +295,7 @@ export default function AnswerOptions() {
       'brown',
       'brunt',
       'brush',
-      'brute'
-    ],
-    bu: [
+      'brute',
       'buddy',
       'budge',
       'buggy',
@@ -365,12 +315,10 @@ export default function AnswerOptions() {
       'butch',
       'butte',
       'buxom',
-      'buyer'
+      'buyer',
+      'bylaw',
     ],
-    by: [
-      'bylaw'
-    ],
-    ca: [
+    c: [
       'cabal',
       'cabby',
       'cabin',
@@ -402,14 +350,10 @@ export default function AnswerOptions() {
       'catty',
       'caulk',
       'cause',
-      'cavil'
-    ],
-    ce: [
+      'cavil',
       'cease',
       'cedar',
-      'cello'
-    ],
-    ch: [
+      'cello',
       'chafe',
       'chaff',
       'chain',
@@ -449,17 +393,13 @@ export default function AnswerOptions() {
       'chump',
       'chunk',
       'churn',
-      'chute'
-    ],
-    ci: [
+      'chute',
       'cider',
       'cigar',
       'cinch',
       'circa',
       'civic',
-      'civil'
-    ],
-    cl: [
+      'civil',
       'clack',
       'claim',
       'clamp',
@@ -490,9 +430,7 @@ export default function AnswerOptions() {
       'cluck',
       'clued',
       'clump',
-      'clung'
-    ],
-    co: [
+      'clung',
       'coach',
       'coast',
       'cobra',
@@ -521,9 +459,7 @@ export default function AnswerOptions() {
       'covet',
       'covey',
       'cower',
-      'coyly'
-    ],
-    cr: [
+      'coyly',
       'crack',
       'craft',
       'cramp',
@@ -568,9 +504,7 @@ export default function AnswerOptions() {
       'crump',
       'crush',
       'crust',
-      'crypt'
-    ],
-    cu: [
+      'crypt',
       'cubic',
       'cumin',
       'curio',
@@ -579,14 +513,12 @@ export default function AnswerOptions() {
       'curse',
       'curve',
       'curvy',
-      'cutie'
-    ],
-    cy: [
+      'cutie',
       'cyber',
       'cycle',
-      'cynic'
+      'cynic',
     ],
-    da: [
+    d: [
       'daddy',
       'daily',
       'dairy',
@@ -595,9 +527,7 @@ export default function AnswerOptions() {
       'dance',
       'dandy',
       'datum',
-      'daunt'
-    ],
-    de: [
+      'daunt',
       'dealt',
       'death',
       'debar',
@@ -625,9 +555,7 @@ export default function AnswerOptions() {
       'deter',
       'detox',
       'deuce',
-      'devil'
-    ],
-    di: [
+      'devil',
       'diary',
       'dicey',
       'digit',
@@ -644,9 +572,7 @@ export default function AnswerOptions() {
       'ditto',
       'ditty',
       'diver',
-      'dizzy'
-    ],
-    do: [
+      'dizzy',
       'dodge',
       'dodgy',
       'dogma',
@@ -661,9 +587,7 @@ export default function AnswerOptions() {
       'dowel',
       'downy',
       'dowry',
-      'dozen'
-    ],
-    dr: [
+      'dozen',
       'draft',
       'drain',
       'drake',
@@ -692,9 +616,7 @@ export default function AnswerOptions() {
       'druid',
       'drunk',
       'dryer',
-      'dryly'
-    ],
-    du: [
+      'dryly',
       'duchy',
       'dully',
       'dummy',
@@ -703,51 +625,29 @@ export default function AnswerOptions() {
       'dusky',
       'dusty',
       'dutch',
-      'duvet'
-    ],
-    dw: [
+      'duvet',
       'dwarf',
       'dwell',
-      'dwelt'
+      'dwelt',
+      'dying',
     ],
-    dy: [
-      'dying'
-    ],
-    ea: [
+    e: [
       'eager',
       'eagle',
       'early',
       'earth',
       'easel',
       'eaten',
-      'eater'
-    ],
-    eb: [
-      'ebony'
-    ],
-    ec: [
-      'eclat'
-    ],
-    ed: [
+      'eater',
+      'ebony',
+      'eclat',
       'edict',
-      'edify'
-    ],
-    ee: [
-      'eerie'
-    ],
-    eg: [
-      'egret'
-    ],
-    ei: [
-      'eight'
-    ],
-    ej: [
-      'eject'
-    ],
-    ek: [
-      'eking'
-    ],
-    el: [
+      'edify',
+      'eerie',
+      'egret',
+      'eight',
+      'eject',
+      'eking',
       'elate',
       'elbow',
       'elder',
@@ -757,16 +657,12 @@ export default function AnswerOptions() {
       'elide',
       'elite',
       'elope',
-      'elude'
-    ],
-    em: [
+      'elude',
       'email',
       'embed',
       'ember',
       'emcee',
-      'empty'
-    ],
-    en: [
+      'empty',
       'enact',
       'endow',
       'enema',
@@ -776,41 +672,27 @@ export default function AnswerOptions() {
       'ensue',
       'enter',
       'entry',
-      'envoy'
-    ],
-    ep: [
+      'envoy',
       'epoch',
-      'epoxy'
-    ],
-    eq: [
+      'epoxy',
       'equal',
-      'equip'
-    ],
-    er: [
+      'equip',
       'erase',
       'erect',
       'erode',
       'error',
-      'erupt'
-    ],
-    es: [
+      'erupt',
       'essay',
-      'ester'
-    ],
-    et: [
+      'ester',
       'ether',
       'ethic',
       'ethos',
-      'etude'
-    ],
-    ev: [
+      'etude',
       'evade',
       'event',
       'every',
       'evict',
-      'evoke'
-    ],
-    ex: [
+      'evoke',
       'exact',
       'exalt',
       'excel',
@@ -820,12 +702,10 @@ export default function AnswerOptions() {
       'expel',
       'extol',
       'extra',
-      'exult'
+      'exult',
+      'eying',
     ],
-    ey: [
-      'eying'
-    ],
-    fa: [
+    f: [
       'fable',
       'facet',
       'faint',
@@ -839,9 +719,7 @@ export default function AnswerOptions() {
       'fatty',
       'fault',
       'fauna',
-      'favor'
-    ],
-    fe: [
+      'favor',
       'feast',
       'fecal',
       'feign',
@@ -857,9 +735,7 @@ export default function AnswerOptions() {
       'fetid',
       'fetus',
       'fever',
-      'fewer'
-    ],
-    fi: [
+      'fewer',
       'fiber',
       'fibre',
       'ficus',
@@ -880,12 +756,8 @@ export default function AnswerOptions() {
       'first',
       'fishy',
       'fixer',
-      'fizzy'
-    ],
-    fj: [
-      'fjord'
-    ],
-    fl: [
+      'fizzy',
+      'fjord',
       'flack',
       'flail',
       'flair',
@@ -921,9 +793,7 @@ export default function AnswerOptions() {
       'flunk',
       'flush',
       'flute',
-      'flyer'
-    ],
-    fo: [
+      'flyer',
       'foamy',
       'focal',
       'focus',
@@ -940,9 +810,7 @@ export default function AnswerOptions() {
       'forty',
       'forum',
       'found',
-      'foyer'
-    ],
-    fr: [
+      'foyer',
       'frail',
       'frame',
       'frank',
@@ -963,9 +831,7 @@ export default function AnswerOptions() {
       'froth',
       'frown',
       'froze',
-      'fruit'
-    ],
-    fu: [
+      'fruit',
       'fudge',
       'fugue',
       'fully',
@@ -975,9 +841,9 @@ export default function AnswerOptions() {
       'furor',
       'furry',
       'fussy',
-      'fuzzy'
+      'fuzzy',
     ],
-    ga: [
+    g: [
       'gaffe',
       'gaily',
       'gamer',
@@ -992,29 +858,21 @@ export default function AnswerOptions() {
       'gawky',
       'gayer',
       'gayly',
-      'gazer'
-    ],
-    ge: [
+      'gazer',
       'gecko',
       'geeky',
       'geese',
       'genie',
-      'genre'
-    ],
-    gh: [
+      'genre',
       'ghost',
-      'ghoul'
-    ],
-    gi: [
+      'ghoul',
       'giant',
       'giddy',
       'gipsy',
       'girly',
       'girth',
       'given',
-      'giver'
-    ],
-    gl: [
+      'giver',
       'glade',
       'gland',
       'glare',
@@ -1030,13 +888,9 @@ export default function AnswerOptions() {
       'glory',
       'gloss',
       'glove',
-      'glyph'
-    ],
-    gn: [
+      'glyph',
       'gnash',
-      'gnome'
-    ],
-    go: [
+      'gnome',
       'godly',
       'going',
       'golem',
@@ -1049,9 +903,7 @@ export default function AnswerOptions() {
       'goose',
       'gorge',
       'gouge',
-      'gourd'
-    ],
-    gr: [
+      'gourd',
       'grace',
       'grade',
       'graft',
@@ -1089,9 +941,7 @@ export default function AnswerOptions() {
       'grown',
       'gruel',
       'gruff',
-      'grunt'
-    ],
-    gu: [
+      'grunt',
       'guard',
       'guava',
       'guess',
@@ -1107,12 +957,10 @@ export default function AnswerOptions() {
       'gummy',
       'guppy',
       'gusto',
-      'gusty'
+      'gusty',
+      'gypsy',
     ],
-    gy: [
-      'gypsy'
-    ],
-    ha: [
+    h: [
       'habit',
       'hairy',
       'halve',
@@ -1131,9 +979,7 @@ export default function AnswerOptions() {
       'haute',
       'haven',
       'havoc',
-      'hazel'
-    ],
-    he: [
+      'hazel',
       'heady',
       'heard',
       'heart',
@@ -1146,16 +992,12 @@ export default function AnswerOptions() {
       'helix',
       'hello',
       'hence',
-      'heron'
-    ],
-    hi: [
+      'heron',
       'hilly',
       'hinge',
       'hippo',
       'hippy',
-      'hitch'
-    ],
-    ho: [
+      'hitch',
       'hoard',
       'hobby',
       'hoist',
@@ -1172,9 +1014,7 @@ export default function AnswerOptions() {
       'house',
       'hovel',
       'hover',
-      'howdy'
-    ],
-    hu: [
+      'howdy',
       'human',
       'humid',
       'humor',
@@ -1185,91 +1025,61 @@ export default function AnswerOptions() {
       'hurry',
       'husky',
       'hussy',
-      'hutch'
-    ],
-    hy: [
+      'hutch',
       'hydro',
       'hyena',
       'hymen',
-      'hyper'
+      'hyper',
     ],
-    ic: [
+    i: [
       'icily',
-      'icing'
-    ],
-    id: [
+      'icing',
       'ideal',
       'idiom',
       'idiot',
       'idler',
-      'idyll'
-    ],
-    ig: [
-      'igloo'
-    ],
-    il: [
-      'iliac'
-    ],
-    im: [
+      'idyll',
+      'igloo',
+      'iliac',
       'image',
       'imbue',
       'impel',
-      'imply'
-    ],
-	  in: [
-	    'inane',
-	    'inbox',
-	    'incur',
-	    'index',
-	    'inept',
-	    'inert',
-	    'infer',
-	    'ingot',
-	    'inlay',
-	    'inlet',
-	    'inner',
-	    'input',
-	    'inter',
-	    'intro',
-	  ],
-    io: [
-      'ionic'
-    ],
-    ir: [
+      'imply',
+      'inane',
+      'inbox',
+      'incur',
+      'index',
+      'inept',
+      'inert',
+      'infer',
+      'ingot',
+      'inlay',
+      'inlet',
+      'inner',
+      'input',
+      'inter',
+      'intro',
+      'ionic',
       'irate',
-      'irony'
-    ],
-    is: [
+      'irony',
       'islet',
-      'issue'
+      'issue',
+      'itchy',
+      'ivory',
     ],
-    it: [
-      'itchy'
-    ],
-    iv: [
-      'ivory'
-    ],
-    ja: [
+    j: [
       'jaunt',
-      'jazzy'
-    ],
-    je: [
+      'jazzy',
       'jelly',
       'jerky',
       'jetty',
-      'jewel'
-    ],
-    ji: [
-      'jiffy'
-    ],
-    jo: [
+      'jewel',
+      'jiffy',
       'joint',
       'joist',
       'joker',
       'jolly',
-      'joust'
-    ],
-    ju: [
+      'joust',
       'judge',
       'juice',
       'juicy',
@@ -1277,25 +1087,17 @@ export default function AnswerOptions() {
       'jumpy',
       'junta',
       'junto',
-      'juror'
+      'juror',
     ],
-    ka: [
+    k: [
       'kappa',
       'karma',
-      'kayak'
-    ],
-    ke: [
-      'kebab'
-    ],
-    kh: [
-      'khaki'
-    ],
-    ki: [
+      'kayak',
+      'kebab',
+      'khaki',
       'kinky',
       'kiosk',
-      'kitty'
-    ],
-    kn: [
+      'kitty',
       'knack',
       'knave',
       'knead',
@@ -1305,15 +1107,11 @@ export default function AnswerOptions() {
       'knife',
       'knock',
       'knoll',
-      'known'
+      'known',
+      'koala',
+      'krill',
     ],
-    ko: [
-      'koala'
-    ],
-    kr: [
-      'krill'
-    ],
-    la: [
+    l: [
       'label',
       'labor',
       'laden',
@@ -1331,9 +1129,7 @@ export default function AnswerOptions() {
       'lathe',
       'latte',
       'laugh',
-      'layer'
-    ],
-    le: [
+      'layer',
       'leach',
       'leafy',
       'leaky',
@@ -1354,9 +1150,7 @@ export default function AnswerOptions() {
       'lemur',
       'leper',
       'level',
-      'lever'
-    ],
-    li: [
+      'lever',
       'libel',
       'liege',
       'light',
@@ -1370,12 +1164,8 @@ export default function AnswerOptions() {
       'lipid',
       'lithe',
       'liver',
-      'livid'
-    ],
-    ll: [
-      'llama'
-    ],
-    lo: [
+      'livid',
+      'llama',
       'loamy',
       'loath',
       'lobby',
@@ -1394,9 +1184,7 @@ export default function AnswerOptions() {
       'lover',
       'lower',
       'lowly',
-      'loyal'
-    ],
-    lu: [
+      'loyal',
       'lucid',
       'lucky',
       'lumen',
@@ -1407,15 +1195,13 @@ export default function AnswerOptions() {
       'lupus',
       'lurch',
       'lurid',
-      'lusty'
-    ],
-    ly: [
+      'lusty',
       'lying',
       'lymph',
       'lynch',
-      'lyric'
+      'lyric',
     ],
-    ma: [
+    m: [
       'macaw',
       'macho',
       'macro',
@@ -1449,9 +1235,7 @@ export default function AnswerOptions() {
       'mauve',
       'maxim',
       'maybe',
-      'mayor'
-    ],
-    me: [
+      'mayor',
       'mealy',
       'meant',
       'meaty',
@@ -1467,9 +1251,7 @@ export default function AnswerOptions() {
       'merry',
       'metal',
       'meter',
-      'metro'
-    ],
-    mi: [
+      'metro',
       'micro',
       'midge',
       'midst',
@@ -1484,9 +1266,7 @@ export default function AnswerOptions() {
       'minus',
       'mirth',
       'miser',
-      'missy'
-    ],
-    mo: [
+      'missy',
       'mocha',
       'modal',
       'model',
@@ -1515,9 +1295,7 @@ export default function AnswerOptions() {
       'mouth',
       'mover',
       'movie',
-      'mower'
-    ],
-    mu: [
+      'mower',
       'mucky',
       'mucus',
       'muddy',
@@ -1529,12 +1307,10 @@ export default function AnswerOptions() {
       'mushy',
       'music',
       'musky',
-      'musty'
+      'musty',
+      'myrrh',
     ],
-    my: [
-      'myrrh'
-    ],
-    na: [
+    n: [
       'nadir',
       'naive',
       'nanny',
@@ -1542,27 +1318,21 @@ export default function AnswerOptions() {
       'nasty',
       'natal',
       'naval',
-      'navel'
-    ],
-    ne: [
+      'navel',
       'needy',
       'neigh',
       'nerdy',
       'nerve',
       'never',
       'newer',
-      'newly'
-    ],
-    ni: [
+      'newly',
       'nicer',
       'niche',
       'niece',
       'night',
       'ninja',
       'ninny',
-      'ninth'
-    ],
-    no: [
+      'ninth',
       'noble',
       'nobly',
       'noise',
@@ -1572,91 +1342,57 @@ export default function AnswerOptions() {
       'north',
       'nosey',
       'notch',
-      'novel'
-    ],
-    nu: [
+      'novel',
       'nudge',
       'nurse',
-      'nutty'
-    ],
-    ny: [
+      'nutty',
       'nylon',
-      'nymph'
+      'nymph',
     ],
-    oa: [
-      'oaken'
-    ],
-    ob: [
-      'obese'
-    ],
-    oc: [
+    o: [
+      'oaken',
+      'obese',
       'occur',
       'ocean',
       'octal',
-      'octet'
-    ],
-    od: [
+      'octet',
       'odder',
-      'oddly'
-    ],
-    of: [
+      'oddly',
       'offal',
       'offer',
-      'often'
-    ],
-    ol: [
+      'often',
       'olden',
       'older',
-      'olive'
-    ],
-    om: [
+      'olive',
       'ombre',
-      'omega'
-    ],
-    on: [
+      'omega',
       'onion',
-      'onset'
-    ],
-    op: [
+      'onset',
       'opera',
       'opine',
       'opium',
-      'optic'
-    ],
-    or: [
+      'optic',
       'orbit',
       'order',
-      'organ'
-    ],
-    ot: [
+      'organ',
       'other',
-      'otter'
-    ],
-    ou: [
+      'otter',
       'ought',
       'ounce',
       'outdo',
       'outer',
-      'outgo'
-    ],
-    ov: [
+      'outgo',
       'ovary',
       'ovate',
       'overt',
       'ovine',
-      'ovoid'
-    ],
-    ow: [
+      'ovoid',
       'owing',
-      'owner'
+      'owner',
+      'oxide',
+      'ozone',
     ],
-    ox: [
-      'oxide'
-    ],
-    oz: [
-      'ozone'
-    ],
-    pa: [
+    p: [
       'paddy',
       'pagan',
       'paint',
@@ -1681,9 +1417,7 @@ export default function AnswerOptions() {
       'patty',
       'pause',
       'payee',
-      'payer'
-    ],
-    pe: [
+      'payer',
       'peace',
       'peach',
       'pearl',
@@ -1699,15 +1433,11 @@ export default function AnswerOptions() {
       'pesky',
       'pesto',
       'petal',
-      'petty'
-    ],
-    ph: [
+      'petty',
       'phase',
       'phone',
       'phony',
-      'photo'
-    ],
-    pi: [
+      'photo',
       'piano',
       'picky',
       'piece',
@@ -1725,9 +1455,7 @@ export default function AnswerOptions() {
       'pivot',
       'pixel',
       'pixie',
-      'pizza'
-    ],
-    pl: [
+      'pizza',
       'place',
       'plaid',
       'plain',
@@ -1746,9 +1474,7 @@ export default function AnswerOptions() {
       'plume',
       'plump',
       'plunk',
-      'plush'
-    ],
-    po: [
+      'plush',
       'poesy',
       'point',
       'poise',
@@ -1765,9 +1491,7 @@ export default function AnswerOptions() {
       'pouch',
       'pound',
       'pouty',
-      'power'
-    ],
-    pr: [
+      'power',
       'prank',
       'prawn',
       'preen',
@@ -1793,12 +1517,8 @@ export default function AnswerOptions() {
       'prowl',
       'proxy',
       'prude',
-      'prune'
-    ],
-    ps: [
-      'psalm'
-    ],
-    pu: [
+      'prune',
+      'psalm',
       'pubic',
       'pudgy',
       'puffy',
@@ -1813,12 +1533,10 @@ export default function AnswerOptions() {
       'purge',
       'purse',
       'pushy',
-      'putty'
+      'putty',
+      'pygmy',
     ],
-    py: [
-      'pygmy'
-    ],
-    qu: [
+    q: [
       'quack',
       'quail',
       'quake',
@@ -1841,9 +1559,9 @@ export default function AnswerOptions() {
       'quite',
       'quota',
       'quote',
-      'quoth'
+      'quoth',
     ],
-    ra: [
+    r: [
       'rabbi',
       'rabid',
       'racer',
@@ -1866,9 +1584,7 @@ export default function AnswerOptions() {
       'ratty',
       'raven',
       'rayon',
-      'razor'
-    ],
-    re: [
+      'razor',
       'reach',
       'react',
       'ready',
@@ -1904,13 +1620,9 @@ export default function AnswerOptions() {
       'retry',
       'reuse',
       'revel',
-      'revue'
-    ],
-    rh: [
+      'revue',
       'rhino',
-      'rhyme'
-    ],
-    ri: [
+      'rhyme',
       'rider',
       'ridge',
       'rifle',
@@ -1925,9 +1637,7 @@ export default function AnswerOptions() {
       'risky',
       'rival',
       'river',
-      'rivet'
-    ],
-    ro: [
+      'rivet',
       'roach',
       'roast',
       'robin',
@@ -1947,9 +1657,7 @@ export default function AnswerOptions() {
       'rover',
       'rowdy',
       'rower',
-      'royal'
-    ],
-    ru: [
+      'royal',
       'ruddy',
       'ruder',
       'rugby',
@@ -1958,9 +1666,9 @@ export default function AnswerOptions() {
       'rumor',
       'rupee',
       'rural',
-      'rusty'
+      'rusty',
     ],
-    sa: [
+    s: [
       'sadly',
       'safer',
       'saint',
@@ -1983,9 +1691,7 @@ export default function AnswerOptions() {
       'saute',
       'savor',
       'savoy',
-      'savvy'
-    ],
-    sc: [
+      'savvy',
       'scald',
       'scale',
       'scalp',
@@ -2014,9 +1720,7 @@ export default function AnswerOptions() {
       'screw',
       'scrub',
       'scrum',
-      'scuba'
-    ],
-    se: [
+      'scuba',
       'sedan',
       'seedy',
       'segue',
@@ -2030,9 +1734,7 @@ export default function AnswerOptions() {
       'setup',
       'seven',
       'sever',
-      'sewer'
-    ],
-    sh: [
+      'sewer',
       'shack',
       'shade',
       'shady',
@@ -2084,9 +1786,7 @@ export default function AnswerOptions() {
       'shuck',
       'shunt',
       'shush',
-      'shyly'
-    ],
-    si: [
+      'shyly',
       'siege',
       'sieve',
       'sight',
@@ -2099,9 +1799,7 @@ export default function AnswerOptions() {
       'siren',
       'sissy',
       'sixth',
-      'sixty'
-    ],
-    sk: [
+      'sixty',
       'skate',
       'skier',
       'skiff',
@@ -2110,9 +1808,7 @@ export default function AnswerOptions() {
       'skirt',
       'skulk',
       'skull',
-      'skunk'
-    ],
-    sl: [
+      'skunk',
       'slack',
       'slain',
       'slang',
@@ -2140,9 +1836,7 @@ export default function AnswerOptions() {
       'slunk',
       'slurp',
       'slush',
-      'slyly'
-    ],
-    sm: [
+      'slyly',
       'smack',
       'small',
       'smart',
@@ -2157,9 +1851,7 @@ export default function AnswerOptions() {
       'smock',
       'smoke',
       'smoky',
-      'smote'
-    ],
-    sn: [
+      'smote',
       'snack',
       'snail',
       'snake',
@@ -2177,9 +1869,7 @@ export default function AnswerOptions() {
       'snout',
       'snowy',
       'snuck',
-      'snuff'
-    ],
-    so: [
+      'snuff',
       'soapy',
       'sober',
       'soggy',
@@ -2193,9 +1883,7 @@ export default function AnswerOptions() {
       'sorry',
       'sound',
       'south',
-      'sower'
-    ],
-    sp: [
+      'sower',
       'space',
       'spade',
       'spank',
@@ -2240,14 +1928,10 @@ export default function AnswerOptions() {
       'sprig',
       'spunk',
       'spurn',
-      'spurt'
-    ],
-    sq: [
+      'spurt',
       'squad',
       'squat',
-      'squib'
-    ],
-    st: [
+      'squib',
       'stack',
       'staff',
       'stage',
@@ -2312,9 +1996,7 @@ export default function AnswerOptions() {
       'stung',
       'stunk',
       'stunt',
-      'style'
-    ],
-    su: [
+      'style',
       'suave',
       'sugar',
       'suing',
@@ -2327,9 +2009,7 @@ export default function AnswerOptions() {
       'surer',
       'surge',
       'surly',
-      'sushi'
-    ],
-    sw: [
+      'sushi',
       'swami',
       'swamp',
       'swarm',
@@ -2352,13 +2032,11 @@ export default function AnswerOptions() {
       'sword',
       'swore',
       'sworn',
-      'swung'
-    ],
-    sy: [
+      'swung',
       'synod',
-      'syrup'
+      'syrup',
     ],
-    ta: [
+    t: [
       'tabby',
       'table',
       'taboo',
@@ -2381,9 +2059,7 @@ export default function AnswerOptions() {
       'tasty',
       'tatty',
       'taunt',
-      'tawny'
-    ],
-    te: [
+      'tawny',
       'teach',
       'teary',
       'tease',
@@ -2398,9 +2074,7 @@ export default function AnswerOptions() {
       'tepid',
       'terra',
       'terse',
-      'testy'
-    ],
-    th: [
+      'testy',
       'thank',
       'theft',
       'their',
@@ -2424,9 +2098,7 @@ export default function AnswerOptions() {
       'thrum',
       'thumb',
       'thump',
-      'thyme'
-    ],
-    ti: [
+      'thyme',
       'tiara',
       'tibia',
       'tidal',
@@ -2438,9 +2110,7 @@ export default function AnswerOptions() {
       'tipsy',
       'titan',
       'tithe',
-      'title'
-    ],
-    to: [
+      'title',
       'toast',
       'today',
       'toddy',
@@ -2461,9 +2131,7 @@ export default function AnswerOptions() {
       'towel',
       'tower',
       'toxic',
-      'toxin'
-    ],
-    tr: [
+      'toxin',
       'trace',
       'track',
       'tract',
@@ -2499,9 +2167,7 @@ export default function AnswerOptions() {
       'truss',
       'trust',
       'truth',
-      'tryst'
-    ],
-    tu: [
+      'tryst',
       'tubal',
       'tuber',
       'tulip',
@@ -2509,9 +2175,7 @@ export default function AnswerOptions() {
       'tumor',
       'tunic',
       'turbo',
-      'tutor'
-    ],
-    tw: [
+      'tutor',
       'twang',
       'tweak',
       'tweed',
@@ -2520,22 +2184,14 @@ export default function AnswerOptions() {
       'twine',
       'twirl',
       'twist',
-      'twixt'
+      'twixt',
+      'tying',
     ],
-    ty: [
-      'tying'
-    ],
-    ud: [
-      'udder'
-    ],
-    ul: [
+    u: [
+      'udder',
       'ulcer',
-      'ultra'
-    ],
-    um: [
-      'umbra'
-    ],
-    un: [
+      'ultra',
+      'umbra',
       'uncle',
       'uncut',
       'under',
@@ -2553,28 +2209,20 @@ export default function AnswerOptions() {
       'untie',
       'until',
       'unwed',
-      'unzip'
-    ],
-    up: [
+      'unzip',
       'upper',
-      'upset'
-    ],
-    ur: [
+      'upset',
       'urban',
-      'urine'
-    ],
-    us: [
+      'urine',
       'usage',
       'usher',
       'using',
       'usual',
-      'usurp'
-    ],
-    ut: [
+      'usurp',
       'utile',
-      'utter'
+      'utter',
     ],
-    va: [
+    v: [
       'vague',
       'valet',
       'valid',
@@ -2584,18 +2232,14 @@ export default function AnswerOptions() {
       'vapid',
       'vapor',
       'vault',
-      'vaunt'
-    ],
-    ve: [
+      'vaunt',
       'vegan',
       'venom',
       'venue',
       'verge',
       'verse',
       'verso',
-      'verve'
-    ],
-    vi: [
+      'verve',
       'vicar',
       'video',
       'vigil',
@@ -2611,9 +2255,7 @@ export default function AnswerOptions() {
       'vista',
       'vital',
       'vivid',
-      'vixen'
-    ],
-    vo: [
+      'vixen',
       'vocal',
       'vodka',
       'vogue',
@@ -2622,12 +2264,10 @@ export default function AnswerOptions() {
       'vomit',
       'voter',
       'vouch',
-      'vowel'
+      'vowel',
+      'vying',
     ],
-    vy: [
-      'vying'
-    ],
-    wa: [
+    w: [
       'wacky',
       'wafer',
       'wager',
@@ -2640,9 +2280,7 @@ export default function AnswerOptions() {
       'watch',
       'water',
       'waver',
-      'waxen'
-    ],
-    we: [
+      'waxen',
       'weary',
       'weave',
       'wedge',
@@ -2651,9 +2289,7 @@ export default function AnswerOptions() {
       'weird',
       'welch',
       'welsh',
-      'wench'
-    ],
-    wh: [
+      'wench',
       'whack',
       'whale',
       'wharf',
@@ -2671,9 +2307,7 @@ export default function AnswerOptions() {
       'white',
       'whole',
       'whoop',
-      'whose'
-    ],
-    wi: [
+      'whose',
       'widen',
       'wider',
       'widow',
@@ -2688,9 +2322,7 @@ export default function AnswerOptions() {
       'wiser',
       'wispy',
       'witch',
-      'witty'
-    ],
-    wo: [
+      'witty',
       'woken',
       'woman',
       'women',
@@ -2706,9 +2338,7 @@ export default function AnswerOptions() {
       'worth',
       'would',
       'wound',
-      'woven'
-    ],
-    wr: [
+      'woven',
       'wrack',
       'wrath',
       'wreak',
@@ -2720,28 +2350,20 @@ export default function AnswerOptions() {
       'wrong',
       'wrote',
       'wrung',
-      'wryly'
+      'wryly',
     ],
-    ya: [
-      'yacht'
-    ],
-    ye: [
+    y: [
+      'yacht',
       'yearn',
-      'yeast'
-    ],
-    yi: [
-      'yield'
-    ],
-    yo: [
+      'yeast',
+      'yield',
       'young',
-      'youth'
+      'youth',
     ],
-    ze: [
+    z: [
       'zebra',
-      'zesty'
+      'zesty',
+      'zonal',
     ],
-    zo: [
-      'zonal'
-    ]
   }
 }
