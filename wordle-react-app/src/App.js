@@ -180,7 +180,7 @@ export default function App() {
         <div key="pal" className="header-row-cell">
           {PalEmoji()} Wordle Pal
         </div>
-        <div key="pal" className="header-row-cell">
+        <div key="how-use" className="header-row-cell">
           <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
             {helpText}
           </PopupDoc>

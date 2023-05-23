@@ -15,6 +15,10 @@ export default function WordSelect({ label, value, onChange, options, doc, place
     return [];
   }
 
+  if (value && ! options[value.substr(0, 1)].includes(value)) {
+    onChange("");
+  }
+
   return (
     <Autofill
       placeholder={label}
