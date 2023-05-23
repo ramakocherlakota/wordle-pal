@@ -7,11 +7,13 @@ import {
   LuckEmoji,
   RemainingEmoji,
   GuessEmoji,
+  PalEmoji,
   QuestionEmoji,
   SolveEmoji
 } from './util/Emojis';
 
 import PopupDoc from './PopupDoc';
+import ModeDropDown from './ModeDropDown';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -175,19 +177,16 @@ export default function App() {
   return (
     <div className='app'>
       <div className='header-row'>
-        <div key="title" className="header-row-cell">
-          <h3>
-            Wordle Pal
-          </h3>
+        <div key="pal" className="header-row-cell">
+          {PalEmoji()} Wordle Pal
         </div>
         <div key="pal" className="header-row-cell">
           <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
             {helpText}
           </PopupDoc>
+          <ModeDropDown puzzleMode={puzzleMode} setPuzzleMode={setPuzzleMode}/>
           <Settings  hardMode={hardMode}
                      setHardMode={setHardMode}
-                     puzzleMode={puzzleMode}
-                     setPuzzleMode={setPuzzleMode}
                      allGuesses={allGuesses}
                      setAllGuesses={setAllGuesses}/>
         </div>
