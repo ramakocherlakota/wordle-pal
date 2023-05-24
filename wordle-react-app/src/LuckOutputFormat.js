@@ -161,11 +161,11 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
   if (output && typeof output === 'object' && 'by_target' in output ) {
     const targets = Object.keys(output.by_target);
     const guesses = extractGuesses();
-    const headerRow = headers.map(x => <th className='luck-header'>{headerLabelsWithDocs(x)}</th>);
+    const headerRow = headers.map((x, i) => <th key={i} className='luck-header'>{headerLabelsWithDocs(x)}</th>);
     const headerRowWithTotals = ('totals' in output) && (targets.length > 1)
-          ? headerRow.concat(<th className='luck-header'>Totals</th>)
+          ? headerRow.concat(<th key="-1" className='luck-header'>Totals</th>)
           : headerRow;
-    const headerRowWithLinks = headerRowWithTotals.concat(<th className='luck-header'>{linksHeader}</th>);
+    const headerRowWithLinks = headerRowWithTotals.concat(<th key="-2" className='luck-header'>{linksHeader}</th>);
     const rows = guesses.filter((guess) => guess && guess.length > 0).map((guess, n) => table_row(guess, n, targets, output.by_target, output.totals));
     return (
       <center>
