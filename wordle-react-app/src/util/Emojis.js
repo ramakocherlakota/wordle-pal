@@ -26,3 +26,7 @@ export function SolveEmoji() {
 export function QuestionEmoji() {
   return String.fromCodePoint(0x2753);  // Black Question Mark
 }
+
+export function PracticeEmoji() {
+  return String.fromCodePoint(0x1F3CB); // Weight Lifter
+}

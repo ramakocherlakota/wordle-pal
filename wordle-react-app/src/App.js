@@ -9,7 +9,8 @@ import {
   GuessEmoji,
   PalEmoji,
   QuestionEmoji,
-  SolveEmoji
+  SolveEmoji,
+  PracticeEmoji
 } from './util/Emojis';
 
 import PopupDoc from './PopupDoc';
@@ -20,7 +21,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-
+import Practice from './Practice';
 import Settings from './Settings';
 import { jsonFromLS, listWithAdjustedLength, listOfEmptyStrings } from './util/Util';
 import Guess from './Guess';
@@ -51,7 +52,7 @@ export default function App() {
   /* end from react-local-storage puzzleMode */
 
   /* from react-local-storage pane */
-  const [ pane, setPane ] = useState(window.localStorage.getItem("pane") || "luck");
+  const [ pane, setPane ] = useState(window.localStorage.getItem("pane") || "practice");
   useEffect(() => {
     window.localStorage.setItem("pane", pane);
   }, [pane]);
@@ -113,18 +114,20 @@ export default function App() {
     );
   }
 
+  const practiceLabel = tabLabelWithIcon("Practice", PracticeEmoji(), "Practice makes perfect!");
   const luckLabel = tabLabelWithIcon("Luck", LuckEmoji(), "How lucky were your guesses?");
-  const remainingLabel = tabLabelWithIcon("Remaining", RemainingEmoji(), "What possibilities remain?");
+  const remainingLabel = tabLabelWithIcon("Left", RemainingEmoji(), "What possibilities remain?");
   const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
   const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
 
-
+  const practicePanel = <Practice allGuesses={allGuesses} hardMode={hardMode} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setGlobalScoreLists={setScoreLists} />;
   const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  sequence={puzzleMode === "Sequence"} />;
   const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;
   const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;
   const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} targetCount={targets.length} guesses={guesses} setGuesses={setGuesses} sequence={puzzleMode === "Sequence"} />;
 
   const keyedTabPanels = {
+    practice: practicePanel,
     luck: luckPanel,
     remaining: remainingPanel,
     guess: guessPanel,
@@ -143,6 +146,7 @@ export default function App() {
     <TabContext value={pane} >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <TabList value={pane} onChange={(evt, k)=>setPane(k)} >
+          <Tab label={practiceLabel} key="practice" value="practice" />
           <Tab label={luckLabel} key="luck" value="luck" />
           <Tab label={remainingLabel} key="remaining" value="remaining" />
           <Tab label={guessLabel} key="guess" value="guess" />
@@ -150,6 +154,7 @@ export default function App() {
         </TabList>
       </Box>
       <TabPanel key="luck" value="luck"></TabPanel>
+      <TabPanel key="pracctice" value="pracctice"></TabPanel>
       <TabPanel key="remmaining" value="remaining"></TabPanel>
       <TabPanel key="guess" value="guess"></TabPanel>
       <TabPanel key="solve" value="solve"></TabPanel>
@@ -158,10 +163,10 @@ export default function App() {
 
   const helpText = (
     <div>
-      Wordle Pal has four panels: Luck, Remaining, Guess and Solve.  
+      Wordle Pal has five panels: Practice, Luck, Left, Guess and Solve.  
       <ul>
         <li><strong>Luck</strong>: Enter the target word and the guesses you made along the way to get there and Wordle Pal will give you its estimate of how lucky each guess was.  There are also links to the other panels so that you can see how things stood at each stage of your progress.</li>
-        <li><strong>Remaining</strong>: Enter your guesses and the scores up to that point to find out what words are still possible answers.</li>
+        <li><strong>Left</strong>: Enter your guesses and the scores up to that point to find out what words are still possible answers.</li>
         <li><strong>Guess</strong>: Like Remaining, enter guesses and scores but this time you'll get a ranked list of the possible next guesses.  You can filter the results by typing partial words or only showing the guesses that actually might be solutions.</li>
         <li><strong>Solve</strong>: Enter the target word and a few guesses and let Wordle Pal take it from there, optimizing its guesses to solve the puzzle for you.</li>
       </ul>
