@@ -12,7 +12,7 @@ export default function Autofill({ placeholder, value, setValue, optionFunc, ini
   }, [inputValue, optionFunc]);
 
   function onInputChange(evt, val) {
-    setInputValue(val);
+    setInputValue(val.trim());
   }
 
   function onBlur() {

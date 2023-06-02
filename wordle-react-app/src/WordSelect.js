@@ -3,12 +3,14 @@ import Autofill from './Autofill';
 
 export default function WordSelect({ label, value, onChange, options, doc, placeholder }) {
 
-  function keyedOptions(input) {
+  function keyedOptions(inputString) {
+    const input = inputString ? inputString.toLowerCase().trim() : null;
     if (input && input.length > 0) {
-      const key = input.substring(0, 1).toLowerCase();
+      const key = input.substring(0, 1);
       if (key in options) {
         const keyedOptions = options[key];
-        const filtered = keyedOptions.filter(o => o.toLowerCase().startsWith(input.toLowerCase().trim()));
+        const filtered = keyedOptions.filter(o => o.toLowerCase().startsWith(input));
+        console.log("filtered=" + JSON.stringify(filtered)); 
         return ["",...filtered];
       } 
     }
