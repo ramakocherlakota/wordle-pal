@@ -109,19 +109,37 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
       1. rows of GUESS, SCORE1, SCORE2...
       3. feedback for SOLVED in each column - color change?
       4, When game over, button for New Game
+      5. need alerts (https://mui.com/material-ui/react-dialog/) for hard mode error and querying new game
+      6. feedback for out of guesses - dialog?
   */
 
-  const notAllSolved = ! allScoresListsSolved(getScoreLists());
+  const outOfGuesses = guesses.length >= maxGuessCount;
+  const finished = outOfGuesses || allScoresListsSolved(getScoreLists());
 
   return (
     <>
       {
-        notAllSolved &&
+        finished &&
           <div className='practice'>
-            <PracticeGuess allGuesses={allGuesses} addGuess={addGuess} hardModeError={hardModeError} />
+            <PracticeGuess allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      <PracticeScores allSolved={allSolved} guesses={guesses} scoreLists={scoreLists}
+      <PracticeScores finished={finished} guesses={guesses} scoreLists={scoreLists} />
+      <div className="practice-buttons" >
+        {finished &&
+         <div className="practice-button" >
+           <Button onClick={gotoLuck}>Show Luck</Button>
+         </div>
+         <div className="practice-button">
+           <Button onClick={newGame}>New Game</Button>
+         </div>
+        }
+        {!finished &&
+         <div className="practice-button">
+           <Button onClick={queryNewGame}>New Game</Button>
+         </div>
+        }         
+      </div>
     </>
   );
 }
