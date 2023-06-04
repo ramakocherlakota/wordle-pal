@@ -13,8 +13,8 @@ function countIn(c, w) {
 
 export function scoreSingle(answer, guess) {
   let score = ""
-  answerCounts = {}
-  minCounts = {}
+  const answerCounts = {}
+  const minCounts = {}
   for (let i = 0; i < answer.length; i += 1) {
     const c = answer[i];
     answerCounts[c] = countIn(c, answer)
@@ -56,7 +56,7 @@ export function score(targets, guess) {
   return targets.map(scoreGuess);
 }
 
-export function checkHardMode(scoreList, guesses, guess) {
+export function checkHardModeSingle(scoreList, guesses, guess) {
   for (let i = 0; i < guess.legnth; i += 1) {
     if (scoreSingle(guesses[i], guess) !== scoreList[i]) {
       return false;
@@ -65,8 +65,17 @@ export function checkHardMode(scoreList, guesses, guess) {
   return true;
 }
 
-export function checkHardModeQuordle(scoreLists, guesses, guess) {
-  const check = (scoreList) => checkHardMode(scoreList, guesses, guess);
+export function scoreListIsSolved(scoreList) {
+  const check = (score) => score.toLowerCase() === "bbbbb";
+  reutrn scoreList.some(check);
+}
+
+export function allScoresListsSolved(scoreLists) {
+  return ! scoreLists.some(sl => ! scoreListIsSolved(sl));
+}
+
+export function checkHardMode(scoreLists, guesses, guess) {
+  const check = (scoreList) => checkHardModeSingle(scoreList, guesses, guess);
   return scoreLists.some(check);
 }
 

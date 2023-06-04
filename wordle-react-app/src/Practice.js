@@ -12,6 +12,7 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     }      
   }
 
+  const [ hardModeError, setHardModeError ] = useState(false);
   const targetsLSName = 'practice_targets';
   const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [""])));
   useEffect(() => {
@@ -38,28 +39,63 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     return lsGuesses[puzzleMode];
   }
 
-  function setGuesses(value) {
-    setlsGuesses[puzzleMode, value];
+  funcion setGuesses(value) {
+    setLsGuesses(ls => {
+      {
+        ...ls,
+        puzzleMode: value
+      }
+    });
   }
 
   function getTargets() {
     return lsTargets[puzzleMode];
   }
 
-  function setTargets(value) {
-    setlsTargets[puzzleMode, value];
+  funcion setTargets(value) {
+    setLsTargets(ls => {
+      {
+        ...ls,
+        puzzleMode: value
+      }
+    });
   }
 
   function getScoreLists() {
     return lsScoreLists[puzzleMode];
   }
 
-  function setScoreLists(value) {
-    setlsScoreLists[puzzleMode, value];
+  funcion setScoreLists(value) {
+    setLsScoreLists(ls => {
+      return {
+        ...ls,
+        puzzleMode: value
+      }
+    });
   }
 
-  const [ guessInput, setGuessInput ] = useState("");
-  
+  function addGuess(guess) {
+    const guesses = getGuesses();
+    const scoreLists = getScoreLists();
+    if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
+      setHardModeError(true);
+    } else { 
+      setGuesses([...getGuesses(), guess]);
+      const targets = getTargets();
+      const updatedScoreLists = scoreLists.map((sl, i) => {
+        if (scoreListIsSolved(sl)) {
+          return sl;
+        } else {
+          return [
+            ...sl,
+            scoreSingle(targets[i], guess)
+          ]
+        }
+      });
+      setScoreLists(updatedScoreLists);
+    }
+  }
+
   function setupNew() {
     setGuessInput("");
     setGuesses([""]);
@@ -67,17 +103,25 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     setTargets(listWithAdjutedLength([], targetCount, PracticeUtils.chooseRandomAnswer));
   }
 
-  function isSolved(col) {
-
-  }
-
-
   /*  
       should look like:
       0. spot for GUESS at top with a submit button
       1. rows of GUESS, SCORE1, SCORE2...
-      2. in each row a link to the luck panel active when puzzle is solved
       3. feedback for SOLVED in each column - color change?
-      4, button for new game - confirm if current game in progress
-   */
+      4, When game over, button for New Game
+  */
+
+  const notAllSolved = ! allScoresListsSolved(getScoreLists());
+
+  return (
+    <>
+      {
+        notAllSolved &&
+          <div className='practice'>
+            <PracticeGuess allGuesses={allGuesses} addGuess={addGuess} hardModeError={hardModeError} />
+          </div>
+      }
+      <PracticeScores allSolved={allSolved} guesses={guesses} scoreLists={scoreLists}
+    </>
+  );
 }

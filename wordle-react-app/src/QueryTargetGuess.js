@@ -55,7 +55,7 @@ export default function QueryTargetGuess( {
       return (
         <div className='select' key={idx} >
           <GuessSelect allGuesses={allGuesses} onChange={setGuessHandler(idx)}
-                       value={guess} placeholder="Guess..." /> 
+                       value={guess} placeholder="Guess..." />
         </div>
       );
     });
