@@ -1,8 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import { jsonFromLS, listWithAdjustedLength } from './util/Util';
-import * as PracticeUtils from './util/PracticeUtils';
+import PracticeGuess from './PracticeGuess';
+import PracticeScores from './PracticeScores';
+import Button from '@mui/material/Button';
 
-export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount }) {
+import {
+  checkHardMode,
+  scoreListIsSolved,
+  scoreSingle,
+  allScoresListsSolved,
+  chooseRandomAnswer
+} from './util/PracticeUtils';
+
+export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, targetCount, maxGuessCounts, setGlobalGuesses, setGlobalTargets }) {
 
   function initMap(supplier) {
     return {
@@ -13,6 +23,7 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
   }
 
   const [ hardModeError, setHardModeError ] = useState(false);
+  const [ guessInput, setGuessInput ] = useState("");
   const targetsLSName = 'practice_targets';
   const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [""])));
   useEffect(() => {
@@ -39,9 +50,9 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     return lsGuesses[puzzleMode];
   }
 
-  funcion setGuesses(value) {
+  function setGuesses(value) {
     setLsGuesses(ls => {
-      {
+      return {
         ...ls,
         puzzleMode: value
       }
@@ -52,9 +63,9 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     return lsTargets[puzzleMode];
   }
 
-  funcion setTargets(value) {
+  function setTargets(value) {
     setLsTargets(ls => {
-      {
+      return {
         ...ls,
         puzzleMode: value
       }
@@ -65,7 +76,7 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     return lsScoreLists[puzzleMode];
   }
 
-  funcion setScoreLists(value) {
+  function setScoreLists(value) {
     setLsScoreLists(ls => {
       return {
         ...ls,
@@ -96,11 +107,11 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
     }
   }
 
-  function setupNew() {
+  function newGame() {
     setGuessInput("");
     setGuesses([""]);
     setScoreLists([[""]]);
-    setTargets(listWithAdjutedLength([], targetCount, PracticeUtils.chooseRandomAnswer));
+    setTargets(listWithAdjustedLength([], targetCount, chooseRandomAnswer));
   }
 
   /*  
@@ -113,33 +124,48 @@ export default function Practice({ puzzleMode, allGuesses, hardMode, targetCount
       6. feedback for out of guesses - dialog?
   */
 
-  const outOfGuesses = guesses.length >= maxGuessCount;
+  const outOfGuesses = getGuesses() && getGuesses().length >= maxGuessCounts[puzzleMode];
   const finished = outOfGuesses || allScoresListsSolved(getScoreLists());
+  function gotoLuck() {
+    setGlobalGuesses(getGuesses());
+    setGlobalTargets(getTargets());
+    setPane("luck");
+  }
+
+  function queryNewGame() {
+
+  }
 
   return (
     <>
       {
-        finished &&
-          <div className='practice'>
-            <PracticeGuess allGuesses={allGuesses} addGuess={addGuess} />
+        hardModeError &&
+          <div className='hard-mode-error'>
+            Your guess violates the Hard Mode constraint.  Either choose another guess or disable hard mode in Settings.
           </div>
       }
-      <PracticeScores finished={finished} guesses={guesses} scoreLists={scoreLists} />
-      <div className="practice-buttons" >
+      {
+        finished &&
+          <div className='practice'>
+            <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
+          </div>
+      }
+      <PracticeScores finished={finished} guesses={getGuesses()} scoreLists={getScoreLists()} />
         {finished &&
-         <div className="practice-button" >
-           <Button onClick={gotoLuck}>Show Luck</Button>
-         </div>
-         <div className="practice-button">
-           <Button onClick={newGame}>New Game</Button>
-         </div>
+         <>
+           <div className="practice-button" >
+             <Button onClick={gotoLuck}>Show Luck</Button>
+           </div>
+           <div className="practice-button">
+             <Button onClick={newGame}>New Game</Button>
+           </div>
+         </>
         }
         {!finished &&
          <div className="practice-button">
            <Button onClick={queryNewGame}>New Game</Button>
          </div>
         }         
-      </div>
     </>
   );
 }

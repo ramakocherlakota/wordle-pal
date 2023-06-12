@@ -67,16 +67,16 @@ export function checkHardModeSingle(scoreList, guesses, guess) {
 
 export function scoreListIsSolved(scoreList) {
   const check = (score) => score.toLowerCase() === "bbbbb";
-  reutrn scoreList.some(check);
+  return scoreList && scoreList.some(check);
 }
 
 export function allScoresListsSolved(scoreLists) {
-  return ! scoreLists.some(sl => ! scoreListIsSolved(sl));
+  return scoreLists && ! scoreLists.some(sl => ! scoreListIsSolved(sl));
 }
 
 export function checkHardMode(scoreLists, guesses, guess) {
   const check = (scoreList) => checkHardModeSingle(scoreList, guesses, guess);
-  return scoreLists.some(check);
+  return scoreLists && scoreLists.some(check);
 }
 
 export function chooseRandomAnswer() {
