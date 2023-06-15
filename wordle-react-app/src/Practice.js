@@ -54,7 +54,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setLsGuesses(ls => {
       return {
         ...ls,
-        puzzleMode: value
+        [puzzleMode]: value
       }
     });
   }
@@ -65,10 +65,11 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   function setTargets(value) {
     setLsTargets(ls => {
-      return {
+      const newTargets = {
         ...ls,
-        puzzleMode: value
-      }
+        [puzzleMode]: value
+      };
+      return newTargets;
     });
   }
 
@@ -80,7 +81,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setLsScoreLists(ls => {
       return {
         ...ls,
-        puzzleMode: value
+        [puzzleMode]: value
       }
     });
   }
@@ -111,7 +112,8 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setGuessInput("");
     setGuesses([""]);
     setScoreLists([[""]]);
-    setTargets(listWithAdjustedLength([], targetCount, chooseRandomAnswer));
+    const newTargets = listWithAdjustedLength([], targetCount, chooseRandomAnswer);
+    setTargets(newTargets);
   }
 
   /*  
@@ -133,7 +135,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   }
 
   function queryNewGame() {
-
+    newGame();
   }
 
   return (

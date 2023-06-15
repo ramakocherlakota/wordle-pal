@@ -128,7 +128,7 @@ export default function App() {
   const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
   const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
 
-  const practicePanel = <Practice maxGuessCounts={maxGuessCounts} allGuesses={allGuesses} hardMode={hardMode} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setGlobalTargets={setTargets} />;
+  const practicePanel = <Practice puzzleMode={puzzleMode} maxGuessCounts={maxGuessCounts} allGuesses={allGuesses} hardMode={hardMode} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setGlobalTargets={setTargets} targetCount={targetCounts[puzzleMode]}/>;
   const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  sequence={puzzleMode === "Sequence"} />;
   const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;
   const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;

@@ -1,0 +1,13 @@
+.practice-guess-score-pair {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.practice-guess-scores {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
