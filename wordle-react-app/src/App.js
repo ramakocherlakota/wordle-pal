@@ -80,6 +80,14 @@ export default function App() {
   /* end from react-local-storage guesses */
 //  const [ guesses, setGuesses ] = useState([""]);
 
+  /* from react-local-storage luckGuesses */
+  const [ luckGuesses, setLuckGuesses ] = useState(jsonFromLS("luckGuesses", [""]
+));
+  useEffect(() => {
+    window.localStorage.setItem("luckGuesses", JSON.stringify(luckGuesses));
+  }, [luckGuesses]);
+  /* end from react-local-storage luckGuesses */
+
   const maxGuessCounts = {
     Wordle: 6,
     Quordle: 9,
@@ -128,8 +136,8 @@ export default function App() {
   const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
   const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
 
-  const practicePanel = <Practice puzzleMode={puzzleMode} maxGuessCounts={maxGuessCounts} allGuesses={allGuesses} hardMode={hardMode} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setGlobalTargets={setTargets} targetCount={targetCounts[puzzleMode]}/>;
-  const luckPanel = <Luck allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  sequence={puzzleMode === "Sequence"} />;
+  const practicePanel = <Practice puzzleMode={puzzleMode} maxGuessCounts={maxGuessCounts} allGuesses={allGuesses} hardMode={hardMode} setPane={setPane} setGlobalGuesses={setLuckGuesses} globalGuessCount={guesses.length} setGlobalTargets={setTargets} targetCount={targetCounts[puzzleMode]}/>;
+  const luckPanel = <Luck luckGuesses={luckGuesses} setLuckGuesses={setLuckGuesses} allGuesses={allGuesses} hardMode={hardMode} targets={targets} setTargets={setTargets} setPane={setPane} setGlobalGuesses={setGuesses} globalGuessCount={guesses.length} setScoreLists={setScoreLists}  sequence={puzzleMode === "Sequence"} />;
   const remainingPanel = <Remaining allGuesses={allGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;
   const guessPanel = <Guess allGuesses={allGuesses} setAllGuesses={setAllGuesses} guesses={guesses} setGuesses={setGuesses} scoreLists={scoreLists} setScoreLists={setScoreLists} hardMode={hardMode} targetCount={targets.length} sequence={puzzleMode === "Sequence"} />;
   const solvePanel = <Solve allGuesses={allGuesses} hardMode={hardMode} setHardMode={setHardMode}  targets={targets} setTargets={setTargets} targetCount={targets.length} guesses={guesses} setGuesses={setGuesses} sequence={puzzleMode === "Sequence"} />;

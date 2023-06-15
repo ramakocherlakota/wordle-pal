@@ -6,6 +6,7 @@ import LuckOutputFormat from './LuckOutputFormat';
 import { jsonFromLS } from './util/Util';
 
 export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
+                               luckGuesses, setLuckGuesses,
                                hardMode, targetCount, setPane, setGlobalGuesses, globalGuessCount, sequence }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
@@ -17,14 +18,6 @@ export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
   const [ headerLabels, setHeaderLabels ] = useState({});
   const luckOutputFormat = (data) => <LuckOutputFormat {...data} setPane={setPane} setScoreLists={setScoreLists} setGlobalGuesses={setGlobalGuesses} globalGuessCount={globalGuessCount} targetCount={targetCount} />;
   const [ showResults, setShowResults ] = useState(false);
-
-  /* from react-local-storage luckGuesses */
-  const [ luckGuesses, setLuckGuesses ] = useState(jsonFromLS("luckGuesses", [""]
-));
-  useEffect(() => {
-    window.localStorage.setItem("luckGuesses", JSON.stringify(luckGuesses));
-  }, [luckGuesses]);
-  /* end from react-local-storage luckGuesses */
 
   useEffect(() => {
     const newHeaders = ["guess", ...targets.map((t, i) => `target_${i}`)];

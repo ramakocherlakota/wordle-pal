@@ -87,19 +87,19 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   }
 
   function addGuess(guess) {
-    const guesses = getGuesses();
+    const guesses = getGuesses().filter(Boolean);
     const scoreLists = getScoreLists();
     if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
       setHardModeError(true);
     } else { 
-      setGuesses([...getGuesses(), guess]);
+      setGuesses([...guesses, guess]);
       const targets = getTargets();
       const updatedScoreLists = scoreLists.map((sl, i) => {
         if (scoreListIsSolved(sl)) {
           return sl;
         } else {
           return [
-            ...sl,
+            ...sl.filter(Boolean),
             scoreSingle(targets[i], guess)
           ]
         }
@@ -127,9 +127,11 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   */
 
   const outOfGuesses = getGuesses() && getGuesses().length >= maxGuessCounts[puzzleMode];
-  const finished = outOfGuesses || allScoresListsSolved(getScoreLists());
+  const sl = getScoreLists().filter(Boolean);
+  const finished = outOfGuesses || allScoresListsSolved(sl);
   function gotoLuck() {
-    setGlobalGuesses(getGuesses());
+    const gs = getGuesses();
+    setGlobalGuesses(gs);
     setGlobalTargets(getTargets());
     setPane("luck");
   }
@@ -147,7 +149,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
           </div>
       }
       {
-        finished &&
+        !finished &&
           <div className='practice'>
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
@@ -163,11 +165,11 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
            </div>
          </>
         }
-        {!finished &&
+      {! finished &&
          <div className="practice-button">
            <Button onClick={queryNewGame}>New Game</Button>
          </div>
-        }         
+      }
     </>
   );
 }
