@@ -3,6 +3,8 @@ import { jsonFromLS, listWithAdjustedLength } from './util/Util';
 import PracticeGuess from './PracticeGuess';
 import PracticeScores from './PracticeScores';
 import Button from '@mui/material/Button';
+import * as React from 'react';
+import Button from '@mui/material/Button';
 
 import {
   checkHardMode,
@@ -22,17 +24,17 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     }      
   }
 
-  const [ hardModeError, setHardModeError ] = useState(false);
+  const [ message, setMessage ] = useState(null);
   const [ guessInput, setGuessInput ] = useState("");
   const targetsLSName = 'practice_targets';
-  const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [""])));
+  const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [])));
   useEffect(() => {
     window.localStorage.setItem(targetsLSName, JSON.stringify(lsTargets));
   }, [lsTargets]);
   
   const scoreListsLSName = 'practice_score_lists';
   /* from react-local-storage scoreLists */
-  const [ lsScoreLists, setLsScoreLists ] = useState(jsonFromLS(scoreListsLSName, initMap(() => [[""]])));
+  const [ lsScoreLists, setLsScoreLists ] = useState(jsonFromLS(scoreListsLSName, initMap(() => [])));
   useEffect(() => {
     window.localStorage.setItem(scoreListsLSName, JSON.stringify(lsScoreLists));
   }, [lsScoreLists]);
@@ -40,7 +42,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   const guessesLSName = 'practice_guesses';
   /* from react-local-storage guesses */
-  const [ lsGuesses, setLsGuesses ] = useState(jsonFromLS(guessesLSName, initMap(() => [""])));
+  const [ lsGuesses, setLsGuesses ] = useState(jsonFromLS(guessesLSName, initMap(() => [])));
   useEffect(() => {
     window.localStorage.setItem(guessesLSName, JSON.stringify(lsGuesses));
   }, [lsGuesses]);
@@ -90,7 +92,11 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     const guesses = getGuesses().filter(Boolean);
     const scoreLists = getScoreLists();
     if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
-      setHardModeError(true);
+      setMessage({
+        title: "Hard Mode Inconsistency",
+        content: "Your guess is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.",
+        actions: [{ label: "OK"}]
+      });
     } else { 
       setGuesses([...guesses, guess]);
       const targets = getTargets();
@@ -110,8 +116,8 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   function newGame() {
     setGuessInput("");
-    setGuesses([""]);
-    setScoreLists([[""]]);
+    setGuesses([]);
+    setScoreLists([[]]);
     const newTargets = listWithAdjustedLength([], targetCount, chooseRandomAnswer);
     setTargets(newTargets);
   }
@@ -127,8 +133,8 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   */
 
   const outOfGuesses = getGuesses() && getGuesses().length >= maxGuessCounts[puzzleMode];
-  const sl = getScoreLists().filter(Boolean);
   const finished = outOfGuesses || allScoresListsSolved(sl);
+  const sl = getScoreLists().filter(Boolean);
   function gotoLuck() {
     const gs = getGuesses();
     setGlobalGuesses(gs);
@@ -137,16 +143,21 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   }
 
   function queryNewGame() {
-    newGame();
+    if (finished) {
+      newGame();
+    } else {
+      setMessage({
+        title: "Start New Puzzle?",
+        content: "Do you want to abandon this puzzle and start a new one?",
+        actions: [{ label: "No"}, {label: "Yes", func: addNew}]
+      });
+    }
   }
 
   return (
     <>
       {
-        hardModeError &&
-          <div className='hard-mode-error'>
-            Your guess violates the Hard Mode constraint.  Either choose another guess or disable hard mode in Settings.
-          </div>
+        message && <PracticeMessage message={message} setMessage={setMessage} />
       }
       {
         !finished &&

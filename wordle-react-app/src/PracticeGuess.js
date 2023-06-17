@@ -1,6 +1,7 @@
 import React from 'react';
 import GuessSelect from './GuessSelect';
 import Button from '@mui/material/Button';
+import './practice-guess.scss';
 
 export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGuessInput }) {
   function handleGuessSelect() {

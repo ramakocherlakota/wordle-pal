@@ -132,7 +132,7 @@ export default function App() {
 
   const practiceLabel = tabLabelWithIcon("Practice", PracticeEmoji(), "Practice makes perfect!");
   const luckLabel = tabLabelWithIcon("Luck", LuckEmoji(), "How lucky were your guesses?");
-  const remainingLabel = tabLabelWithIcon("Left", RemainingEmoji(), "What possibilities remain?");
+  const remainingLabel = tabLabelWithIcon("Remaining", RemainingEmoji(), "What possibilities remain?");
   const guessLabel = tabLabelWithIcon("Guess", GuessEmoji(), "What would be your best next guess?");
   const solveLabel = tabLabelWithIcon("Solve", SolveEmoji(), "What would be the best path to solving the puzzle?");;
 

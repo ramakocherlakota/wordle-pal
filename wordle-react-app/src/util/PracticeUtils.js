@@ -71,7 +71,7 @@ export function scoreListIsSolved(scoreList) {
 }
 
 export function allScoresListsSolved(scoreLists) {
-  return scoreLists && ! scoreLists.some(sl => ! scoreListIsSolved(sl));
+  return scoreLists && scoreLists[0] && ! scoreLists.some(sl => ! scoreListIsSolved(sl));
 }
 
 export function checkHardMode(scoreLists, guesses, guess) {

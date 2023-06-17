@@ -3,7 +3,6 @@ import Results from './Results';
 import GoButton from './GoButton';
 import QueryTargetGuess from './QueryTargetGuess';
 import LuckOutputFormat from './LuckOutputFormat';
-import { jsonFromLS } from './util/Util';
 
 export default function Luck({ allGuesses, targets, setTargets, setScoreLists,
                                luckGuesses, setLuckGuesses,

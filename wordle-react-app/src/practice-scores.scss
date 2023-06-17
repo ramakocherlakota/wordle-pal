@@ -1,13 +1,17 @@
-.practice-guess-score-pair {
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
+.practice-scores {
+    border: 1px solid;
+    margin-top: 50px;
 
-.practice-guess-scores {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    th {
+        border: 2px solid;
+        text-align: center;
+        padding: 20px;
+    }
+
+   td {
+        border: 1px solid;
+        text-align: left;
+        padding: 20px;
+    }
 }
 
