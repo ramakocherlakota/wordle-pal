@@ -56,6 +56,11 @@ export function score(targets, guess) {
   return targets.map(scoreGuess);
 }
 
+export function scoreListIsSolved(scoreList) {
+  const check = (score) => score.toLowerCase() === "bbbbb";
+  return scoreList && scoreList.some(check);
+}
+
 export function checkHardModeSingle(scoreList, guesses, guess) {
   for (let i = 0; i < guess.legnth; i += 1) {
     if (scoreSingle(guesses[i], guess) !== scoreList[i]) {
@@ -63,15 +68,6 @@ export function checkHardModeSingle(scoreList, guesses, guess) {
     }
   }
   return true;
-}
-
-export function scoreListIsSolved(scoreList) {
-  const check = (score) => score.toLowerCase() === "bbbbb";
-  return scoreList && scoreList.some(check);
-}
-
-export function allScoresListsSolved(scoreLists) {
-  return scoreLists && scoreLists[0] && ! scoreLists.some(sl => ! scoreListIsSolved(sl));
 }
 
 export function checkHardMode(scoreLists, guesses, guess) {

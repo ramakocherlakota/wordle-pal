@@ -3,16 +3,32 @@ import { jsonFromLS, listWithAdjustedLength } from './util/Util';
 import PracticeGuess from './PracticeGuess';
 import PracticeScores from './PracticeScores';
 import Button from '@mui/material/Button';
-import * as React from 'react';
-import Button from '@mui/material/Button';
 
 import {
   checkHardMode,
   scoreListIsSolved,
   scoreSingle,
-  allScoresListsSolved,
   chooseRandomAnswer
 } from './util/PracticeUtils';
+
+  /*  
+      should look like:
+      0. spot for GUESS at top with a submit button
+      1. rows of GUESS, SCORE1, SCORE2...
+      3. feedback for SOLVED in each column - color change?
+      4, When game over, button for New Game
+      5. need alerts (https://mui.com/material-ui/react-dialog/) for hard mode error and querying new game
+      6. feedback for out of guesses - dialog?
+
+      - Want to only display a column up to the point that it is solved
+      - if you solve one of them the column should change color and show the target in the top row
+      - if you hit the mxGuessCount it should display a Too bad Dialog and have the New Game not query
+      - and show the answers
+      - if you solve all of them it should display a Success dialog and have the New Game not query
+      - maybe instead of using an actual Dialog just have an info box that show up at the top
+      - if you click on New Game when you aren't done it should query whether to start afresh
+      - and enable the Luck button whenever you are finished
+  */
 
 export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, targetCount, maxGuessCounts, setGlobalGuesses, setGlobalTargets }) {
 
@@ -26,6 +42,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   const [ message, setMessage ] = useState(null);
   const [ guessInput, setGuessInput ] = useState("");
+
   const targetsLSName = 'practice_targets';
   const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [])));
   useEffect(() => {
@@ -47,6 +64,14 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     window.localStorage.setItem(guessesLSName, JSON.stringify(lsGuesses));
   }, [lsGuesses]);
   /* end from react-local-storage guesses */
+
+  const finishedLSName = 'practice_finished';
+  /* from react-local-storage finished */
+  const [ lsFinished, setLsFinished ] = useState(jsonFromLS(finishedLSName, initMap(() => false)));
+  useEffect(() => {
+    window.localStorage.setItem(finishedLSName, JSON.stringify(lsFinished));
+  }, [lsFinished]);
+  /* end from react-local-storage finished */
 
   function getGuesses() {
     return lsGuesses[puzzleMode];
@@ -88,14 +113,54 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     });
   }
 
+  function getFinished() {
+    return lsFinished[puzzleMode];
+  }
+
+  function setFinished(value) {
+    setLsFinished(ls => {
+      return {
+        ...ls,
+        [puzzleMode]: value
+      }
+    });
+  }
+
+  const okButton = (
+    <Button onClick={() => setMessage(null)}>OK</Button>
+  );
+
+  const yesNoButtons = (action) => {
+    const handleYes = () => {
+      setMessage(null);
+      action();
+    }
+    return (
+      <div className='yes-no-buttons'>
+        <Button onClick={handleYes}>Yes</Button>
+        <Button onClick={() => setMessage(null)}>No</Button>
+      </div>
+    );
+  };
+
+  const hardModeInconsistentMessage = (
+    <div>
+      Your guess is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.
+    </div>
+  );
+
+  const queryNewGameMessage = (
+    <div>
+      Abandon this puzzle and start a new one?
+    </div>
+  );
+
   function addGuess(guess) {
-    const guesses = getGuesses().filter(Boolean);
+    const guesses = getGuesses();
     const scoreLists = getScoreLists();
     if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
       setMessage({
-        title: "Hard Mode Inconsistency",
-        content: "Your guess is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.",
-        actions: [{ label: "OK"}]
+        content: hardModeInconsistentMessage
       });
     } else { 
       setGuesses([...guesses, guess]);
@@ -105,16 +170,40 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
           return sl;
         } else {
           return [
-            ...sl.filter(Boolean),
+            ...sl,
             scoreSingle(targets[i], guess)
           ]
         }
       });
       setScoreLists(updatedScoreLists);
+
+      const solvedPuzzles = updatedScoreLists.map((scoreList, i) => {
+        return scoreListIsSolved(scoreList) ? i : null;
+      }).filter(Boolean);
+
+      const allSolved = solvedPuzzles.length === targetCount;
+      const outOfGuesses = guesses.length >= maxGuessCounts[puzzleMode];
+      if (allSolved) {
+        setFinished(true);
+        setMessage({
+          content: "Great work!  Puzzle is solved."
+        });
+      } else {
+        if (outOfGuesses) {
+          setFinished(true);
+          setMessage({
+            content: "Too bad!  Out of guesses."
+          });
+        } else {
+          setFinished(false);
+        }
+      }
+      
     }
   }
 
   function newGame() {
+    setMessage(null);
     setGuessInput("");
     setGuesses([]);
     setScoreLists([[]]);
@@ -122,19 +211,6 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setTargets(newTargets);
   }
 
-  /*  
-      should look like:
-      0. spot for GUESS at top with a submit button
-      1. rows of GUESS, SCORE1, SCORE2...
-      3. feedback for SOLVED in each column - color change?
-      4, When game over, button for New Game
-      5. need alerts (https://mui.com/material-ui/react-dialog/) for hard mode error and querying new game
-      6. feedback for out of guesses - dialog?
-  */
-
-  const outOfGuesses = getGuesses() && getGuesses().length >= maxGuessCounts[puzzleMode];
-  const finished = outOfGuesses || allScoresListsSolved(sl);
-  const sl = getScoreLists().filter(Boolean);
   function gotoLuck() {
     const gs = getGuesses();
     setGlobalGuesses(gs);
@@ -143,13 +219,12 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   }
 
   function queryNewGame() {
-    if (finished) {
+    if (getFinished()) {
       newGame();
     } else {
       setMessage({
-        title: "Start New Puzzle?",
-        content: "Do you want to abandon this puzzle and start a new one?",
-        actions: [{ label: "No"}, {label: "Yes", func: addNew}]
+        content: queryNewGameMessage,
+        buttons: yesNoButtons(newGame)
       });
     }
   }
@@ -157,30 +232,34 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   return (
     <>
       {
-        message && <PracticeMessage message={message} setMessage={setMessage} />
+        message && (
+          <div className='practice-message-box'>
+            <div className='practice-message'>
+              {message.content}
+            </div>
+            <div className='practice-message-buttons'>
+              {message.buttons || okButton}
+            </div>
+          </div>
+        )
       }
       {
-        !finished &&
+        !getFinished() && !message &&
           <div className='practice'>
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      <PracticeScores finished={finished} guesses={getGuesses()} scoreLists={getScoreLists()} />
-        {finished &&
+      <PracticeScores finished={getFinished()} guesses={getGuesses()} scoreLists={getScoreLists()} />
+      {getFinished() &&
          <>
            <div className="practice-button" >
              <Button onClick={gotoLuck}>Show Luck</Button>
            </div>
-           <div className="practice-button">
-             <Button onClick={newGame}>New Game</Button>
-           </div>
          </>
         }
-      {! finished &&
-         <div className="practice-button">
-           <Button onClick={queryNewGame}>New Game</Button>
-         </div>
-      }
+      <div className="practice-button">
+        <Button onClick={queryNewGame}>New Game</Button>
+      </div>
     </>
   );
 }
