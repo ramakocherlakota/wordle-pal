@@ -17,7 +17,7 @@ export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGue
         <GuessSelect value={guessInput} placeholder="Guess..." allGuesses={allGuesses} onChange={setGuessInput} />
       </div>
       <div className='practice-guess-submit'>
-        <Button variant="submit" onClick={handleGuessSelect} disabled={!guessInput}  >Submit</Button>
+        <Button variant="submit" onClick={handleGuessSelect}   >Submit</Button>
       </div>
     </div>
   );

@@ -155,6 +155,12 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     </div>
   );
 
+  function solvedPuzzles(sl) {
+    return sl.map((scoreList, i) => {
+      return scoreListIsSolved(scoreList) ? i : -1;
+    }).filter(it => it >= 0);
+  }
+
   function addGuess(guess) {
     const guesses = getGuesses();
     const scoreLists = getScoreLists();
@@ -177,11 +183,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       });
       setScoreLists(updatedScoreLists);
 
-      const solvedPuzzles = updatedScoreLists.map((scoreList, i) => {
-        return scoreListIsSolved(scoreList) ? i : null;
-      }).filter(Boolean);
-
-      const allSolved = solvedPuzzles.length === targetCount;
+      const allSolved = solvedPuzzles(updatedScoreLists).length === targetCount;
       const outOfGuesses = guesses.length >= maxGuessCounts[puzzleMode];
       if (allSolved) {
         setFinished(true);
@@ -207,6 +209,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setGuessInput("");
     setGuesses([]);
     setScoreLists([[]]);
+    setFinished(false);
     const newTargets = listWithAdjustedLength([], targetCount, chooseRandomAnswer);
     setTargets(newTargets);
   }
@@ -229,6 +232,10 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     }
   }
 
+  if (getTargets().length === 0) {
+    newGame();
+  }
+
   return (
     <>
       {
@@ -249,14 +256,17 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      <PracticeScores finished={getFinished()} guesses={getGuesses()} scoreLists={getScoreLists()} />
+      {
+        getGuesses().length > 0 && 
+          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} />
+      }
       {getFinished() &&
          <>
            <div className="practice-button" >
              <Button onClick={gotoLuck}>Show Luck</Button>
            </div>
          </>
-        }
+      }
       <div className="practice-button">
         <Button onClick={queryNewGame}>New Game</Button>
       </div>
