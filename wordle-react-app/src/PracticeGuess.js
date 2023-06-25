@@ -1,24 +1,44 @@
-import React from 'react';
-import GuessSelect from './GuessSelect';
+import React, {useState} from 'react';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './practice-guess.scss';
+import GuessOptions from './data/GuessOptions';
 
 export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGuessInput }) {
-  function handleGuessSelect() {
+  const guessOptions = Object.values(GuessOptions()).flatMap(x => x);
+  const [ error, setError ] = useState("");
+
+  function handleGuessSubmit() {
     if (guessInput) {
-      addGuess(guessInput);
+      if (guessOptions.includes(guessInput)) {
+        addGuess(guessInput);
+      } else {
+        setError(`Not found: ${guessInput}`);
+      }
       setGuessInput("");
     }
   }
 
+  function handleInputChange(e) {
+    setError("");
+    setGuessInput(e.target.value);
+  }
+
   return (
-    <div className='practice-guess-block'>
-      <div className='practice-guess-input'>
-        <GuessSelect value={guessInput} placeholder="Guess..." allGuesses={allGuesses} onChange={setGuessInput} />
+    <>
+      {error &&
+       <div className='practice-guess-error'>
+         {error}
+       </div>
+      }
+      <div className='practice-guess-block'>
+        <div className='practice-guess-input'>
+          <TextField value={guessInput} placeholder="Guess..." onChange={handleInputChange} />
+        </div>
+        <div className='practice-guess-submit'>
+          <Button variant="submit" onClick={handleGuessSubmit}   >Submit</Button>
+        </div>
       </div>
-      <div className='practice-guess-submit'>
-        <Button variant="submit" onClick={handleGuessSelect}   >Submit</Button>
-      </div>
-    </div>
+    </>
   );
 }
