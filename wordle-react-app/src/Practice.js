@@ -3,6 +3,7 @@ import { jsonFromLS, listWithAdjustedLength } from './util/Util';
 import PracticeGuess from './PracticeGuess';
 import PracticeScores from './PracticeScores';
 import Button from '@mui/material/Button';
+import './practice.scss';
 
 import {
   checkHardMode,
@@ -239,6 +240,10 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   return (
     <>
       {
+        getGuesses().length > 0 && 
+          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} />
+      }
+      {
         message && (
           <div className='practice-message-box'>
             <div className='practice-message'>
@@ -252,13 +257,9 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       }
       {
         !getFinished() && !message &&
-          <div className='practice'>
+          <div className='practice-guess'>
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
-      }
-      {
-        getGuesses().length > 0 && 
-          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} />
       }
       {getFinished() &&
          <>

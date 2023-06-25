@@ -26,17 +26,17 @@ export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGue
 
   return (
     <>
-      {error &&
-       <div className='practice-guess-error'>
-         {error}
-       </div>
-      }
       <div className='practice-guess-block'>
+        {error &&
+         <div className='practice-guess-error'>
+           {error}
+         </div>
+        }
         <div className='practice-guess-input'>
           <TextField value={guessInput} placeholder="Guess..." onChange={handleInputChange} />
-        </div>
-        <div className='practice-guess-submit'>
-          <Button variant="submit" onClick={handleGuessSubmit}   >Submit</Button>
+          <div className='practice-guess-submit'>
+            <Button variant="submit" onClick={handleGuessSubmit}   >Submit</Button>
+          </div>
         </div>
       </div>
     </>

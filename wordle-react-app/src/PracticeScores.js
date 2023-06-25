@@ -2,16 +2,13 @@ import React from 'react';
 import './practice-scores.scss';
 
 export default function PracticeScores({ finished, guesses, scoreLists, targets, solvedPuzzles }) {
-  console.log(solvedPuzzles);
-
   function spaceOut(str) {
     return str.split("").join(" ");
   }
 
   function formatHeader() {
     const headers = targets.map((target, i) => {
-      if (solvedPuzzles.includes(i)) {
-        console.log(`${target} is solved`);
+      if (finished || solvedPuzzles.includes(i)) {
         return <th key={i}>{target}</th>;
       } else {
         return <th key={i}>?????</th>;

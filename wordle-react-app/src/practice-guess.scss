@@ -1,7 +1,13 @@
 .practice-guess-block {
     display: flex;
-    flex-direction: row;
-    margin-top: 10px;
+    flex-direction: column;
+    margin-top: 20px;
     margin-bottom: 10px;
+}
+
+.practice-guess-input {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
