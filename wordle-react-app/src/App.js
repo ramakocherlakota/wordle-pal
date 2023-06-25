@@ -16,7 +16,7 @@ import PopupDoc from './PopupDoc';
 import ModeDropDown from './ModeDropDown';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
+import Tabs from '@mui/material/Tabs';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
@@ -161,13 +161,13 @@ export default function App() {
   const tabContext = (
     <TabContext value={pane} >
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <TabList value={pane} onChange={(evt, k)=>setPane(k)} >
+        <Tabs value={pane} onChange={(evt, k)=>setPane(k)} variant="scrollable" scrollButtons="auto" >
           <Tab label={practiceLabel} key="practice" value="practice" />
           <Tab label={luckLabel} key="luck" value="luck" />
           <Tab label={remainingLabel} key="remaining" value="remaining" />
           <Tab label={guessLabel} key="guess" value="guess" />
           <Tab label={solveLabel} key="solve" value="solve" />
-        </TabList>
+        </Tabs>
       </Box>
       <TabPanel key="luck" value="luck"></TabPanel>
       <TabPanel key="pracctice" value="pracctice"></TabPanel>

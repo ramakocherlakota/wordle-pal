@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { jsonFromLS, listWithAdjustedLength } from './util/Util';
+import { jsonFromLS, listOfEmptyLists, listWithAdjustedLength } from './util/Util';
 import PracticeGuess from './PracticeGuess';
 import PracticeScores from './PracticeScores';
 import Button from '@mui/material/Button';
@@ -12,25 +12,6 @@ import {
   maxGuessCount,
   chooseRandomAnswer
 } from './util/PracticeUtils';
-
-  /*  
-      should look like:
-      0. spot for GUESS at top with a submit button
-      1. rows of GUESS, SCORE1, SCORE2...
-      3. feedback for SOLVED in each column - color change?
-      4, When game over, button for New Game
-      5. need alerts (https://mui.com/material-ui/react-dialog/) for hard mode error and querying new game
-      6. feedback for out of guesses - dialog?
-
-      - Want to only display a column up to the point that it is solved
-      - if you solve one of them the column should change color and show the target in the top row
-      - if you hit the mxGuessCount it should display a Too bad Dialog and have the New Game not query
-      - and show the answers
-      - if you solve all of them it should display a Success dialog and have the New Game not query
-      - maybe instead of using an actual Dialog just have an info box that show up at the top
-      - if you click on New Game when you aren't done it should query whether to start afresh
-      - and enable the Luck button whenever you are finished
-  */
 
 export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, targetCount, maxGuessCounts, setGlobalGuesses, setGlobalTargets }) {
 
@@ -174,9 +155,10 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
         if (scoreListIsSolved(sl)) {
           return sl;
         } else {
+          const single = scoreSingle(targets[i], guess);
           return [
             ...sl,
-            scoreSingle(targets[i], guess)
+            single
           ]
         }
       });
@@ -208,10 +190,11 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setMessage(null);
     setGuessInput("");
     setGuesses([]);
-    setScoreLists([[]]);
     setFinished(false);
     const newTargets = listWithAdjustedLength([], targetCount, chooseRandomAnswer);
     setTargets(newTargets);
+    const newScoreLists = listOfEmptyLists(targetCount);
+    setScoreLists(newScoreLists);
   }
 
   function gotoLuck() {
@@ -260,16 +243,18 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      <>
-        {getFinished() &&
-         <div className="practice-button" >
-           <Button onClick={gotoLuck}>Show Luck</Button>
-         </div>
-        }
-        <div className="practice-button">
-          <Button onClick={queryNewGame}>New Game</Button>
+      { !message &&
+        <div className='practice-button-box' >
+          <div className="practice-button">
+            <Button onClick={queryNewGame}>New Game</Button>
+          </div>
+          {getFinished() &&
+           <div className="practice-button" >
+             <Button onClick={gotoLuck}>Show Luck</Button>
+           </div>
+          }
         </div>
-      </>
+      }
     </>
   );
 }

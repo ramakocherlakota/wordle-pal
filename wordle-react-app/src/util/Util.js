@@ -11,6 +11,10 @@ export function listOfEmptyStrings(n) {
   return extendList([], n, () => "");
 }
 
+export function listOfEmptyLists(n) {
+  return extendList([], n, () => [[]]); // damn concat
+}
+
 export function listWithAdjustedLength(lst, n, supplier) {
   if (n > lst.length) {
     return extendList(lst, n - lst.length, supplier);
