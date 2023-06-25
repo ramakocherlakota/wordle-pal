@@ -61,6 +61,11 @@ export function scoreListIsSolved(scoreList) {
   return scoreList && scoreList.some(check);
 }
 
+export function maxGuessCount(scoreLists) {
+  const lengths = scoreLists.map(sl => sl.length);
+  return Math.max(...lengths);
+}
+
 export function checkHardModeSingle(scoreList, guesses, guess) {
   for (let i = 0; i < guess.legnth; i += 1) {
     if (scoreSingle(guesses[i], guess) !== scoreList[i]) {

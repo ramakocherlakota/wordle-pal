@@ -9,6 +9,7 @@ import {
   checkHardMode,
   scoreListIsSolved,
   scoreSingle,
+  maxGuessCount,
   chooseRandomAnswer
 } from './util/PracticeUtils';
 
@@ -127,10 +128,6 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     });
   }
 
-  const okButton = (
-    <Button onClick={() => setMessage(null)}>OK</Button>
-  );
-
   const yesNoButtons = (action) => {
     const handleYes = () => {
       setMessage(null);
@@ -165,6 +162,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   function addGuess(guess) {
     const guesses = getGuesses();
     const scoreLists = getScoreLists();
+
     if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
       setMessage({
         content: hardModeInconsistentMessage
@@ -185,7 +183,8 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       setScoreLists(updatedScoreLists);
 
       const allSolved = solvedPuzzles(updatedScoreLists).length === targetCount;
-      const outOfGuesses = guesses.length >= maxGuessCounts[puzzleMode];
+      const guessCount = maxGuessCount(updatedScoreLists);
+      const outOfGuesses = guessCount >= maxGuessCounts[puzzleMode];
       if (allSolved) {
         setFinished(true);
         setMessage({
@@ -195,7 +194,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
         if (outOfGuesses) {
           setFinished(true);
           setMessage({
-            content: "Too bad!  Out of guesses."
+            content: `Uh oh!  Out of guesses. Solution was ${getTargets().join(", ")}`
           });
         } else {
           setFinished(false);
@@ -250,7 +249,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
               {message.content}
             </div>
             <div className='practice-message-buttons'>
-              {message.buttons || okButton}
+              {message.buttons}
             </div>
           </div>
         )
@@ -261,16 +260,16 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      {getFinished() &&
-         <>
-           <div className="practice-button" >
-             <Button onClick={gotoLuck}>Show Luck</Button>
-           </div>
-         </>
-      }
-      <div className="practice-button">
-        <Button onClick={queryNewGame}>New Game</Button>
-      </div>
+      <>
+        {getFinished() &&
+         <div className="practice-button" >
+           <Button onClick={gotoLuck}>Show Luck</Button>
+         </div>
+        }
+        <div className="practice-button">
+          <Button onClick={queryNewGame}>New Game</Button>
+        </div>
+      </>
     </>
   );
 }
