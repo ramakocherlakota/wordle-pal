@@ -3,7 +3,11 @@ import './practice-scores.scss';
 
 export default function PracticeScores({ finished, guesses, scoreLists, targets, solvedPuzzles }) {
   function spaceOut(str) {
-    return str.split("").join(" ");
+    if (str) {
+      return str.split("").join(" ");
+    } else {
+      return str;
+    }  
   }
 
   function formatHeader() {
