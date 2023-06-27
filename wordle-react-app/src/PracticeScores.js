@@ -40,7 +40,9 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
 
     return (
       <tr key="-1">
-        <th>&nbsp;</th>
+        {
+          showBW && <th>&nbsp;</th>
+        }
         {headers}
       </tr>
     );
@@ -49,7 +51,9 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
   function formatGuessScores(guess, scores, k) {
     return (
       <tr key={k}>
-        <th key={k}>{guess}</th>
+        {
+          showBW && <th key={k}>{guess}</th>
+        }
         {scores.map((score, i) => {
           const solved = solvedPuzzles.includes(i);
           return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score, guess)}</td>
