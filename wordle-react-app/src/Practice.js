@@ -122,6 +122,14 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     );
   };
 
+  const okButton = () => {
+    return (
+      <div className='ok-button'>
+        <Button onClick={() => setMessage(null)}>OK</Button>
+      </div>
+    );
+  };
+
   const hardModeInconsistentMessage = (
     <div>
       Your guess is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.
@@ -170,13 +178,15 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       if (allSolved) {
         setFinished(true);
         setMessage({
-          content: "Great work!  Puzzle is solved."
+          content: "Great work!  Puzzle is solved.",
+          buttons: [okButton()]
         });
       } else {
         if (outOfGuesses) {
           setFinished(true);
           setMessage({
-            content: `Uh oh!  Out of guesses. Solution was ${getTargets().join(", ")}`
+            content: `Uh oh!  Out of guesses. Solution was "${getTargets().join(", ")}"`,
+            buttons: [okButton()]
           });
         } else {
           setFinished(false);
