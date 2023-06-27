@@ -8,7 +8,7 @@ import PopupDoc from './PopupDoc';
 import { SettingsEmoji } from './util/Emojis.js';
 import './Settings.scss';
 
-export default function Settings({ hardMode, setHardMode, allGuesses, setAllGuesses }) {
+export default function Settings({ hardMode, setHardMode, showBW, setShowBW, allGuesses, setAllGuesses }) {
   const onOff = (label, flag) => {
     return <div>{label}: {flag ? "on" : "off"}</div>;
   }
@@ -22,6 +22,7 @@ export default function Settings({ hardMode, setHardMode, allGuesses, setAllGues
     <div className='tooltip-text'>
       {onOff("Hard Mode", hardMode)}
       {onOff("All Guesses", allGuesses)}
+      {onOff("Use B/W in Practice", showBW)}
     </div>;
 
   return (
@@ -29,6 +30,7 @@ export default function Settings({ hardMode, setHardMode, allGuesses, setAllGues
       <FormGroup>
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
+        <FormControlLabel control={<Switch checked={showBW} onChange={()=>setShowBW(!showBW)} />} label="Use B/W instead of Color Coding" />
       </FormGroup>
       <div className="reset-button">
         <Button onClick={reset} variant='outlined'>Reset All</Button>

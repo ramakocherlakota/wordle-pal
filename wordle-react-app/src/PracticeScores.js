@@ -1,12 +1,30 @@
 import React from 'react';
 import './practice-scores.scss';
 
-export default function PracticeScores({ finished, guesses, scoreLists, targets, solvedPuzzles }) {
-  function spaceOut(str) {
-    if (str) {
-      return str.split("").join(" ");
+export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles }) {
+  function spaceOut(score, guess) {
+    if (score) {
+      if (showBW) {
+        return score.split("").join(" ");
+      } else {
+        const splitScore = score.split("");
+        const splitGuess = guess.split("");
+        const row = splitGuess.map((g, i) => {
+          const className = splitScore[i] === "W" ? "light-blue" : splitScore[i] === "B" ? "orange" : "gray";
+          return <td width="20%" className={className}>{g.toUpperCase()}</td>;
+        });
+        return (
+          <table>
+            <tbody>
+              <tr>
+                {row}
+              </tr>
+            </tbody>
+          </table>
+        );
+      }
     } else {
-      return str;
+      return score;
     }  
   }
 
@@ -34,7 +52,7 @@ export default function PracticeScores({ finished, guesses, scoreLists, targets,
         <th key={k}>{guess}</th>
         {scores.map((score, i) => {
           const solved = solvedPuzzles.includes(i);
-          return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score)}</td>
+          return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score, guess)}</td>
         }
         )}
       </tr>

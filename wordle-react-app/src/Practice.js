@@ -13,7 +13,7 @@ import {
   chooseRandomAnswer
 } from './util/PracticeUtils';
 
-export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, targetCount, maxGuessCounts, setGlobalGuesses, setGlobalTargets }) {
+export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, targetCount, maxGuessCounts, setGlobalGuesses, setGlobalTargets, showBW }) {
 
   function initMap(supplier) {
     return {
@@ -223,7 +223,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     <>
       {
         getGuesses().length > 0 && 
-          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} />
+          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} />
       }
       {
         message && (
