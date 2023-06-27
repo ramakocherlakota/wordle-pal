@@ -12,8 +12,9 @@ export default function PracticeScores({ finished, guesses, scoreLists, targets,
 
   function formatHeader() {
     const headers = targets.map((target, i) => {
-      if (finished || solvedPuzzles.includes(i)) {
-        return <th key={i}>{target}</th>;
+      const solved = solvedPuzzles.includes(i);
+      if (finished || solved) {
+        return <th className={solved ? "solved" : ""} key={i}>{target}</th>;
       } else {
         return <th key={i}>?????</th>;
       }
@@ -31,8 +32,10 @@ export default function PracticeScores({ finished, guesses, scoreLists, targets,
     return (
       <tr key={k}>
         <th key={k}>{guess}</th>
-        {scores.map((score, i) =>
-          <td key={i}>{spaceOut(score)}</td>
+        {scores.map((score, i) => {
+          const solved = solvedPuzzles.includes(i);
+          return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score)}</td>
+        }
         )}
       </tr>
     );
