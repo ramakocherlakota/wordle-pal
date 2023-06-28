@@ -197,7 +197,14 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
   }
 
   function newGame() {
-    setMessage(null);
+    if (!getFinished() && getTargets().length > 0) {
+      setMessage({
+        content: `Solution was "${getTargets().join(", ")}"`,
+        buttons: [okButton()]
+      })
+    } else {
+      setMessage(null);
+    }
     setGuessInput("");
     setGuesses([]);
     setFinished(false);
