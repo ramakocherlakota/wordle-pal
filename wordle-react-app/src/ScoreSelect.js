@@ -2,7 +2,7 @@ import React from 'react';
 import Autofill from './Autofill';
 import ScoreOptions from './data/ScoreOptions';
 
-export default function ScoreSelect({ value, setValue }) {
+export default function ScoreSelect({ value, setValue, showBW, guess }) {
   const scoreOptions = ScoreOptions();
 
   const optionFunc = () => scoreOptions;

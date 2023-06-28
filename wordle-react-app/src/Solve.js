@@ -6,7 +6,7 @@ import SolveOutputFormat from './SolveOutputFormat';
 import QueryTargetGuess from './QueryTargetGuess';
 import './solve.scss';
 
-export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets, guesses, setGuesses, guessCount, sequence}) {
+export default function Solve({allGuesses, hardMode, targetCount, targets, setTargets, guesses, setGuesses, guessCount, sequence }) {
   const [ output, setOutput ] = useState([]);
   const [ error, setError ] = useState("");
   const [ loading, setLoading ] = useState(false);

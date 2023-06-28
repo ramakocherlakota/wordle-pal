@@ -5,7 +5,7 @@ import PopupDoc from './PopupDoc';
 import './luck-output-format.scss';
 import { listWithAdjustedLength } from './util/Util';
 
-export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses, globalGuessCount, targetCount}) {
+export default function LuckOutputFormat({output, headers, headerLabels, hederDocs, setPane, setScoreLists, setGlobalGuesses, globalGuessCount, targetCount, showBW }) {
   function union_lists(lists) {
     return lists.reduce((acc, list) => {
       if (list.length > acc.length) {

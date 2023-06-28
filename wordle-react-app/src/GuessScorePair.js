@@ -5,7 +5,7 @@ import ScoreSelect from './ScoreSelect';
 import './guess-score-pair.scss';
 import { replaceInList } from './util/Util';
 
-export default function GuessScorePair({allGuesses, scores, guess, setScores, setGuess}) {
+export default function GuessScorePair({allGuesses, scores, guess, setScores, setGuess, showBW}) {
 
   const setGuessHandler = (a) => {
     setGuess(a);
@@ -25,7 +25,7 @@ export default function GuessScorePair({allGuesses, scores, guess, setScores, se
       </div>
       {scores.map((score, idx) => 
         <div key={idx} className="score">
-          <ScoreSelect placeholder="Score..." setValue={setScoreHandler(idx)}  value={score} />
+          <ScoreSelect placeholder="Score..." setValue={setScoreHandler(idx)}  value={score} showBW={showBW} guess={guess} />
         </div>
       )}
     </div>);

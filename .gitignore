@@ -3,4 +3,5 @@
 __pycache__
 tests
 todo.txt
+.session.el
 
