@@ -1,4 +1,5 @@
 import React from 'react';
+import ColoredScore from './ColoredScore';
 import './practice-scores.scss';
 
 export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles }) {
@@ -7,21 +8,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
       if (showBW) {
         return score.split("").join(" ");
       } else {
-        const splitScore = score.split("");
-        const splitGuess = guess.split("");
-        const row = splitGuess.map((g, i) => {
-          const className = splitScore[i] === "W" ? "light-blue" : splitScore[i] === "B" ? "orange" : "gray";
-          return <td width="20%" className={className}>{g.toUpperCase()}</td>;
-        });
-        return (
-          <table>
-            <tbody>
-              <tr>
-                {row}
-              </tr>
-            </tbody>
-          </table>
-        );
+        return <ColoredScore score={score} guess={guess} />
       }
     } else {
       return score;
