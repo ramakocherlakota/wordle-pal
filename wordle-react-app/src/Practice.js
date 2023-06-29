@@ -122,10 +122,10 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     );
   };
 
-  const okButton = () => {
+  const okButton = (callback = () => {}) => {
     return (
       <div className='ok-button'>
-        <Button onClick={() => setMessage(null)}>OK</Button>
+        <Button onClick={() => {callback(); setMessage(null);}}>OK</Button>
       </div>
     );
   };
@@ -200,11 +200,14 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     if (!getFinished() && getTargets().length > 0) {
       setMessage({
         content: `Solution was "${getTargets().join(", ")}"`,
-        buttons: [okButton()]
+        buttons: [okButton(() => completeNewGame())]
       })
     } else {
-      setMessage(null);
+      completeNewGame();
     }
+  }
+
+  function completeNewGame() {
     setGuessInput("");
     setGuesses([]);
     setFinished(false);
