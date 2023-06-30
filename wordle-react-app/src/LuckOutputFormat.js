@@ -2,6 +2,7 @@
 import React from 'react';
 import { LuckEmoji, RemainingEmoji, GuessEmoji, SolveEmoji } from './util/Emojis';
 import PopupDoc from './PopupDoc';
+import ColoredScore from './ColoredScore';
 import './luck-output-format.scss';
 import { listWithAdjustedLength } from './util/Util';
 
@@ -111,10 +112,11 @@ export default function LuckOutputFormat({output, headers, headerLabels, hederDo
     const scoreCells = row_data_with_totals.map((cell, k) => {
       const key = k;
       if (cell) {
+        const cellContent = showBW ? cell.score.toUpperCase() : <ColoredScore score={cell.score} guess={guess} />
         const cellLabel = (
           <div className='cell-label'>
             <div className='luck-score'>
-              {cell.score.toUpperCase()}
+              {cellContent}
             </div>
             <div className='luck-bits'>
               {formatLuck(cell.luck)}{LuckEmoji()}
