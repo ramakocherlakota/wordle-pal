@@ -2,7 +2,7 @@ import React from 'react';
 import ColoredScore from './ColoredScore';
 import './practice-scores.scss';
 
-export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence }) {
+export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence, maxGuessCount }) {
 
   function firstUnsolvedColumn() {
     if (!sequence) {
@@ -53,6 +53,26 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
     );
   }
 
+
+  function emptyRows(count) {
+    let rows = [];
+    for (let i=0; i < count; i++) {
+      let row = [
+        showBW && <th key={-i-2}>&nbsp;</th>          
+      ];
+      row = [
+        ...row,
+        targets.map((target, col) => {
+          const solved = solvedPuzzles.includes(col);
+          return <td className={solved ? "solved" : ""} key={col}>&nbsp;</td>
+        })
+      ];
+      rows = [...rows, 
+              <tr key={-i-2}>{row}</tr>];
+    }
+    return rows;
+  }
+
   function formatGuessScores(guess, scores, k) {
 
     return (
@@ -69,6 +89,8 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
     );
   }
 
+  const empties = emptyRows(maxGuessCount - guesses.length);
+
   return (
     <table className='practice-scores'>
       <thead>
@@ -76,7 +98,10 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
       </thead>
       <tbody>
       {
-        guesses && scoreLists && guesses.map((guess, index) => {
+        empties
+       }
+        {
+          scoreLists && guesses.map((guess, index) => {
           const scores = scoreLists.map(sl => sl[index]);
           return formatGuessScores(guess, scores, index);
         }
