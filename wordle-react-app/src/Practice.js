@@ -185,7 +185,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
         if (outOfGuesses) {
           setFinished(true);
           setMessage({
-            content: `Uh oh!  Out of guesses. Solution was "${getTargets().join(", ")}"`,
+            content: "Uh oh!  Out of guesses.",
             buttons: [okButton()]
           });
         } else {

@@ -1,0 +1,37 @@
+.keyboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.keyboard-row {
+    display: flex;
+    flex-direction: row;
+    flex: flex-grow;
+}
+
+.key {
+    margin-top: 3px;
+    margin-left: 3px;
+    text-align: center;
+    font-family: monospace;
+    width: 30px;
+}
+
+.found {
+    background-color: rgb(242, 111, 59);
+    color: black;
+}
+
+.missing {
+    background-color: grey;
+    color: white;
+}
+
+.unknown {
+    background-color: white;
+    color: black;
+}

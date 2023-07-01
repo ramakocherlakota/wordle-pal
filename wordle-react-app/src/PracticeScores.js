@@ -2,7 +2,6 @@ import React from 'react';
 import ColoredScore from './ColoredScore';
 import LetterBox from './LetterBox';
 import './practice-scores.scss';
-import KeyboardEmoji from './util/Emojis';
 
 export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence, maxGuessCount }) {
 
@@ -35,14 +34,16 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
     }  
   }
 
-  function formatHeader() {
-    const headers = targets.map((target, i) => {
+  function formatFooter() {
+    const footers = targets.map((target, i) => {
       const solved = solvedPuzzles.includes(i);
       if (finished || solved) {
         return <th className={solved ? "solved" : ""} key={i}>{target}</th>;
       } else {
-        const letterBox = <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} />
-        return <th key={i}>?????</th>;
+        const letterBox = (
+            <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} hidden={hideColumnsBeginning <= i} />
+        );            
+        return <th key={i} className='letterbox-icon'>{letterBox}</th>;
       }
     })
 
@@ -51,7 +52,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
         {
           showBW && <th>&nbsp;</th>
         }
-        {headers}
+        {footers}
       </tr>
     );
   }
@@ -94,9 +95,6 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
 
   return (
     <table className='practice-scores'>
-      <thead>
-        {formatHeader()}
-      </thead>
       <tbody>
       {
         emptyRows(maxGuessCount - guesses.length)
@@ -108,6 +106,9 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
         }
        )}
       </tbody>
+      <tfoot>
+        {formatFooter()}
+      </tfoot>
     </table>
   );
 }
