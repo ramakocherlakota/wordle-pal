@@ -243,7 +243,8 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     <>
       {
         getGuesses().length > 0 && 
-          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} />
+          <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} sequence={puzzleMode === 'Sequence'}
+/>
       }
       {
         message && (

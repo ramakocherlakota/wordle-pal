@@ -2,8 +2,26 @@ import React from 'react';
 import ColoredScore from './ColoredScore';
 import './practice-scores.scss';
 
-export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles }) {
-  function spaceOut(score, guess) {
+export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence }) {
+
+  function firstUnsolvedColumn() {
+    if (!sequence) {
+      return targets.length;
+    }
+
+    const unsolvedPuzzles = targets.map((target, i) => {
+      return solvedPuzzles.includes(i) ? -1 : i;
+    }).filter(it => it >= 0);
+    
+    return Math.min(...unsolvedPuzzles);
+  }
+
+  const hideColumnsBeginning = firstUnsolvedColumn() + 1;
+
+  function spaceOut(score, guess, i) {
+    if (i >= hideColumnsBeginning) {
+      return "";
+    }
     if (score) {
       if (showBW) {
         return score.split("").join(" ");
@@ -36,6 +54,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
   }
 
   function formatGuessScores(guess, scores, k) {
+
     return (
       <tr key={k}>
         {
@@ -43,7 +62,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
         }
         {scores.map((score, i) => {
           const solved = solvedPuzzles.includes(i);
-          return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score, guess)}</td>
+          return <td className={solved ? "solved" : ""} key={i}>{spaceOut(score, guess, i)}</td>
         }
         )}
       </tr>
