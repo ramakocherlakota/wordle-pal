@@ -2,6 +2,9 @@ export function PalEmoji() {
   return String.fromCodePoint(0x53cb);  // tomodachi
 }
 
+export function KeyboardEmoji() {
+  return String.fromCodePoint(0xfe0f);
+}
 
 export function SettingsEmoji() {
   return String.fromCodePoint(0x2699);  // gear

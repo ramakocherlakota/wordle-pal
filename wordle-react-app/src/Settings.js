@@ -30,7 +30,7 @@ export default function Settings({ hardMode, setHardMode, showBW, setShowBW, all
       <FormGroup>
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
-        <FormControlLabel control={<Switch checked={showBW} onChange={()=>setShowBW(!showBW)} />} label="Use Monochrome Mode" />
+        <FormControlLabel control={<Switch checked={showBW} onChange={()=>setShowBW(!showBW)} />} label=" Monochrome Mode" />
       </FormGroup>
       <div className="reset-button">
         <Button onClick={reset} variant='outlined'>Reset All</Button>

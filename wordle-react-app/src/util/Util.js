@@ -68,3 +68,32 @@ export function jsonFromLS(key, defaultValue) {
   }
   return defaultValue;
 }
+
+export function classifyLetters(guesses, scoreList) {
+  const classified = {yes: new Set(), no: new Set()};
+  for (let i=0; i<guesses.length; i++) {
+    const guess = guesses[i];
+    const score = scoreList[i];
+    const good = guess.split("").map((ch, j) => {
+      if (score[j] !== '-') {
+        return ch;
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
+    const bad = guess.split("").map((ch, j) => {
+      if (score[j] === '-') {
+        return ch;
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
+    for (const g in good) {
+      classified.yes.add(good[g]);
+    }
+    for (const b in bad) {
+      classified.no.add(bad[b]);
+    }
+  }
+  return classified;
+} 

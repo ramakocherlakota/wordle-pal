@@ -1,6 +1,8 @@
 import React from 'react';
 import ColoredScore from './ColoredScore';
+import LetterBox from './LetterBox';
 import './practice-scores.scss';
+import KeyboardEmoji from './util/Emojis';
 
 export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence, maxGuessCount }) {
 
@@ -39,6 +41,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
       if (finished || solved) {
         return <th className={solved ? "solved" : ""} key={i}>{target}</th>;
       } else {
+        const letterBox = <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} />
         return <th key={i}>?????</th>;
       }
     })
@@ -89,8 +92,6 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
     );
   }
 
-  const empties = emptyRows(maxGuessCount - guesses.length);
-
   return (
     <table className='practice-scores'>
       <thead>
@@ -98,7 +99,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
       </thead>
       <tbody>
       {
-        empties
+        emptyRows(maxGuessCount - guesses.length)
        }
         {
           scoreLists && guesses.map((guess, index) => {
