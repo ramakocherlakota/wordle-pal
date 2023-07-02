@@ -18,14 +18,14 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
     [" ", "Z", "X", "C", "V", "B", "N", "M", " "]
   ];
   
-  function makeRow(row) {
-    const keyboardRow = row.map(ch => {
+  function makeRow(row, i) {
+    const keyboardRow = row.map((ch, i) => {
       const state = classifiedLetters[ch.toLowerCase()];
       const className = state > 0 ? "key found" : (state < 0 ? "key missing" : "key unknown");
-      return <div className={className}>{ch}</div>;
+      return <div key={i} className={className}>{ch}</div>;
     })
     return (
-      <div className='keyboard-row'>{keyboardRow}</div>
+      <div key={i} className='keyboard-row'>{keyboardRow}</div>
     );
   }
 
