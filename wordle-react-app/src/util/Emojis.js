@@ -2,6 +2,14 @@ export function PalEmoji() {
   return String.fromCodePoint(0x53cb);  // tomodachi
 }
 
+export function CrossMarkEmoji() {
+  return String.fromCodePoint(0x274C);
+}
+
+export function CheckMarkEmoji() {
+  return String.fromCodePoint(0x2714);
+}
+
 export function SettingsEmoji() {
   return String.fromCodePoint(0x2699);  // gear
 }
