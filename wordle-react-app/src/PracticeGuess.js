@@ -33,7 +33,7 @@ export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGue
          </div>
         }
         <div className='practice-guess-input'>
-          <TextField value={guessInput} placeholder="Guess..." onChange={handleInputChange} />
+          <TextField autoComplete='off' value={guessInput} placeholder="Guess..." onChange={handleInputChange} />
           <div className='practice-guess-submit'>
             <Button variant="submit" onClick={handleGuessSubmit}   >Submit</Button>
           </div>

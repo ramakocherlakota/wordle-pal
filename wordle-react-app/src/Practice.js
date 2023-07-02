@@ -178,7 +178,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       if (allSolved) {
         setFinished(true);
         setMessage({
-          content: "Great work!  Puzzle is solved.",
+          content: "Great work! You solved it.",
           buttons: [okButton()]
         });
       } else {
@@ -251,7 +251,9 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
               {message.content}
             </div>
             <div className='practice-message-buttons'>
-              {message.buttons}
+              {message.buttons && message.buttons.map((msg, i) => {
+                return <div className='practice-message-button' key={i}>{msg}</div>;
+              })}
             </div>
           </div>
         )
