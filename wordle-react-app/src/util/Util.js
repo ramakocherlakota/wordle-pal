@@ -33,8 +33,9 @@ export function addAt(lst, at, add) {
   return lst.slice(0, at).concat(add).concat(lst.slice(at));
 }
 
-export function replaceInList(lst, val, at) {
-  return lst.map((it, idx) => {
+export function replaceInList(lst, val, at, supplier) {
+  const extended = extendList(lst, at, supplier);
+  return extended.map((it, idx) => {
     if (idx === at) {
       return val;
     } else {
