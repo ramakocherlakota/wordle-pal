@@ -10,6 +10,11 @@ export function CheckMarkEmoji() {
   return String.fromCodePoint(0x2714);
 }
 
+export function ABCEmoji() {
+  return String.fromCodePoint(0x1F524);
+}
+
+
 export function SettingsEmoji() {
   return String.fromCodePoint(0x2699);  // gear
 }

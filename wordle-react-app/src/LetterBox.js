@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import { classifyLetters } from './util/Util';
-import { CrossMarkEmoji, CheckMarkEmoji } from './util/Emojis';
+import { ABCEmoji, CrossMarkEmoji, CheckMarkEmoji } from './util/Emojis';
 import './letter-box.scss';
 
 export default function LetterBox({guesses, scoreList, showBW, hidden}) {
@@ -70,7 +70,7 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
       } else {
         return (
           <div onClick={!hidden && toggleOpen}>
-            letters
+            {ABCEmoji()}
           </div>
         );
       }

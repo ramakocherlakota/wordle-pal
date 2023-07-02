@@ -241,7 +241,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   return (
     <>
-      { getGuesses().length > 0 &&
+      { 
         <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} sequence={puzzleMode === 'Sequence'} maxGuessCount={maxGuessCounts[puzzleMode]} />
       }
       {
