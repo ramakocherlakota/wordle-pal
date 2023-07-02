@@ -109,7 +109,7 @@ export function classifyLetters(guesses, scoreList) {
       }
     }).filter(Boolean);
     const bad = guess.split("").map((ch, j) => {
-      if (score[j] === '-') {
+      if (score[j] === '-' && ! good.includes(ch)) {
         return ch;
       } else {
         return null;

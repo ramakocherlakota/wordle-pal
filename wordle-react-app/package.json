@@ -25,7 +25,6 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "build:production": "./node_modules/.bin/env-cmd -e production react-scripts build",
     "build:development": "./node_modules/.bin/env-cmd -e development react-scripts build",
     "test": "react-scripts test",
