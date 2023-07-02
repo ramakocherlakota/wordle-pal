@@ -3,7 +3,6 @@ import React from 'react';
 import Switch from '@mui/material/Switch';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Button from '@mui/material/Button';
 import PopupDoc from './PopupDoc';
 import { SettingsEmoji } from './util/Emojis.js';
 import './Settings.scss';
@@ -11,11 +10,6 @@ import './Settings.scss';
 export default function Settings({ hardMode, setHardMode, showBW, setShowBW, allGuesses, setAllGuesses }) {
   const onOff = (label, flag) => {
     return <div>{label}: {flag ? "on" : "off"}</div>;
-  }
-
-  const reset = () => {
-    window.localStorage.clear();
-    window.location.reload();
   }
 
   const currentSettings =
@@ -32,9 +26,6 @@ export default function Settings({ hardMode, setHardMode, showBW, setShowBW, all
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
         <FormControlLabel control={<Switch checked={showBW} onChange={()=>setShowBW(!showBW)} />} label=" Monochrome Mode" />
       </FormGroup>
-      <div className="reset-button">
-        <Button onClick={reset} variant='outlined'>Reset All</Button>
-      </div>
     </PopupDoc>
   );  
 }

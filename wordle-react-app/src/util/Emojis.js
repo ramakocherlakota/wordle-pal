@@ -42,3 +42,16 @@ export function QuestionEmoji() {
 export function PracticeEmoji() {
   return String.fromCodePoint(0x1F3CB); // Weight Lifter
 }
+
+export function SunglassesEmoji() {
+  return String.fromCodePoint(0x1F60E); 
+}
+
+export function FingersCrossedEmoji() {
+  return String.fromCodePoint(0x1F91E); 
+}
+
+export function SadFaceEmoji() {
+  return String.fromCodePoint(0x1F622); 
+}
+

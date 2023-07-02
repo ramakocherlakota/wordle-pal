@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { jsonFromLS, listOfEmptyLists, listWithAdjustedLength } from './util/Util';
+import { SunglassesEmoji, FingersCrossedEmoji, SadFaceEmoji } from './util/Emojis';
 import PracticeGuess from './PracticeGuess';
 import PracticeScores from './PracticeScores';
 import Button from '@mui/material/Button';
@@ -115,10 +116,10 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       action();
     }
     return (
-      <div className='yes-no-buttons'>
-        <Button onClick={handleYes}>Yes</Button>
+      [
+        <Button onClick={handleYes}>Yes</Button>,
         <Button onClick={() => setMessage(null)}>No</Button>
-      </div>
+      ]
     );
   };
 
@@ -178,17 +179,19 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       if (allSolved) {
         setFinished(true);
         setMessage({
-          content: "Great work! You solved it.",
-          buttons: [okButton()]
+          content: `Great work! You solved it.  ${SunglassesEmoji()}`
         });
       } else {
         if (outOfGuesses) {
           setFinished(true);
           setMessage({
-            content: "Uh oh!  Out of guesses.",
-            buttons: [okButton()]
+            content: `Uh oh!  Out of guesses.  ${SadFaceEmoji()}`
           });
         } else {
+          const emoji = guessCount + 1 === maxGuessCounts[puzzleMode] ? FingersCrossedEmoji() : "";
+          setMessage({
+            content: `On guess ${guessCount + 1} out of ${maxGuessCounts[puzzleMode]} ${emoji}`
+          });
           setFinished(false);
         }
       }
@@ -215,6 +218,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     setTargets(newTargets);
     const newScoreLists = listOfEmptyLists(targetCount);
     setScoreLists(newScoreLists);
+    setMessage(null);
   }
 
   function gotoLuck() {
@@ -241,7 +245,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   return (
     <>
-      { 
+      { getGuesses().length > 0 &&
         <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} sequence={puzzleMode === 'Sequence'} maxGuessCount={maxGuessCounts[puzzleMode]} />
       }
       {
@@ -251,7 +255,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
               {message.content}
             </div>
             <div className='practice-message-buttons'>
-              {message.buttons && message.buttons.map((msg, i) => {
+              {message.buttons && message.buttons && message.buttons.map((msg, i) => {
                 return <div className='practice-message-button' key={i}>{msg}</div>;
               })}
             </div>
@@ -259,12 +263,12 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
         )
       }
       {
-        !getFinished() && !message &&
+        !getFinished() && !(message && message.buttons) &&
           <div className='practice-guess'>
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      { !message &&
+      { !(message && message.buttons) &&
         <div className='practice-button-box' >
           <div className="practice-button">
             <Button onClick={queryNewGame}>New Game</Button>

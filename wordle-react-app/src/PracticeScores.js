@@ -58,24 +58,6 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
   }
 
 
-  function emptyRows(count) {
-    let rows = [];
-    for (let i=0; i < count; i++) {
-      let row = [
-        showBW && <th key={-i-2}>&nbsp;</th>          
-      ];
-      row = [
-        ...row,
-        targets.map((target, col) => {
-          const solved = solvedPuzzles.includes(col);
-          return <td className={solved ? "solved" : ""} key={col}>&nbsp;</td>
-        })
-      ];
-      rows = [...rows, 
-              <tr key={-i-2}>{row}</tr>];
-    }
-    return rows;
-  }
 
   function formatGuessScores(guess, scores, k) {
 
@@ -96,9 +78,6 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
   return (
     <table className='practice-scores'>
       <tbody>
-      {
-        emptyRows(maxGuessCount - guesses.length)
-       }
         {
           scoreLists && guesses.map((guess, index) => {
           const scores = scoreLists.map(sl => sl[index]);
