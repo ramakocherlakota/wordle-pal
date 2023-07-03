@@ -150,18 +150,6 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     );
   };
 
-  const hardModeInconsistentMessage = (
-    <div>
-      Your guess is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.
-    </div>
-  );
-
-  const queryNewGameMessage = (
-    <div>
-      Abandon this puzzle and start a new one?
-    </div>
-  );
-
   function solvedPuzzles(sl) {
     return sl.map((scoreList, i) => {
       return scoreListIsSolved(scoreList) ? i : -1;
@@ -174,7 +162,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
     if (hardMode && !checkHardMode(scoreLists, guesses, guess)) {
       setMessage({
-        content: hardModeInconsistentMessage
+        content: `Your guess "${guess}" is inconsistent with Hard Mode.  Either turn off Hard Mode in Settings or else make a different guess.`
       });
     } else { 
       setGuesses([...guesses, guess]);
@@ -252,7 +240,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       newGame();
     } else {
       setMessage({
-        content: queryNewGameMessage,
+        content: "Abandon this puzzle and start a new one?",
         buttons: yesNoButtons(newGame)
       });
     }
@@ -269,13 +257,13 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       }
       {
         getMessage() && (
-          <div className='practice-getMessage()-box'>
-            <div className='practice-getMessage()'>
+          <div className='practice-message-box'>
+            <div className='practice-message'>
               {getMessage().content}
             </div>
-            <div className='practice-getMessage()-buttons'>
+            <div className='practice-message-buttons'>
               {getMessage().buttons && getMessage().buttons && getMessage().buttons.map((msg, i) => {
-                return <div className='practice-getMessage()-button' key={i}>{msg}</div>;
+                return <div className='practice-message-button' key={i}>{msg}</div>;
               })}
             </div>
           </div>

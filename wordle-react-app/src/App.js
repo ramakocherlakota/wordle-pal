@@ -5,6 +5,7 @@ import './App.scss';
 import {
   LuckEmoji,
   RemainingEmoji,
+  ResetEmoji,
   GuessEmoji,
   PalEmoji,
   QuestionEmoji,
@@ -27,9 +28,16 @@ import Guess from './Guess';
 import Remaining from './Remaining';
 import Solve from './Solve';
 import Luck from './Luck';
-import ResetButton from './ResetButton';
+import HelpText from './HelpText';
 
 export default function App() {
+
+  const queryParameters = new URLSearchParams(window.location.search);
+  const clear  = queryParameters.get("clear");
+  if (clear) {
+    window.localStorage.clear();
+  }
+  
   /* from react-local-storage allGuesses */
   const [ allGuesses, setAllGuesses ] = useState(window.localStorage.getItem("allGuesses") === "true");
   useEffect(() => {
@@ -108,17 +116,26 @@ export default function App() {
     Sequence: 4
   };
 
+  function reset() {
+    setScoreLists([[""]]);
+    setTargets([""]);
+    setGuesses([""]);
+    setLuckGuesses([""]);
+    adjustLengths();
+  }
+
+  function adjustLengths() {
+    const gCount = maxGuessCounts[puzzleMode];
+    const tCount = targetCounts[puzzleMode];
+    setGuesses((g) => listWithAdjustedLength(g, gCount));
+    setTargets((t) => listWithAdjustedLength(t, tCount));
+
+    // there should be tCount scoreLists, each with a length of gCount
+    setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [listOfEmptyStrings(gCount)]));
+  }
+
   useEffect(() => {
-    const adjustLengths = (gCount, tCount) => {
-      setGuesses((g) => listWithAdjustedLength(g, gCount));
-      setTargets((t) => listWithAdjustedLength(t, tCount));
-
-      // there should be tCount scoreLists, each with a length of gCount
-      setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [listOfEmptyStrings(gCount)]));
-    }
-
-    adjustLengths(maxGuessCounts[puzzleMode], targetCounts[puzzleMode]);
-
+    adjustLengths( );
   }, [puzzleMode]); // eslint-disable-line
 
   function tabLabelWithIcon(label, icon, tooltip) {
@@ -185,31 +202,25 @@ export default function App() {
     </TabContext>
   );
 
-  const helpText = (
-    <div>
-      Wordle Pal has five panels: Practice, Luck, Remaining, Guess and Solve.  
-      <ul>
-        <li><strong>Luck</strong>: Enter the target word and the guesses you made along the way to get there and Wordle Pal will give you its estimate of how lucky each guess was.  There are also links to the other panels so that you can see how things stood at each stage of your progress.</li>
-        <li><strong>Remaining</strong>: Enter your guesses and the scores up to that point to find out what words are still possible answers.</li>
-        <li><strong>Guess</strong>: Like Remaining, enter guesses and scores but this time you'll get a ranked list of the possible next guesses.  You can filter the results by typing partial words or only showing the guesses that actually might be solutions.</li>
-        <li><strong>Solve</strong>: Enter the target word and a few guesses and let Wordle Pal take it from there, optimizing its guesses to solve the puzzle for you.</li>
-      </ul>
-      <p>
-        For more information click <a target='#blank' href='help.html'>here</a>.
-      </p>
-    </div>
-  );
+  const helpText = HelpText();
 
   return (
     <div className='app'>
       <div className='header-row'>
         <div key="pal" className="header-row-cell">
-          {PalEmoji()} Wordle Pal
+          <div className='title'>
+            {PalEmoji()} Wordle Pal
+          </div>
         </div>
-        <div key="how-use" className="header-row-cell">
+        <div key="header-buttons" className="header-row-cell">
           <ModeDropDown puzzleMode={puzzleMode} setPuzzleMode={setPuzzleMode}/>
           {pane !== 'practice' && 
-           <ResetButton setScoreLists={setScoreLists} setTargets={setTargets} setGuesses={setGuesses} setLuckGuesses={setLuckGuesses} />}
+           <PopupDoc label={ResetEmoji()} tooltip="Reset input" ok="OK" okAction={reset} labelClass="enlarge-emoji" >
+             <div>
+               Do you want to reset the targets, scores and guesses you've entered (for all the panes except Practice)?
+             </div>
+           </PopupDoc>
+          }
           <Settings  hardMode={hardMode}
                      setHardMode={setHardMode}
                      showBW={showBW}

@@ -3,9 +3,10 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './practice-guess.scss';
 import GuessOptions from './data/GuessOptions';
+import AnswerOptions from './data/AnswerOptions';
 
 export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGuessInput }) {
-  const guessOptions = Object.values(GuessOptions()).flatMap(x => x);
+  const guessOptions = Object.values(allGuesses? GuessOptions() : AnswerOptions()).flatMap(x => x);
   const [ error, setError ] = useState("");
 
   function handleGuessSubmit() {

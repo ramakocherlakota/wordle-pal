@@ -43,7 +43,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
         const letterBox = (
             <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} hidden={hideColumnsBeginning <= i} />
         );            
-        return <th key={i} className='letterbox-icon'>{letterBox}</th>;
+        return <th key={i} >{letterBox}</th>;
       }
     })
 

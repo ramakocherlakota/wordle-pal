@@ -16,10 +16,6 @@
     justify-content: space-between;
 }
 
-.header-row-cell {
-    vertical-align: top;
-}
-
 .tooltip-text {
     font-size: 30px;
 }
@@ -52,4 +48,8 @@
         height: 140%;
         padding: 10px;
     }
+}
+
+.enlarge-emoji {
+    font-size: 45px;
 }

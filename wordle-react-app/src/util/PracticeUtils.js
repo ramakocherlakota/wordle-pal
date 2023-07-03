@@ -67,7 +67,7 @@ export function maxGuessCount(scoreLists) {
 }
 
 export function checkHardModeSingle(scoreList, guesses, guess) {
-  for (let i = 0; i < guess.legnth; i += 1) {
+  for (let i = 0; i < guesses.length; i += 1) {
     if (scoreSingle(guesses[i], guess) !== scoreList[i]) {
       return false;
     }
