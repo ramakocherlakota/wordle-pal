@@ -13,7 +13,8 @@ export default function GuessScores({allGuesses, guesses, setGuesses, setGuessCo
   const setScores = function(guessNum) {
     return function(newScores) {
       setScoreLists((sls) => sls.map((scoreList, i) => {
-        return replaceInList(scoreList, newScores[i], guessNum);
+        const newList = replaceInList(scoreList, newScores[i], guessNum);
+        return newList;
       }));
     }
   }

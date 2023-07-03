@@ -24,8 +24,27 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
     }      
   }
 
-  const [ message, setMessage ] = useState(null);
   const [ guessInput, setGuessInput ] = useState("");
+
+  const messageLSName = 'practice_message';
+  const [ lsMessage, setLsMessage ] = useState(jsonFromLS(messageLSName, initMap(() => [])));
+  useEffect(() => {
+    window.localStorage.setItem(messageLSName, JSON.stringify(lsMessage));
+  }, [lsMessage]);
+
+  function getMessage() {
+    return lsMessage[puzzleMode];
+  }
+
+  function setMessage(value) {
+    setLsMessage(ls => {
+      const newMessage = {
+        ...ls,
+        [puzzleMode]: value
+      };
+      return newMessage;
+    });
+  }
 
   const targetsLSName = 'practice_targets';
   const [ lsTargets, setLsTargets ] = useState(jsonFromLS(targetsLSName, initMap(() => [])));
@@ -249,26 +268,26 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
         <PracticeScores finished={getFinished()} targets={getTargets()} guesses={getGuesses()} scoreLists={getScoreLists()} solvedPuzzles={solvedPuzzles(getScoreLists())} showBW={showBW} sequence={puzzleMode === 'Sequence'} maxGuessCount={maxGuessCounts[puzzleMode]} />
       }
       {
-        message && (
-          <div className='practice-message-box'>
-            <div className='practice-message'>
-              {message.content}
+        getMessage() && (
+          <div className='practice-getMessage()-box'>
+            <div className='practice-getMessage()'>
+              {getMessage().content}
             </div>
-            <div className='practice-message-buttons'>
-              {message.buttons && message.buttons && message.buttons.map((msg, i) => {
-                return <div className='practice-message-button' key={i}>{msg}</div>;
+            <div className='practice-getMessage()-buttons'>
+              {getMessage().buttons && getMessage().buttons && getMessage().buttons.map((msg, i) => {
+                return <div className='practice-getMessage()-button' key={i}>{msg}</div>;
               })}
             </div>
           </div>
         )
       }
       {
-        !getFinished() && !(message && message.buttons) &&
+        !getFinished() && !(getMessage() && getMessage().buttons) &&
           <div className='practice-guess'>
             <PracticeGuess guessInput={guessInput} setGuessInput={setGuessInput} allGuesses={allGuesses} addGuess={addGuess} />
           </div>
       }
-      { !(message && message.buttons) &&
+      { !(getMessage() && getMessage().buttons) &&
         <div className='practice-button-box' >
           <div className="practice-button">
             <Button onClick={queryNewGame}>New Game</Button>
