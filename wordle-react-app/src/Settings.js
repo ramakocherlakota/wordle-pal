@@ -5,7 +5,6 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import PopupDoc from './PopupDoc';
 import { SettingsEmoji } from './util/Emojis.js';
-import './Settings.scss';
 
 export default function Settings({ hardMode, setHardMode, showBW, setShowBW, allGuesses, setAllGuesses }) {
   const onOff = (label, flag) => {

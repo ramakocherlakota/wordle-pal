@@ -8,11 +8,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import './App.scss';
 
-export default function PopupDoc({children, label, tooltip, ok}) {
+export default function PopupDoc({children, label, tooltip, ok, okAction}) {
   const [ show, setShow ] = useState(false);
 
   const handleOpen = () => setShow(true);
   const handleClose = () => setShow(false);
+  const okClose = () => {
+    if (okAction) {
+      okAction();
+    }
+    handleClose();
+  }
 
   const buttonLabel = <div className="button-label">{label}</div>;
   const buttonOrLabel = children ? <Button onClick={handleOpen}>{buttonLabel}</Button> : <div>{label}</div>;
@@ -32,7 +38,7 @@ export default function PopupDoc({children, label, tooltip, ok}) {
         </DialogContent>
         {ok &&
          <DialogActions>
-           <Button onClick={handleClose}>{ok}</Button>
+           <Button onClick={okClose}>{ok}</Button>
          </DialogActions>
         }
       </Dialog>

@@ -55,3 +55,7 @@ export function SadFaceEmoji() {
   return String.fromCodePoint(0x1F622); 
 }
 
+export function ResetEmoji() {
+  return String.fromCodePoint(0x21BA); 
+}
+

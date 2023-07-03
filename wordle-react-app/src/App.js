@@ -27,6 +27,7 @@ import Guess from './Guess';
 import Remaining from './Remaining';
 import Solve from './Solve';
 import Luck from './Luck';
+import ResetButton from './ResetButton';
 
 export default function App() {
   /* from react-local-storage allGuesses */
@@ -206,16 +207,18 @@ export default function App() {
           {PalEmoji()} Wordle Pal
         </div>
         <div key="how-use" className="header-row-cell">
-          <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
-            {helpText}
-          </PopupDoc>
           <ModeDropDown puzzleMode={puzzleMode} setPuzzleMode={setPuzzleMode}/>
+          {pane !== 'practice' && 
+           <ResetButton setScoreLists={setScoreLists} setTargets={setTargets} setGuesses={setGuesses} setLuckGuesses={setLuckGuesses} />}
           <Settings  hardMode={hardMode}
                      setHardMode={setHardMode}
                      showBW={showBW}
                      setShowBW={setShowBW}                     
                      allGuesses={allGuesses}
                      setAllGuesses={setAllGuesses}/>
+          <PopupDoc label={QuestionEmoji()} tooltip=<div className='tooltip-text'>How to use Wordle Pal</div> >
+            {helpText}
+          </PopupDoc>
         </div>
       </div>
       {tabContext}

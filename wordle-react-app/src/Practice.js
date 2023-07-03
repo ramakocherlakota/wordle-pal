@@ -198,7 +198,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
       if (allSolved) {
         setFinished(true);
         setMessage({
-          content: `Great work! You solved it.  ${SunglassesEmoji()}`
+          content: `Great work! You solved it in ${guessCount} guesses.  ${SunglassesEmoji()}`
         });
       } else {
         if (outOfGuesses) {

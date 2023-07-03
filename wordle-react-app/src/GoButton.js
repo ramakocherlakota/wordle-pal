@@ -22,8 +22,8 @@ export default function GoButton({ showQueryButton, setShowQueryButton, showResu
 
 
   return (
-      <div className='go-button'>
-          <Button variant="contained" onClick={callQuery} disabled={!showQueryButton} >{label}</Button>
-      </div>
+    <div className='go-button'>
+      <Button variant="contained" onClick={callQuery} disabled={!showQueryButton} >{label}</Button>
+    </div>
   );
 }
