@@ -85,3 +85,70 @@ export function chooseRandomAnswer() {
   const answers = Object.keys(answerOptions).flatMap(k => answerOptions[k]);
   return answers[Math.floor(answers.length * Math.random())];
 }
+
+export function classifyLetters(guesses, scoreList) {
+  const classified = {
+    "a": 0,
+    "b": 0,
+    "c": 0,
+    "d": 0,
+    "e": 0,
+    "f": 0,
+    "g": 0,
+    "h": 0,
+    "i": 0,
+    "j": 0,
+    "k": 0,
+    "l": 0,
+    "m": 0,
+    "n": 0,
+    "o": 0,
+    "p": 0,
+    "q": 0,
+    "r": 0,
+    "s": 0,
+    "t": 0,
+    "u": 0,
+    "v": 0,
+    "w": 0,
+    "x": 0,
+    "y": 0,
+    "z": 0
+  };
+  for (let i=0; i<guesses.length; i++) {
+    const guess = guesses[i];
+    const score = scoreList[i];
+    const black = guess.split("").map((ch, j) => {
+      if (score[j].toLowerCase() === 'b') {
+        return ch;
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
+    const white = guess.split("").map((ch, j) => {
+      if (score[j].toLowerCase() === 'w' && ! black.includes(ch)) {
+        return ch;
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
+    const gray = guess.split("").map((ch, j) => {
+      if (score[j].toLowerCase() === '-' && ! white.includes(ch) && ! black.includes(ch)) {
+        return ch;
+      } else {
+        return null;
+      }
+    }).filter(Boolean);
+
+    for (const ch in black) {
+      classified[black[ch]] = 'black';
+    }
+    for (const ch in white) {
+      classified[white[ch]] = 'white';
+    }
+    for (const ch in gray) {
+      classified[gray[ch]] = 'gray';
+    }
+  }
+  return classified;
+} 

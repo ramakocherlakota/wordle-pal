@@ -31,7 +31,7 @@ export default function ColoredScore({ score, guess, setScore }) {
 
   const row = splitGuess.map((g, i) => {
     const onClick = clickHandler(i);
-    const colorClassName = splitScore[i] === "w" ? "light-blue" : splitScore[i] === "b" ? "orange" : "gray";
+    const colorClassName = splitScore[i] === "w" ? "white" : splitScore[i] === "b" ? "black" : "gray";
     const className = setScore ? `colored-cell ${colorClassName} clickable` : `colored-cell ${colorClassName}`;
     return <div key={i} onClick={onClick} className={className}>{g.toUpperCase()}</div>;
   });

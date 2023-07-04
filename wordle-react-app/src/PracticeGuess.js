@@ -22,7 +22,7 @@ export default function PracticeGuess({ allGuesses, addGuess, guessInput, setGue
 
   function handleInputChange(e) {
     setError("");
-    setGuessInput(e.target.value.toLowerCase());
+    setGuessInput(e.target.value.trim().toLowerCase());
   }
 
   return (

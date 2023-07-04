@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
-import { classifyLetters } from './util/Util';
-import { ABCEmoji, CrossMarkEmoji, CheckMarkEmoji } from './util/Emojis';
+import { classifyLetters } from './util/PracticeUtils';
+import { ABCEmoji, CrossMarkEmoji } from './util/Emojis';
 import './letter-box.scss';
 
 export default function LetterBox({guesses, scoreList, showBW, hidden}) {
@@ -21,7 +21,7 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
   function makeRow(row, i) {
     const keyboardRow = row.map((ch, i) => {
       const state = classifiedLetters[ch.toLowerCase()];
-      const className = state > 0 ? "key found" : (state < 0 ? "key missing" : "key unknown");
+      const className = `key ${state}`;
       return <div key={i} className={className}>{ch}</div>;
     })
     return (
@@ -32,18 +32,37 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
   const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
   function monochromeOutput() {
-    const yes = alphabet.filter(ch => classifiedLetters[ch] > 0).join(" ").toUpperCase();
-    const no = alphabet.filter(ch => classifiedLetters[ch] < 0).join(" ").toUpperCase();
+    const black = alphabet.filter(ch => classifiedLetters[ch] === 'black').join(" ").toUpperCase();
+    const white = alphabet.filter(ch => classifiedLetters[ch] === 'white').join(" ").toUpperCase();
+    const gray = alphabet.filter(ch => classifiedLetters[ch] === 'gray').join(" ").toUpperCase();
+
     return (
-      <>
-        <div className='monochrome-list'>
-          {CheckMarkEmoji()} {yes}
-        </div>
-        <hr/>
-        <div className='monochrome-list'>
-          {CrossMarkEmoji()} {no}
-        </div>
-      </>
+      <table border="1">
+        <tr key="black">
+          <th key="label">
+            B
+          </th>
+          <td key="black">
+            {black}
+          </td>
+        </tr>
+        <tr key="white">
+          <th key="label">
+            W
+          </th>
+          <td key="white">
+            {white}
+          </td>
+        </tr>
+        <tr key="gray">
+          <th key="label">
+            -
+          </th>
+          <td key="gray">
+            {gray}
+          </td>
+        </tr>
+      </table>
     );
   }
 
