@@ -63,11 +63,13 @@ export default function QueryTargetGuess( {
 
   return (
     <>
+      Targets
       <div className="targets-guesses" >
         <div className='fields'>
           {targetSelects()}
         </div>
       </div>
+      Guesses
       <div className="targets-guesses" >
         <div className="fields">
           {guessSelects()}
