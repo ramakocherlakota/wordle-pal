@@ -19,7 +19,7 @@ export default function Settings({ hardMode, setHardMode, showBW, setShowBW, all
     </div>;
 
   return (
-    <PopupDoc label={SettingsEmoji()} tooltip={currentSettings} ok="OK" fontSize="60px" labelClass='enlarge-emoji'>
+    <PopupDoc label={SettingsEmoji()} tooltip={currentSettings} ok="OK"  labelClass='enlarge-emoji'>
       <FormGroup>
         <FormControlLabel control={<Switch checked={hardMode} onChange={()=>setHardMode(!hardMode)} />} label="Hard Mode" />
         <FormControlLabel control={<Switch checked={allGuesses} onChange={()=>setAllGuesses(!allGuesses)} />} label="Allow All Guesses" />
