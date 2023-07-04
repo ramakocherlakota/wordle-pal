@@ -34,7 +34,7 @@ export function addAt(lst, at, add) {
 }
 
 export function replaceInList(lst, val, at, supplier) {
-  const extended = extendList(lst, at - lst.length, supplier);
+  const extended = extendList(lst, at - lst.length + 1, supplier);
   return extended.map((it, idx) => {
     if (idx === at) {
       return val;
