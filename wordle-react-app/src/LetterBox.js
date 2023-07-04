@@ -1,6 +1,6 @@
 import React, { useState }  from 'react';
 import { classifyLetters } from './util/PracticeUtils';
-import { ABCEmoji, CrossMarkEmoji } from './util/Emojis';
+import { ABCEmoji } from './util/Emojis';
 import './letter-box.scss';
 
 export default function LetterBox({guesses, scoreList, showBW, hidden}) {
