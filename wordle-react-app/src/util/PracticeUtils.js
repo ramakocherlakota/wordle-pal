@@ -87,37 +87,48 @@ export function chooseRandomAnswer() {
 }
 
 export function classifyLetters(guesses, scoreList) {
+  // repeated letters are a headache here.  what we want to say is basically:
+  // if a letter is ever given a black score, count it as black
+  // if it is ever given a white score but not a black score, count it as white
+  // otherwise give it a gray
+
+  // letters that have not been guessed are given a none score
+
   const classified = {
-    "a": 0,
-    "b": 0,
-    "c": 0,
-    "d": 0,
-    "e": 0,
-    "f": 0,
-    "g": 0,
-    "h": 0,
-    "i": 0,
-    "j": 0,
-    "k": 0,
-    "l": 0,
-    "m": 0,
-    "n": 0,
-    "o": 0,
-    "p": 0,
-    "q": 0,
-    "r": 0,
-    "s": 0,
-    "t": 0,
-    "u": 0,
-    "v": 0,
-    "w": 0,
-    "x": 0,
-    "y": 0,
-    "z": 0
+    "a": 'none',
+    "b": 'none',
+    "c": 'none',
+    "d": 'none',
+    "e": 'none',
+    "f": 'none',
+    "g": 'none',
+    "h": 'none',
+    "i": 'none',
+    "j": 'none',
+    "k": 'none',
+    "l": 'none',
+    "m": 'none',
+    "n": 'none',
+    "o": 'none',
+    "p": 'none',
+    "q": 'none',
+    "r": 'none',
+    "s": 'none',
+    "t": 'none',
+    "u": 'none',
+    "v": 'none',
+    "w": 'none',
+    "x": 'none',
+    "y": 'none',
+    "z": 'none'
   };
   for (let i=0; i<guesses.length; i++) {
+    // first pull out the scores for each letter in each guess
+    
     const guess = guesses[i];
     const score = scoreList[i];
+
+    // assemble the letters that are given a black in this guess
     const black = guess.split("").map((ch, j) => {
       if (score[j].toLowerCase() === 'b') {
         return ch;
@@ -125,6 +136,8 @@ export function classifyLetters(guesses, scoreList) {
         return null;
       }
     }).filter(Boolean);
+
+    // and the whites that are not already black
     const white = guess.split("").map((ch, j) => {
       if (score[j].toLowerCase() === 'w' && ! black.includes(ch)) {
         return ch;
@@ -132,6 +145,8 @@ export function classifyLetters(guesses, scoreList) {
         return null;
       }
     }).filter(Boolean);
+
+    // and the ones that are rejected, assuming they haven't already been marked as black or white
     const gray = guess.split("").map((ch, j) => {
       if (score[j].toLowerCase() === '-' && ! white.includes(ch) && ! black.includes(ch)) {
         return ch;
@@ -144,8 +159,14 @@ export function classifyLetters(guesses, scoreList) {
       classified[black[ch]] = 'black';
     }
     for (const ch in white) {
-      classified[white[ch]] = 'white';
+      // a white letter might have been marked as black in previous guess, don't want to overwrite that
+      if (classified[white[ch]] !== 'black') {
+        classified[white[ch]] = 'white';
+      }
     }
+
+    // don't need to worry about those kinds of issues for gray - if a letter is gray
+    // in this guess that means it would have been gray in all guesses
     for (const ch in gray) {
       classified[gray[ch]] = 'gray';
     }
