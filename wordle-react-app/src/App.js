@@ -129,6 +129,7 @@ export default function App() {
     const tCount = targetCounts[puzzleMode];
     setGuesses((g) => listWithAdjustedLength(g, gCount));
     setTargets((t) => listWithAdjustedLength(t, tCount));
+    setLuckGuesses((g) => listWithAdjustedLength(g, gCount));
 
     // there should be tCount scoreLists, each with a length of gCount
     setScoreLists((sls) => listWithAdjustedLength(sls, tCount, () => [listOfEmptyStrings(gCount)]));

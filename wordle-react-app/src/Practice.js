@@ -230,7 +230,7 @@ export default function Practice({ setPane, puzzleMode, allGuesses, hardMode, ta
 
   function gotoLuck() {
     const gs = getGuesses();
-    setGlobalGuesses(gs);
+    setGlobalGuesses(listWithAdjustedLength(gs, maxGuessCounts[puzzleMode], () => ""));
     setGlobalTargets(getTargets());
     setPane("luck");
   }
