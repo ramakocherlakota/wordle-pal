@@ -15,14 +15,18 @@ export default function LetterBox({guesses, scoreList, showBW, hidden, setGuessI
   const qwerty = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-    [" ", "Z", "X", "C", "V", "B", "N", "M", " "]
+    [" ", "Z", "X", "C", "V", "B", "N", "M", " "],
+    [" ", " ", " ", " ", ABCEmoji()]
   ];
   
   function appendLetter(ch) {
     if (ch !== ' ') {
       return function(e) {
-        e.stopPropagation();
-        setGuessInput(input => input + ch.toLowerCase());
+        if (ch === ABCEmoji()) {
+          toggleOpen();
+        } else {
+          setGuessInput(input => input + ch.toLowerCase());
+        }
       }
     }
   }
@@ -30,7 +34,7 @@ export default function LetterBox({guesses, scoreList, showBW, hidden, setGuessI
   function makeRow(row, i) {
     const keyboardRow = row.map((ch, i) => {
       const state = classifiedLetters[ch.toLowerCase()];
-      const className = `key ${state}`;
+      const className = `key ${state} ${ch !== ' ' ? 'clickable' : ''} `;
       return <div key={i} className={className} onClick={appendLetter(ch)} >{ch}</div>;
     })
     return (
@@ -43,7 +47,6 @@ export default function LetterBox({guesses, scoreList, showBW, hidden, setGuessI
   function monochromeOutput() {
     const black = alphabet.filter(ch => classifiedLetters[ch] === 'black').join(" ").toUpperCase();
     const white = alphabet.filter(ch => classifiedLetters[ch] === 'white').join(" ").toUpperCase();
-    const gray = alphabet.filter(ch => classifiedLetters[ch] === 'gray').join(" ").toUpperCase();
 
     return (
       <table border="1">
@@ -73,7 +76,7 @@ export default function LetterBox({guesses, scoreList, showBW, hidden, setGuessI
     } else {
       if (open) {
         return (
-          <div className='clickable' onClick={toggleOpen}>
+          <div>
             { showBW && 
               <div className='monochrome'>
                 {monochromeOutput()}
