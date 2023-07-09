@@ -3,7 +3,7 @@ import { classifyLetters } from './util/PracticeUtils';
 import { ABCEmoji } from './util/Emojis';
 import './letter-box.scss';
 
-export default function LetterBox({guesses, scoreList, showBW, hidden}) {
+export default function LetterBox({guesses, scoreList, showBW, hidden, setGuessInput}) {
   const [ open, setOpen ] = useState(false);
 
   const toggleOpen = () => {
@@ -18,11 +18,20 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
     [" ", "Z", "X", "C", "V", "B", "N", "M", " "]
   ];
   
+  function appendLetter(ch) {
+    if (ch !== ' ') {
+      return function(e) {
+        e.stopPropagation();
+        setGuessInput(input => input + ch.toLowerCase());
+      }
+    }
+  }
+
   function makeRow(row, i) {
     const keyboardRow = row.map((ch, i) => {
       const state = classifiedLetters[ch.toLowerCase()];
       const className = `key ${state}`;
-      return <div key={i} className={className}>{ch}</div>;
+      return <div key={i} className={className} onClick={appendLetter(ch)} >{ch}</div>;
     })
     return (
       <div key={i} className='keyboard-row'>{keyboardRow}</div>
@@ -54,14 +63,6 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
             {white}
           </td>
         </tr>
-        <tr key="gray">
-          <th key="label">
-            -
-          </th>
-          <td key="gray">
-            {gray}
-          </td>
-        </tr>
       </table>
     );
   }
@@ -71,24 +72,21 @@ export default function LetterBox({guesses, scoreList, showBW, hidden}) {
       return "?????";
     } else {
       if (open) {
-        if (showBW) {
-          const className = hidden ? "monochrome" : "monochrome clickable";
-          return (
-            <div className={className} onClick={!hidden && toggleOpen}>
-              {monochromeOutput()}
-            </div>
-          );
-        } else {
-          const className = hidden ? "keyboard" : "keyboard clickable";
-          return (
-            <div className={className} onClick={!hidden && toggleOpen}>
+        return (
+          <div className='clickable' onClick={toggleOpen}>
+            { showBW && 
+              <div className='monochrome'>
+                {monochromeOutput()}
+              </div>
+            }
+            <div className='keyboard' >
               {qwerty.map(makeRow)}
             </div>
-          );
-        }
+          </div>
+        );
       } else {
         return (
-          <div onClick={!hidden && toggleOpen}>
+          <div className='clickable' onClick={toggleOpen}>
             {ABCEmoji()}
           </div>
         );

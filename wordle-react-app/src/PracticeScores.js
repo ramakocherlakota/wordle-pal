@@ -3,7 +3,7 @@ import ColoredScore from './ColoredScore';
 import LetterBox from './LetterBox';
 import './practice-scores.scss';
 
-export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence, maxGuessCount }) {
+export default function PracticeScores({ finished, showBW, guesses, scoreLists, targets, solvedPuzzles, sequence, maxGuessCount, setGuessInput }) {
 
   function firstUnsolvedColumn() {
     if (!sequence) {
@@ -41,7 +41,7 @@ export default function PracticeScores({ finished, showBW, guesses, scoreLists, 
         return <th className={solved ? "solved" : ""} key={i}>{target}</th>;
       } else {
         const letterBox = (
-            <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} hidden={hideColumnsBeginning <= i} />
+          <LetterBox guesses={guesses} scoreList={scoreLists[i]} showBW={showBW} hidden={hideColumnsBeginning <= i} setGuessInput={setGuessInput} />
         );            
         return <th key={i} >{letterBox}</th>;
       }
