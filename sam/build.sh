@@ -14,7 +14,7 @@ fi
 
 source $env.sh
 
-$(aws s3api head-bucket --bucket "$CODE_BUCKET" 2>/dev/null)
+aws s3api head-bucket --bucket "$CODE_BUCKET" 2>/dev/null >/dev/null
 if [ $? != 0 ]
 then
     echo "creating code bucket s3://$CODE_BUCKET"

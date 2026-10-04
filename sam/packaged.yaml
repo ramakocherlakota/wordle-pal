@@ -13,6 +13,9 @@ Parameters:
   LambdaFunctionName:
     Type: String
     Default: wordle
+  LambdaRuntime:
+    Type: String
+    Default: python3.12
   LambdaUrlCorsOrigin:
     Type: String
   SubnetIds:
@@ -31,13 +34,14 @@ Resources:
   WordleFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://wordle-pal-svc-code/688dde09b291cc47b78370783c22ecf8
+      CodeUri: s3://wordle-pal-svc-code/9d9daab0effa2f580062846e0a85f5c6
       FunctionName:
         Ref: LambdaFunctionName
       Handler: lambda.handler
       MemorySize:
         Ref: LambdaMemorySizeMb
-      Runtime: python3.9
+      Runtime:
+        Ref: LambdaRuntime
       Environment:
         Variables:
           SQLITE_DBNAME: wordle.sqlite

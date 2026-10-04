@@ -19,6 +19,10 @@ Parameters:
     Type: String
     Default: wordle
 
+  LambdaRuntime:
+    Type: String
+    Default: python3.12
+
   LambdaUrlCorsOrigin:
     Type: String
 
@@ -46,7 +50,7 @@ Resources:
       FunctionName: !Ref LambdaFunctionName
       Handler: lambda.handler
       MemorySize: !Ref LambdaMemorySizeMb
-      Runtime: python3.9
+      Runtime: !Ref LambdaRuntime
       Environment: 
         Variables:
           SQLITE_DBNAME: "wordle.sqlite"
@@ -77,4 +81,3 @@ Resources:
                 - elasticfilesystem:DescribeMountTargets
               Resource: "*"
 
-            
